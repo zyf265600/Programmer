@@ -17,6 +17,6 @@
 
 
 | ✅ Do this                                                    | ❌ Don't do this                                              |
-| :----------------------------------------------------------- | ------------------------------------------------------------ |
-| Don't put tabs or spaces in front of your paragraphs.  <br><br>First line with the HTML tag after. And the next line. | This can result in unexpected formatting problems. This can result in unexpected formatting problems.<br>           Don't add tabs or spaces in front of paragraphs. |
+| :----------------------------------------------------------- | :----------------------------------------------------------- |
+| Don't put tabs or spaces in front of your paragraphs.<br><br>First line with the HTML tag after. And the next line. | This can result in unexpected formatting problems. This can result in unexpected formatting problems.<br>           Don't add tabs or spaces in front of paragraphs. |
 
