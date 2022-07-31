@@ -6,7 +6,7 @@
 | ------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
 | `This is the first line.  And this is the second line.` | `<p>This is the first line.<br>And this is the second line.</p>` | This is the first line. And this is the second line. |
 
-## 换行（Line Break）用法的最佳实践
+## 换行（Line Break）用法注意事项
 
 几乎每个 Markdown 应用程序都支持两个或多个空格进行换行，称为 `结尾空格（trailing whitespace)` 的方式，但这是有争议的，因为很难在编辑器中直接看到空格，并且很多人在每个句子后面都会有意或无意地添加两个空格。由于这个原因，你可能要使用除结尾空格以外的其它方式来换行。幸运的是，几乎每个 Markdown 应用程序都支持另一种换行方式：HTML 的 `<br>` 标签。
 
