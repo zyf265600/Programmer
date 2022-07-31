@@ -1,4 +1,4 @@
-# Markdown Typeface
+# Markdown Typeface 强调语法
 
 #### 通过将文本设置为**粗体**或*斜体*来强调其重要性。
 
