@@ -14,14 +14,6 @@
 | `I just love __bold text__.` | `I just love <strong>bold text</strong>.` | I just love **bold text**. |
 | `Love**is**bold`             | `Love<strong>is</strong>bold`             | Love**is**bold             |
 
-### 粗体（Bold）用法注意事项
-
-Markdown 应用程序在如何处理单词或短语中间的下划线上并不一致。为兼容考虑，在单词或短语中间部分加粗的话，请使用星号（asterisks）。**<font color="red">（少用下划线）</font>**
-
-| ✅ Do this        | ❌ Don't do this  |
-| ---------------- | ---------------- |
-| `Love**is**bold` | `Love__is__bold` |
-
 
 
 ## 斜体（Italic）
@@ -38,7 +30,7 @@ Markdown 应用程序在如何处理单词或短语中间的下划线上并不�
 
 ## 同时使用粗体（Bold）和斜体（Italic）
 
-要同时用粗体和斜体突出显示文本，请在单词或短语的前后各添加三个星号或下划线。要加粗并用斜体显示单词或短语的中间部分，请在要突出显示的部分前后各添加三个星号，中间不要带空格。
+要同时用粗体和斜体突出显示文本，请在单词或短语的前后各添加三个星号或下划线。要加粗并用斜体显示单词或短语的中间部分，请在要突出显示的部分前后各添加三个星号，中间不要带空格。(尽量用三个Star Signs)
 
 | Markdown语法                              | HTML                                                         | 预览效果                                |
 | ----------------------------------------- | ------------------------------------------------------------ | --------------------------------------- |
@@ -48,10 +40,13 @@ Markdown 应用程序在如何处理单词或短语中间的下划线上并不�
 | `This text is **_really important_**.`    | `This text is <strong><em>really important</em></strong>.`   | Thi text is ***really important***.     |
 | `This is really***very***important text.` | `This is really<strong><em>very</em></strong>important text.` | This is really***very***important text. |
 
-### 粗体（Bold）和斜体（Italic）用法的最佳实践
 
-Markdown 应用程序在处理单词或短语中间添加的下划线上并不一致。为了实现兼容性，请使用星号将单词或短语的中间部分加粗并以斜体显示，以示重要。
 
-| ✅ Do this                                 | ❌ Don't do this                           |
-| ----------------------------------------- | ----------------------------------------- |
-| `This is really***very***important text.` | `This is really___very___important text.` |
+### 粗体（Bold）和斜体（Italic）用法注意事项
+
+Markdown 应用程序在如何处理单词或短语中间的下划线上并不一致。为兼容考虑，在单词或短语中间部分加粗的话，请使用星号（asterisks）。**<font color="red">（少用下划线）</font>**
+
+| ✅ Do this        | ❌ Don't do this  |
+| ---------------- | ---------------- |
+| `Love**is**bold` | `Love__is__bold` |
+
