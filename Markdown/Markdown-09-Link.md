@@ -105,5 +105,7 @@ See the section on [`code`](https://markdown.com.cn/basic-syntax/links.html#code
 
 **可以将链接的第二部分放在Markdown文档中的任何位置。**有些人将它们放在出现的段落之后，有些人则将它们放在文档的末尾（例如尾注或脚注）。
 
+` [York的Github]: https://github.com/zyf265600 "最牛逼的"`
+
 [York的Github]: https://github.com/zyf265600 "最牛逼的"
 
