@@ -197,7 +197,7 @@ A  hello.php
 
 ![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
 
-**AM** 状态的意思是这个文件在我们将它添加到缓存之后又有改动。改动后我们再执行 **git add .** 命令将其添加到缓存中：
+**AM 状态的意思是这个文件在我们将它添加到缓存之后又有改动**。改动后我们再执行 **git add .** 命令将其添加到缓存中：
 
 ```
 $ git add .
@@ -206,4 +206,230 @@ A  README
 A  hello.php
 ```
 
-文件修改后，我们一般都需要进行 git add 操作，从而保存历史版本。
+**文件修改后，我们一般都需要进行 git add 操作，从而保存历史版本。**
+
+
+
+### git status (状态查询命令):
+
+git status 命令用于查看在你上次提交之后是否有对文件进行再次修改。
+
+```
+$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+    new file:   README
+    new file:   hello.php
+```
+
+通常我们使用 **-s** 参数来获得简短的输出结果：
+
+```
+$ git status -s
+AM README
+A  hello.php
+```
+
+![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
+
+**AM** 状态的意思是这个文件在我们将它添加到缓存之后又有改动。
+
+
+
+### git diff (比较命令):
+
+***git diff 命令比较文件的不同，即比较文件在暂存区和工作区的差异。***
+
+***git diff 命令显示已写入暂存区和已经被修改但尚未写入暂存区文件的区别。***
+
+git diff 有两个主要的应用场景。
+
+- 尚未缓存的改动：**git diff**
+- 查看已缓存的改动： **git diff --cached**
+- 查看已缓存的与未缓存的所有改动：**git diff HEAD**
+- 显示摘要而非整个 diff：**git diff --stat**
+
+显示暂存区和工作区的差异:
+
+```
+$ git diff [file]
+```
+
+显示暂存区和上一次提交(commit)的差异:
+
+```
+$ git diff --cached [file]
+或
+$ git diff --staged [file]
+```
+
+显示两次提交之间的差异:
+
+```
+$ git diff [first-branch]...[second-branch]
+```
+
+在 hello.php 文件中输入以下内容：
+
+```
+<?php
+echo '菜鸟教程：www.runoob.com';
+?>
+```
+
+使用 git status 查看状态：
+
+```
+$ git status -s
+A  README
+AM hello.php
+$ git diff
+diff --git a/hello.php b/hello.php
+index e69de29..69b5711 100644
+--- a/hello.php
++++ b/hello.php
+@@ -0,0 +1,3 @@
++<?php
++echo '菜鸟教程：www.runoob.com';
++?>
+```
+
+***git status 显示你上次提交更新后的更改或者写入缓存的改动， 而 git diff 一行一行地显示这些改动具体是啥。***
+
+接下来我们来查看下 **git diff --cached** 的执行效果：
+
+```
+$ git add hello.php
+$ git status -s
+A  README
+A  hello.php
+$ git diff --cached
+diff --git a/README b/README
+new file mode 100644
+index 0000000..8f87495
+--- /dev/null
++++ b/README
+@@ -0,0 +1 @@
++# Runoob Git 测试
+diff --git a/hello.php b/hello.php
+new file mode 100644
+index 0000000..69b5711
+--- /dev/null
++++ b/hello.php
+@@ -0,0 +1,3 @@
++<?php
++echo '菜鸟教程：www.runoob.com';
++?>
+```
+
+
+
+### git commit (提交命令):
+
+前面章节我们使用 git add 命令将内容写入暂存区。
+
+***git commit 命令将暂存区内容添加到本地仓库中。***
+
+提交暂存区到本地仓库中:
+
+```
+git commit -m [message]
+```
+
+[message] 可以是一些备注信息。 ***必须要写***
+
+提交暂存区的指定文件到仓库区：
+
+```
+$ git commit [file1] [file2] ... -m [message]
+```
+
+**-a** 参数设置修改文件后不需要执行 git add 命令，直接来提交
+
+```
+$ git commit -a
+```
+
+### 设置提交代码时的用户信息
+
+开始前我们需要先设置提交的用户信息，包括用户名和邮箱：
+
+```
+$ git config --global user.name 'runoob'
+$ git config --global user.email test@runoob.com
+```
+
+如果去掉 --global 参数只对当前仓库有效。
+
+### 提交修改
+
+接下来我们就可以对 hello.php 的所有改动从暂存区内容添加到本地仓库中。
+
+以下实例，我们使用 -m 选项以在命令行中提供提交注释。
+
+```
+$ git add hello.php
+$ git status -s
+A  README
+A  hello.php
+$ git commit -m '第一次版本提交'
+[master (root-commit) d32cf1f] 第一次版本提交
+ 2 files changed, 4 insertions(+)
+ create mode 100644 README
+ create mode 100644 hello.php
+ 
+```
+
+现在我们已经记录了快照。如果我们再执行 git status:
+
+```
+$ git status
+# On branch master
+nothing to commit (working directory clean)
+```
+
+以上输出说明我们在最近一次提交之后，没有做任何改动，是一个 "working directory clean"，翻译过来就是干净的工作目录。
+
+如果你没有设置 -m 选项，Git 会尝试为你打开一个编辑器以填写提交信息。 如果 Git 在你对它的配置中找不到相关信息，默认会打开 vim。屏幕会像这样：
+
+```
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+# modified:   hello.php
+#
+~
+~
+".git/COMMIT_EDITMSG" 9L, 257C
+```
+
+如果你觉得 git add 提交缓存的流程太过繁琐，Git 也允许你用 -a 选项跳过这一步。命令格式如下：
+
+```
+git commit -a
+```
+
+我们先修改 hello.php 文件为以下内容：
+
+```
+<?php
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+?>
+```
+
+再执行以下命令：
+
+```
+$ git commit -am '修改 hello.php 文件'
+[master 71ee2cb] 修改 hello.php 文件
+ 1 file changed, 1 insertion(+)
+```
