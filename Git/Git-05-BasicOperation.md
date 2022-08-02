@@ -706,8 +706,9 @@ README.md
 
 Git 提交历史一般常用两个命令：
 
-- **git log** - 查看历史提交记录。
-- **git blame <file>** - 以列表形式查看指定文件的历史修改记录。
+**git log** - 查看历史提交记录。
+
+**git blame <file>** - 以列表形式查看指定文件的历史修改记录。
 
 
 
@@ -743,10 +744,386 @@ Author: runoob <test@runoob.com>
 Date:   Fri May 3 15:35:32 2019 +0800
 ```
 
-我们可以用 --oneline 选项来查看历史记录的简洁的版本。
+我们可以用 **git log --oneline** 选项来查看历史记录的**简洁的版本**。
+
+```
+$ git log --oneline
+$ git log --oneline
+d5e9fc2 (HEAD -> master) Merge branch 'change_site'
+c68142b 修改代码
+7774248 (change_site) changed the runoob.php
+c1501a2 removed test.txt、add runoob.php
+3e92c19 add test.txt
+3b58100 第一次版本提交
+```
+
+这告诉我们的是，此项目的开发历史。 
+
+我们还可以用 --graph 选项，**查看历史中什么时候出现了分支、合并**。以下为相同的命令，开启了拓扑图选项：
+
+```
+*   d5e9fc2 (HEAD -> master) Merge branch 'change_site'
+|\  
+| * 7774248 (change_site) changed the runoob.php
+* | c68142b 修改代码
+|/  
+* c1501a2 removed test.txt、add runoob.php
+* 3e92c19 add test.txt
+* 3b58100 第一次版本提交
+```
+
+现在我们可以更清楚明了地看到何时工作分叉、又何时归并。
+
+你也可以用 **--reverse** 参数来**逆向显示所有日志**。
+
+```
+$ git log --reverse --oneline
+3b58100 第一次版本提交
+3e92c19 add test.txt
+c1501a2 removed test.txt、add runoob.php
+7774248 (change_site) changed the runoob.php
+c68142b 修改代码
+d5e9fc2 (HEAD -> master) Merge branch 'change_site'
+```
+
+如果只想**查找指定用户的提交日志**可以使用命令：**git log --author** , 例如，比方说我们要找 Git 源码中 Linus 提交的部分：
+
+```
+$ git log --author=Linus --oneline -5
+81b50f3 Move 'builtin-*' into a 'builtin/' subdirectory
+3bb7256 make "index-pack" a built-in
+377d027 make "git pack-redundant" a built-in
+b532581 make "git unpack-file" a built-in
+112dd51 make "mktag" a built-in
+```
+
+如果你要**指定日期**，可以执行几个选项：**--since** 和 **--before**，但是你也可以用 **--until** 和 **--after**。 
+
+例如，如果我要看 Git 项目中三周前且在四月十八日之后的所有提交，我可以执行这个（我还用了 **--no-merges 选项以隐藏合并提交**）：
+
+```
+$ git log --oneline --before={3.weeks.ago} --after={2010-04-18} --no-merges
+5469e2d Git 1.7.1-rc2
+d43427d Documentation/remote-helpers: Fix typos and improve language
+272a36b Fixup: Second argument may be any arbitrary string
+b6c8d2d Documentation/remote-helpers: Add invocation section
+5ce4f4e Documentation/urls: Rewrite to accomodate transport::address
+00b84e9 Documentation/remote-helpers: Rewrite description
+03aa87e Documentation: Describe other situations where -z affects git diff
+77bc694 rebase-interactive: silence warning when no commits rewritten
+636db2c t3301: add tests to use --format="%N"
+```
+
+更多 git log 命令可查看：http://git-scm.com/docs/git-log
 
 
 
-- 
+如果要查看指定文件的修改记录可以使用 **git blame** 命令，格式如下： 
 
-- 
+```
+git blame <file>
+```
+
+git blame 命令是以列表形式显示修改记录，如下实例：
+
+```
+$ git blame README 
+^d2097aa (tianqixin 2020-08-25 14:59:25 +0800 1) # Runoob Git 测试
+db9315b0 (runoob    2020-08-25 16:00:23 +0800 2) # 菜鸟教程 
+```
+
+
+
+
+
+## 远程操作
+
+### git remote (远程仓库常用命令):
+
+**git remote** 命令用于在远程仓库的操作。
+
+本章节内容我们将以 Github 作为远程仓库来操作，所以阅读本章节前需要先阅读关于 Github 的相关内容：[Git 远程仓库(Github)](https://www.runoob.com/git/git-remote-repo.html)。
+
+**显示所有远程仓库：**
+
+```
+git remote -v
+```
+
+以下我们先载入远程仓库，然后查看信息：
+
+```
+$ git clone https://github.com/tianqixin/runoob-git-test
+$ cd runoob-git-test
+$ git remote -v
+origin  https://github.com/tianqixin/runoob-git-test (fetch)
+origin  https://github.com/tianqixin/runoob-git-test (push)
+```
+
+**origin** 为远程地址的别名。
+
+**显示某个远程仓库的信息：**
+
+```
+git remote show [remote]
+```
+
+例如：
+
+```
+$ git remote show https://github.com/tianqixin/runoob-git-test
+* remote https://github.com/tianqixin/runoob-git-test
+  Fetch URL: https://github.com/tianqixin/runoob-git-test
+  Push  URL: https://github.com/tianqixin/runoob-git-test
+  HEAD branch: master
+  Local ref configured for 'git push':
+    master pushes to master (local out of date)
+```
+
+**添加远程版本库：**
+
+```
+git remote add [shortname] [url]
+```
+
+shortname 为本地的版本库，例如：
+
+```
+# 提交到 Github
+$ git remote add origin git@github.com:tianqixin/runoob-git-test.git
+$ git push -u origin master
+```
+
+*简单来说，带上`-u` 参数其实就相当于记录了push到远端分支的默认值，这样当下次我们还想要继续push的这个远端分支的时候推送命令就可以简写成`git push`即可。*
+
+**删除修改**相关命令：
+
+```
+git remote rm name  # 删除远程仓库
+git remote rename old_name new_name  # 修改仓库名
+```
+
+
+
+
+
+### git fetch (远程获取命令):
+
+**git fetch** 命令用于从远程获取代码库。
+
+本章节内容我们将以 Github 作为远程仓库来操作，所以阅读本章节前需要先阅读关于 Github 的相关内容：[Git 远程仓库(Github)](https://www.runoob.com/git/git-remote-repo.html)。
+
+该命令执行完后需要执行 **git merge** 远程分支到你所在的分支。
+
+从远端仓库提取数据并尝试合并到当前分支：
+
+```
+git merge
+```
+
+该命令就是在执行 git fetch 之后紧接着执行 git merge 远程分支到你所在的任意分支。
+
+假设你配置好了一个远程仓库，并且你想要提取更新的数据，你可以首先执行:
+
+```
+git fetch [alias]
+```
+
+以上命令告诉 Git 去获取它有你没有的数据，然后你可以执行：
+
+```
+git merge [alias]/[branch]
+```
+
+以上命令将服务器上的任何更新（假设有人这时候推送到服务器了）合并到你的当前分支。
+
+本章节以 https://github.com/tianqixin/runoob-git-test 为例。
+
+接下来我们在 Github 上点击 **README.md** 并在线修改它:
+
+![img](https://www.runoob.com/wp-content/uploads/2015/03/C5A6670F-202D-4F2C-8A63-07CEA37BB67A.jpg)
+
+然后我们在本地更新修改。
+
+```
+$ git fetch origin
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:tianqixin/runoob-git-test
+   0205aab..febd8ed  master     -> origin/master
+```
+
+以上信息"0205aab..febd8ed master -> origin/master" 说明 master 分支已被更新，我们可以使用以下命令将更新同步到本地：
+
+```
+$ git merge origin/master
+Updating 0205aab..febd8ed
+Fast-forward
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+```
+
+查看 README.md 文件内容：
+
+```
+$ cat README.md 
+# 菜鸟教程 Git 测试
+## 第一次修改内容
+```
+
+
+
+
+
+### git pull (远程下拉命令):
+
+**git pull** 命令用于从远程获取代码并合并本地的版本。
+
+**git pull** 其实就是 **git fetch** 和 **git merge FETCH_HEAD** 的简写。
+
+命令格式如下：
+
+```
+git pull <远程主机名> <远程分支名>:<本地分支名>
+```
+
+**实例**
+
+更新操作：
+
+```
+$ git pull
+$ git pull origin
+```
+
+将远程主机 origin 的 master 分支拉取过来，与本地的 brantest 分支合并。
+
+```
+git pull origin master:brantest
+```
+
+如果远程分支是与**当前分支**合并，则冒号后面的部分可以省略。
+
+```
+git pull origin master
+```
+
+上面命令表示，取回 origin/master 分支，再与本地的 brantest 分支合并。
+
+上面的 pull 操作用 fetch 表示为：
+
+以我的 https://github.com/tianqixin/runoob-git-test 为例，远程载入合并本地分支。
+
+```
+$ git remote -v  # 查看信息
+origin    https://github.com/tianqixin/runoob-git-test (fetch)
+origin    https://github.com/tianqixin/runoob-git-test (push)
+
+$ git pull origin master
+From https://github.com/tianqixin/runoob-git-test
+ * branch            master     -> FETCH_HEAD
+Already up to date.
+```
+
+上面命令表示，取回 origin/master 分支，再与本地的 master 分支合并。
+
+
+
+
+
+### git pull 和 git fetch的区别
+
+`git pull`和`git fetch`，它们在完成相同的工作，只是处理方式不同。
+
+![img](https://pic1.zhimg.com/50/v2-2c7be0558e0fef74b9d4dbb06e9d8a1f_720w.jpg?source=1940ef5c)
+
+
+
+**git fetch**
+
+在拉取代码过程中，`git fetch`会首先检查本地仓库和远程仓库的差异，检查哪些不存在于本地仓库，然后将这些变动的提交拉取到本地。
+
+但是，这里请注意，它是把远程提交拉取到本地仓库，而不是本地工作目录，它不会自行将这些新数据合并到当前工作目录中，我们需要继续执行`git merge`才会把这些变动合并到当前工作目录。
+
+**git pull**
+
+`git pull`和`git fetch`刚好相反，它直接获取远程的最新提交，直接拉取并合并到本地工作目录，而且在合并过程中不会经过我们的审查，如果不仔细检查，这样很容易遇到冲突。
+
+理解了`git pull`和`git fetch`的区别，那么该用哪种方式呢？
+
+相比之下，`git fetch`是一个更安全的选择，因为它从你的远程仓库拉入所有的提交，但不会对你的本地文件做任何修改。
+
+这给了你足够时间去发现远程仓库自从你上次拉取后到现在为止发生的变化。
+
+你可以在合并前检查哪些文件有变化，哪些文件可能导致冲突。
+
+而`git pull`相当于运行`git fetch`，然后立即将你的改动合并到本地仓库。
+
+这样的确少了一个步骤，但是也会带来一些风险。
+
+
+
+
+
+### git push (上传命令):
+
+**git push** 命令用于从将本地的分支版本上传到远程并合并。
+
+命令格式如下：
+
+```
+git push <远程主机名> <本地分支名>:<远程分支名>
+```
+
+如果本地分支名与远程分支名相同，则可以省略冒号：
+
+```
+git push <远程主机名> <本地分支名>
+```
+
+**实例**
+
+以下命令将本地的 master 分支推送到 origin 主机的 master 分支。
+
+```
+$ git push origin master
+```
+
+相等于：
+
+```
+$ git push origin master:master
+```
+
+如果本地版本与远程版本有差异，但又要强制推送可以使用 --force 参数：
+
+```
+git push --force origin master
+```
+
+**删除主机的分支可以使用 --delete 参数**，以下命令表示删除 origin 主机的 master 分支：
+
+```
+git push origin --delete master
+```
+
+以我的 https://github.com/tianqixin/runoob-git-test 为例，本地添加文件：
+
+```
+$ touch runoob-test.txt      # 添加文件
+$ git add runoob-test.txt 
+$ git commit -m "添加到远程"
+master 69e702d] 添加到远程
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 runoob-test.txt
+
+$ git push origin master    # 推送到 Github
+```
+
+将本地的 master 分支推送到 origin 主机的 master 分支。
+
+重新回到我们的 Github 仓库，可以看到文件已经提交上来了：
+
+![img](https://www.runoob.com/wp-content/uploads/2015/03/79A84530-7DC0-4D25-9F83-8776433A4C32.jpg)
