@@ -29,6 +29,8 @@ $ git commit
 
 
 
+
+
 ## 创建仓库命令
 
 下面列出了 git 创建仓库的命令：
@@ -112,6 +114,8 @@ remote: Enumerating objects: 12, done.
 remote: Total 12 (delta 0), reused 0 (delta 0), pack-reused 12
 Unpacking objects: 100% (12/12), done.
 ```
+
+
 
 
 
@@ -210,6 +214,8 @@ A  hello.php
 
 
 
+
+
 ### git status (状态查询命令):
 
 git status 命令用于查看在你上次提交之后是否有对文件进行再次修改。
@@ -238,6 +244,8 @@ A  hello.php
 ![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
 
 **AM** 状态的意思是这个文件在我们将它添加到缓存之后又有改动。
+
+
 
 
 
@@ -329,6 +337,8 @@ index 0000000..69b5711
 
 
 
+
+
 ### git commit (提交命令):
 
 前面章节我们使用 git add 命令将内容写入暂存区。
@@ -352,10 +362,10 @@ $ git commit [file1] [file2] ... -m [message]
 **-a** 参数设置修改文件后不需要执行 git add 命令，直接来提交
 
 ```
-$ git commit -a
+$ git commit -m "comments" -a
 ```
 
-### 设置提交代码时的用户信息
+**设置提交代码时的用户信息**
 
 开始前我们需要先设置提交的用户信息，包括用户名和邮箱：
 
@@ -366,7 +376,7 @@ $ git config --global user.email test@runoob.com
 
 如果去掉 --global 参数只对当前仓库有效。
 
-### 提交修改
+**提交修改**
 
 接下来我们就可以对 hello.php 的所有改动从暂存区内容添加到本地仓库中。
 
@@ -433,3 +443,310 @@ $ git commit -am '修改 hello.php 文件'
 [master 71ee2cb] 修改 hello.php 文件
  1 file changed, 1 insertion(+)
 ```
+
+
+
+
+
+### git reset (回退命令):
+
+**git reset 命令用于回退版本，可以指定退回某一次提交的版本。**
+
+git reset 命令语法格式如下：
+
+```
+git reset [--soft | --mixed | --hard] [HEAD]
+```
+
+**--mixed** 为默认，可以不用带该参数，***用于重置暂存区的文件与上一次的提交(commit)保持一致，工作区文件内容保持不变。***
+
+```
+git reset  [HEAD] 
+```
+
+实例：
+
+```
+$ git reset HEAD^            # 回退所有内容到上一个版本  
+$ git reset HEAD^ hello.php  # 回退 hello.php 文件的版本到上一个版本  
+$ git  reset  052e           # 回退到指定版本
+```
+
+**--soft** 参数用于***回退到某个版本***：
+
+```
+git reset --soft HEAD
+```
+
+实例：
+
+```
+$ git reset --soft HEAD~3   # 回退上上上一个版本 
+```
+
+**--hard** 参数***撤销工作区中所有未提交的修改内容，将暂存区与工作区都回到上一次版本，并删除之前的所有信息提交：（危险操作）***
+
+```
+git reset --hard HEAD
+```
+
+实例：
+
+```
+$ git reset --hard HEAD~3  # 回退上上上一个版本  
+$ git reset –hard bae128  # 回退到某个版本回退点之前的所有信息。 
+$ git reset --hard origin/master    # 将本地的状态回退到和远程的一样 
+```
+
+**注意：**谨慎使用 –hard 参数，它会删除回退点之前的所有信息。
+
+**HEAD 说明：**
+
+- `HEAD `表示当前版本
+
+- `HEAD^ `上一个版本
+
+- `HEAD^^ `上上一个版本
+
+- `HEAD^^^ `上上上一个版本
+
+  
+
+- 以此类推...
+
+  
+
+可以使用 ～数字表示
+
+- HEAD~0 表示当前版本
+
+- HEAD~1 上一个版本
+
+- HEAD^2 上上一个版本
+
+- HEAD^3 上上上一个版本
+
+- 以此类推...
+
+  
+
+**git reset HEAD**
+
+git reset HEAD 命令用于***取消已缓存的内容***。
+
+我们先改动文件 README 文件，内容如下：
+
+```
+# Runoob Git 测试
+# 菜鸟教程 
+```
+
+hello.php 文件修改为：
+
+```
+<?php
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+?>
+```
+
+现在两个文件修改后，都提交到了缓存区，我们现在要取消其中一个的缓存，操作如下：
+
+```
+$ git status -s
+    M README
+    M hello.php
+$ git add .
+$ git status -s
+M  README
+M  hello.php
+$ git reset HEAD hello.php 
+Unstaged changes after reset:
+M    hello.php
+$ git status -s
+M  README
+    M hello.php
+```
+
+现在你执行 git commit，只会将 README 文件的改动提交，而 hello.php 是没有的。
+
+```
+$ git commit -m '修改'
+[master f50cfda] 修改
+    1 file changed, 1 insertion(+)
+$ git status -s
+    M hello.php
+```
+
+可以看到 hello.php 文件的修改并未提交。
+
+这时我们可以使用以下命令将 hello.php 的修改提交：
+
+```
+$ git commit -am '修改 hello.php 文件'
+[master 760f74d] 修改 hello.php 文件
+    1 file changed, 1 insertion(+)
+$ git status
+On branch master
+nothing to commit, working directory clean
+```
+
+**简而言之，执行 git reset HEAD 以取消之前 git add 添加，但不希望包含在下一提交快照中的缓存。**
+
+
+
+
+
+### git rm (删除文件命令):
+
+***git rm 命令用于删除文件。***
+
+如果只是简单地从工作目录中手工删除文件，运行 **git status** 时就会在 **Changes not staged for commit** 的提示。
+
+git rm 删除文件有以下几种形式：
+
+**1. 将文件从<u>*暂存区*</u>和<u>*工作区*</u>中删除：**
+
+```
+git rm <file>
+```
+
+以下实例从暂存区和工作区中删除 runoob.txt 文件：
+
+```
+git rm runoob.txt 
+```
+
+*如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 **-f**。*
+
+强行从暂存区和工作区中删除修改后的 runoob.txt 文件：
+
+```
+git rm -f runoob.txt 
+```
+
+**如果想把文件只从暂存区域移除，但仍然希望保留在当前工作目录中**，换句话说，仅是从跟踪清单中删除，使用 **--cached** 选项即可：
+
+```
+git rm --cached <file>
+```
+
+以下实例从暂存区中删除 runoob.txt 文件：
+
+```
+git rm --cached runoob.txt
+```
+
+**实例**
+
+删除 hello.php 文件：
+
+```
+$ git rm hello.php 
+rm 'hello.php'
+$ ls
+README
+```
+
+文件从暂存区域移除，但工作区保留：
+
+```
+$ git rm --cached README 
+rm 'README'
+$ ls
+README
+```
+
+可以递归删除，即如果后面跟的是一个目录做为参数，则会递归删除整个目录中的所有子目录和文件：
+
+```
+git rm –r * 
+```
+
+**进入某个目录中，执行此语句，会删除该目录下的所有文件和子目录。**
+
+
+
+
+
+### git mv (移动或重命名命令):
+
+git mv 命令用于移动或重命名一个文件、目录或软连接。**（前旧后新）**
+
+```
+git mv [file] [newfile]
+```
+
+如果新文件名已经存在，但还是要重命名它，可以使用 **-f** 参数：
+
+```
+git mv -f [file] [newfile]
+```
+
+我们可以添加一个 README 文件（如果没有的话）：
+
+```
+$ git add README 
+```
+
+然后对其重命名:
+
+```
+$ git mv README  README.md
+$ ls
+README.md
+```
+
+
+
+
+
+## 提交日志
+
+Git 提交历史一般常用两个命令：
+
+- **git log** - 查看历史提交记录。
+- **git blame <file>** - 以列表形式查看指定文件的历史修改记录。
+
+
+
+### git log (回溯历史命令):
+
+在使用 Git 提交了若干更新之后，又或者克隆了某个项目，想回顾下提交历史，我们可以使用 **git log** 命令查看。
+
+针对我们前一章节的操作，使用 **git log** 命令列出历史提交记录如下：
+
+```
+$ git log
+commit d5e9fc2c811e0ca2b2d28506ef7dc14171a207d9 (HEAD -> master)
+Merge: c68142b 7774248
+Author: runoob <test@runoob.com>
+Date:   Fri May 3 15:55:58 2019 +0800
+
+    Merge branch 'change_site'
+
+commit c68142b562c260c3071754623b08e2657b4c6d5b
+Author: runoob <test@runoob.com>
+Date:   Fri May 3 15:52:12 2019 +0800
+
+    修改代码
+
+commit 777424832e714cf65d3be79b50a4717aea51ab69 (change_site)
+Author: runoob <test@runoob.com>
+Date:   Fri May 3 15:49:26 2019 +0800
+
+    changed the runoob.php
+
+commit c1501a244676ff55e7cccac1ecac0e18cbf6cb00
+Author: runoob <test@runoob.com>
+Date:   Fri May 3 15:35:32 2019 +0800
+```
+
+我们可以用 --oneline 选项来查看历史记录的简洁的版本。
+
+
+
+- 
+
+- 
