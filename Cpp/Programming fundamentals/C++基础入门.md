@@ -1,5 +1,3 @@
-<div align=center>
-
 # C++基础入门
 
 ## 1 C++初识
@@ -3620,4 +3618,3 @@ int main() {
 
 
 # 
-</div>
