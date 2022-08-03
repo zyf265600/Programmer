@@ -10,8 +10,8 @@
 				"${file}",
 				"-Wall",
 				"-Wextra",
-				"--std=c++11"
-				,"*.cpp"
+				"--std=c++11",
+				"*.cpp"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
