@@ -47,7 +47,7 @@ int main() {
 
 	cout << "Hello world" << endl;
 
-	//system("pause");
+	//
   /*system("pause")意思就是让程序暂停一下，然后按任意键继续，初学的时候最多见于程序的末尾处，用于看运行结	果，避免程序一闪而过。*/
 
 	return 0;
@@ -282,18 +282,18 @@ cout << num1 << endl;//会print 0
 
 浮点型变量分为两种：
 
-1. 单精度float
-2. 双精度double
+1. **单精度float（默认double，通常在数字后面加f，强制转换为float）**
+2. **双精度double （执行浮点数运算优先选用double）**
 
 两者的区别在于表示的**有效数字范围不同**。
 
 | **数据类型** | **占用空间** | **有效数字范围**                                             |
 | ------------ | ------------ | ------------------------------------------------------------ |
-| float        | 4 个字节     | 单精度型占4个字节（32位）内存空间 ( 7个有效数字[^2])         |
+| float        | 4 个字节     | 单精度型占4个字节（32位）内存空间 ( 6个有效数字[^2])         |
 | double       | 8 个字节     | 双精度型占8 个字节（64位）内存空间  ( 15 个有效数字)         |
 | long double  | 16 个字节    | 长双精度型 16 个字节（128位）内存空间(可提供18-19位有效数字) |
 
-[^2]:有效数字指的是 “有几个数字”，例如，3.14有三个有效数字。
+[^2]:有效数字指的是 “有几个数字”，例如，3.14有三个有效数字。***float和double都默认显示6个有效数字。***
 
 **示例：**
 
@@ -306,9 +306,9 @@ int main() {
 	cout << f1 << endl;
 	cout << d1<< endl;
 
-	cout << "float  sizeof = " << sizeof(f1) << endl;
-	cout << "double sizeof = " << sizeof(d1) << endl;
-
+	cout << "sizeof float  = " << sizeof(f1) << endl;
+	cout << "sizeof double = " << sizeof(d1) << endl;
+ 
 	//科学计数法
 	float f2 = 3e2; // 3 * 10 ^ 2 
 	cout << "f2 = " << f2 << endl;
@@ -316,11 +316,16 @@ int main() {
 	float f3 = 3e-2;  // 3 * 0.1 ^ 2
 	cout << "f3 = " << f3 << endl;
 
-	system("pause");
-
 	return 0;
 }
 ```
+
+
+***科学记数法：***
+
+3e2 = 3 * 10^2
+
+3e-2 = 3 * 10^-2
 
 
 
@@ -456,15 +461,13 @@ f = 251.000000, w = 19, x = 92, y = 0, z = -87
 
 **语法：**`char ch = 'a';`
 
+> 注意1：在显示字符型变量时，用***单引号***将字符括起来，不要用双引号
 
-
-> 注意1：在显示字符型变量时，用单引号将字符括起来，不要用双引号
-
-> 注意2：单引号内只能有一个字符，不可以是字符串
+> 注意2：单引号内只能有一个字符， **不可以是字符串**
 
 
 
-- C和C++中字符型变量只占用==1个字节==。
+- C和C++中字符型变量只占用**1个字节**
 - 字符型变量并不是把字符本身放到内存中存储，而是将对应的ASCII编码放入到存储单元
 
 
@@ -484,9 +487,7 @@ int main() {
 	cout << (int)ch << endl;  //查看字符a对应的ASCII码
 	ch = 97; //可以直接用ASCII给字符型变量赋值
 	cout << ch << endl;
-
-	system("pause");
-
+  
 	return 0;
 }
 ```
@@ -537,14 +538,6 @@ ASCII 码大致由以下**两部分组**成：
 
 
 
-
-
-
-
-
-
-
-
 ### 2.5 转义字符
 
 **作用：**用于表示一些==不能显示出来的ASCII字符==
@@ -578,7 +571,7 @@ int main() {
 	cout << "\tHello" << endl;
 	cout << "\n" << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -612,7 +605,7 @@ int main() {
    	char str1[] = "hello world";
    	cout << str1 << endl;
        
-   	system("pause");
+   	
    
    	return 0;
    }
@@ -630,7 +623,7 @@ int main() {
    	string str = "hello world";
    	cout << str << endl;
    	
-   	system("pause");
+   	
    
    	return 0;
    }
@@ -676,7 +669,7 @@ int main() {
 
 	cout << "size of bool = " << sizeof(bool) << endl; //1
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -738,7 +731,7 @@ int main(){
 	cout << "请输入布尔型变量：" << endl;
 	cin >> flag;
 	cout << flag << endl;
-	system("pause");
+	
 	return EXIT_SUCCESS;
 }
 ```
@@ -816,7 +809,7 @@ int main() {
 	double d2 = 0.25;
 	cout << d1 / d2 << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -855,7 +848,7 @@ int main() {
 
 	//cout << d1 % d2 << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -893,7 +886,7 @@ int main() {
 	int b3 = a3++ * 10;
 	cout << b3 << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -966,7 +959,7 @@ int main() {
 	a %= 2;  // a = a % 2;
 	cout << "a = " << a << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1015,7 +1008,7 @@ int main() {
 
 	cout << (a <= b) << endl; // 1
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -1061,7 +1054,7 @@ int main() {
 
 	cout << !!a << endl; // 1
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1094,7 +1087,7 @@ int main() {
 
 	cout << (a && b) << endl;// 0
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1130,7 +1123,7 @@ int main() {
 
 	cout << (a || b) << endl;// 0
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1205,7 +1198,7 @@ if语句的三种形式
    		cout << "我考上了一本大学！！！" << endl;
    	}
    
-   	system("pause");
+   	
    
    	return 0;
    }
@@ -1248,7 +1241,7 @@ int main() {
 		cout << "我未考上一本大学" << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1302,7 +1295,7 @@ int main() {
 		cout << "我未考上本科" << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1369,7 +1362,7 @@ int main() {
 		cout << "我未考上本科" << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1425,7 +1418,7 @@ int main() {
 	cout << "b = " << b << endl;
 	cout << "c = " << c << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1503,7 +1496,7 @@ int main() {
 		break;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1561,7 +1554,7 @@ int main() {
 		num++;
 	}
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -1630,7 +1623,7 @@ int main() {
 	} while (num < 10);
 	
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -1698,7 +1691,7 @@ int main() {
 		cout << i << endl;
 	}
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -1781,7 +1774,7 @@ int main() {
 		cout << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1850,7 +1843,7 @@ int main() {
 		break;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1872,7 +1865,7 @@ int main() {
 		cout << i << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1898,7 +1891,7 @@ int main() {
 		cout << endl;
 	}
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -1936,7 +1929,7 @@ int main() {
 		cout << i << endl;
 	}
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -1985,7 +1978,7 @@ int main() {
 
 	cout << "5" << endl;
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -2101,7 +2094,7 @@ int main() {
 		cout << score3[i] << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2153,7 +2146,7 @@ int main() {
 	//arr = 100; 错误，数组名是常量，因此不可以赋值
 
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2250,7 +2243,7 @@ int main() {
 		cout << arr[i] << endl;
 	}
     
-	system("pause");
+	
 
 	return 0;
 }
@@ -2323,7 +2316,7 @@ int main() {
 	//数据类型 数组名[][列数] = { 数据1，数据2 ,数据3，数据4  };
 	int arr4[][3] = { 1,2,3,4,5,6 };
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -2383,7 +2376,7 @@ int main() {
 	cout << "二维数组第一个元素地址：" << &arr[0][0] << endl;
 	cout << "二维数组第二个元素地址：" << &arr[0][1] << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2447,7 +2440,7 @@ int main() {
 		cout << names[i] << "同学总成绩为： " << sum << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2563,7 +2556,7 @@ int main() {
 	sum = add(a, b);
 	cout << "sum = " << sum << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2616,7 +2609,7 @@ int main() {
 	cout << "mian中的 a = " << a << endl;
 	cout << "mian中的 b = " << b << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2718,7 +2711,7 @@ int main() {
 
 	cout << max(a, b) << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2781,7 +2774,7 @@ int main() {
 	int b = 200;
 	swap(a, b);
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2837,7 +2830,7 @@ int main() {
 	//通过*操作指针变量指向的内存
 	cout << "*p = " << *p << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2892,7 +2885,7 @@ int main() {
 	cout << sizeof(float *) << endl;
 	cout << sizeof(double *) << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2934,7 +2927,7 @@ int main() {
 	//内存编号0 ~255为系统占用内存，不允许用户访问
 	cout << *p << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2967,7 +2960,7 @@ int main() {
 	//访问野指针报错 
 	cout << *p << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3023,7 +3016,7 @@ int main() {
 	//p3 = &b; //错误
 	//*p3 = 100; //错误
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3064,7 +3057,7 @@ int main() {
 		p++;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3116,7 +3109,7 @@ int main() {
 
 	cout << "b = " << b << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3184,7 +3177,7 @@ int main() {
 
 	printArray(arr, len);
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3257,7 +3250,7 @@ int main() {
 
 	cout << "姓名：" << stu3.name << " 年龄：" << stu3.age  << " 分数：" << stu3.score << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3312,7 +3305,7 @@ int main() {
 		cout << "姓名：" << arr[i].name << " 年龄：" << arr[i].age << " 分数：" << arr[i].score << endl;
 	}
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3361,7 +3354,7 @@ int main() {
 
 	cout << "姓名：" << p->name << " 年龄：" << p->age << " 分数：" << p->score << endl;
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -3427,7 +3420,7 @@ int main() {
 	
 	cout << "辅导学员 姓名： " << t1.stu.name << " 年龄：" << t1.stu.age << " 考试分数： " << t1.stu.score << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3493,7 +3486,7 @@ int main() {
 	printStudent2(&stu);
 	cout << "主函数中 姓名：" << stu.name << " 年龄： " << stu.age  << " 分数：" << stu.score << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3537,7 +3530,7 @@ int main() {
 
 	printStudent(&stu);
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3622,7 +3615,7 @@ int main() {
 
 	printTeachers(tArray, len); //打印数据
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -3716,7 +3709,7 @@ int main() {
 
 	printHeros(arr, len); //打印
 
-	system("pause");
+	
 
 	return 0;
 }
