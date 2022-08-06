@@ -842,7 +842,7 @@ int main() {
 	cout << a1 + b1 << endl;
 	cout << a1 - b1 << endl;
 	cout << a1 * b1 << endl;
-	cout << a1 / b1 << endl;  //两个整数相除结果依然是整数
+	cout << a1 / b1 << endl;  //两个整数相除结果依然是整数，小数位被舍去
 
 	int a2 = 10;
 	int b2 = 20;
@@ -1930,7 +1930,7 @@ int main() {
 
 **语法：** `do{ 循环语句 } while(循环条件);`
 
-**注意：**与while的区别在于**do...while会先执行一次循环语句**，再判断循环条件
+**注意： 与while的区别在于do...while会*先执行一次循环语句*，再判断循环条件**
 
 ![img](assets/clip_image002-1541671163478.png)
 
@@ -1949,27 +1949,10 @@ int main() {
 		num++;
 
 	} while (num < 10);
-	
-	
-	
 
 	return 0;
 }
 ```
-
-
-
-> 总结：与while循环区别在于，do...while先执行一次循环语句，再判断循环条件
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1981,7 +1964,7 @@ int main() {
 
 请利用do...while语句，求出所有3位数中的水仙花数
 
-
+答案见 09-DoWhileLoop
 
 
 
