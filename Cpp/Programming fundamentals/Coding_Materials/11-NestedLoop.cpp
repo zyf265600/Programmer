@@ -8,7 +8,7 @@ int main()
 
     for (size_t i = 1; i < count; ++i)
     {
-        for (size_t j = 1; j < i + 1; ++j)
+        for (size_t j = 1; j <= i; ++j)
         {
             cout << j << "*" << i << "=" << i * j << "\t";
         }
