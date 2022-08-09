@@ -49,4 +49,6 @@ int main()
     {
         cout << "第三只小猪最重" << endl;
     }
+
+    return 0;
 }
