@@ -8,10 +8,9 @@
 			"args": [
 				"-g",
 				"${file}",
-				"-Wall",
-				"-Wextra",
-				"--std=c++11",
-				"*.cpp"
+				"-o",
+				"${fileDirname}/${fileBasenameNoExtension}",
+				"--std=c++11"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
@@ -19,10 +18,7 @@
 			"problemMatcher": [
 				"$gcc"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
+			"group": "build",
 			"detail": "编译器: /usr/bin/clang++"
 		}
 	]

@@ -8,7 +8,7 @@
             "name": "clang++ - 生成和调试活动文件",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/main.exe",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
