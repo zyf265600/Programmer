@@ -22,7 +22,7 @@ using namespace std;
 //     }
 // }
 
-void bubbleSort(int* arr, int length) // or (int arr[], int length)
+void bubbleSort(int* arr, int length) // or (int arr[], int length) or (int arr[10], int length)
 {
     for (size_t i = 0; i < length - 1; ++i)
     {

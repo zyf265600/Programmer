@@ -12,9 +12,11 @@ int main()
 
     for (int i = 0; i < 10; ++i)
     {
-        //利用指针遍历数组
+        //利用指针遍历数组 三个式子是等效的
         cout << *p << endl;
         cout << *(arr + i) << endl;
+        cout << arr[i] << endl;
+
         cout << p << endl;
         cout << arr + i << endl;
 
