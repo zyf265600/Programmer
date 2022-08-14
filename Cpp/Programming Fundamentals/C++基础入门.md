@@ -319,7 +319,94 @@ cout << num1 << endl;//会print 0
    }
    ```
 
- 
+
+
+3.  random库
+
+     随机数类常用的主要有以下四个：
+
+   >  **`default_random_engine`：随机非负数（不建议单独使用）；**
+   >
+   >  **`uniform_int_distribution`：指定范围的随机非负数；**
+   >
+   >  **`uniform_real_distribution`：指定范围的随机实数；**
+   >
+   > **`bernoulli_distribution`：指定概率的随机布尔值。**
+
+   
+
+   下面是这四个类的基本使用方法：
+
+     `default_random_engine` 是一个随机数引擎类。它定义的调用运算符返回一个随机的 `unsigned` 类型的值。
+
+   ```cpp
+   #include <iostream>
+   #include <random>
+   using namespace std;
+   
+   int main( ){
+       default_random_engine e;
+       for(int i=0; i<10; ++i)
+           cout<<e( )<<endl;
+       return 0;
+   }
+   ```
+
+   
+
+     `uniform_int_distribution` 是一个随机数分布类，也是个模板类，模板参数为生成随机数的类型（不过只能是 int、unsigned、short、unsigned short、long、unsigned long、long long、unsigned long long 中的一种）。它的构造函数接受两个值，表示随机数的分布范围**（闭区间）**。
+
+   ```cpp
+   #include <iostream>
+   #include <random>
+   using namespace std;
+   
+   int main( ){
+       default_random_engine e;
+       uniform_int_distribution<unsigned> u(0, 9);
+       for(int i=0; i<10; ++i)
+           cout<<u(e)<<endl;
+       return 0;
+   }
+   ```
+
+   
+
+   `uniform_real_distribution` 是一个随机数分布类，它也是模板类，参数表示随机数类型（可选类型为 float、double、long double）。构造函数也需要最大值和最小值作为参数。
+
+   ```cpp
+   #include <iostream>
+   #include <random>
+   using namespace std;
+   
+   int main( ){
+       default_random_engine e;
+       uniform_real_distribution<double> u(0.0, 1.0);
+       for(int i=0; i<10; ++i)
+           cout<<u(e)<<endl;
+       return 0;
+   }
+   ```
+
+   
+
+   `bernoulli_distribution` 是一个分布类，但它不是模板类。它的构造函数只有一个参数，表示该类返回 true 的概率，该参数默认为 0.5 ，即返回 true 和 false 的概率相等。
+
+   ```cpp
+   #include <iostream>
+   #include <random>
+   using namespace std;
+   
+   int main( ){
+       default_random_engine e;
+       bernoulli_distribution u;
+       for(int i=0; i<10; ++i)
+           cout<<u(e)<<endl;
+       return 0;
+   }
+   ```
+
+   
 
 
 
@@ -712,7 +799,8 @@ int main() {
    
    	string str = "hello world";
    	cout << str << endl;
-   
+   	
+     cout << str[0]<<endl;//输出第一个字符
    	return 0;
    }
    ```
@@ -3063,7 +3151,39 @@ main()
 * 内存编号是从0开始记录的，**一般用十六进制数字表示**
 * 可以利用指针变量保存地址
 
-  
+**为什么需要指针变量：**
+
+在开发过程中，我们为什么需要指针变量:
+
+**1）参数传递与效率**
+
+因为C语言中的参数传递本质上，都是值复制，在函数调用时，形参会复制实参的值来创建一个新的变量。
+
+为了能在函数中修改实参的值，我们就需要传递实参的地址，即需要使用指针变量来传参，然后在函数中，通过指针来修改实参的值。
+
+再者，对于数组、struct等，占用空间较大的结构，如果不使用指针传递的话，还会由于值复制产生大量的内存复制，降低程序的运行效率。
+
+**2）使用堆内存**
+
+C语言可以通过malloc等函数来申请内存，返回一个指针变量，指针申请的可用的内存。而这一内存是在堆中的，需要开发者自己管理，并不会由于指针变量的生命周期结束而销毁，需要开发者调用free函数来释放。
+
+由于堆内存数量大、生命周期可以由开发者控制等特点，所以，C语言的开发中，使用堆内存是很常见的，如链表、树等数据结构的实现，大多都是使用堆内存。
+
+**3）设计更通用的代码**
+
+C语言是一门面向过程的语言，但是我们会发现，C的项目在开发时，是可以使用面向对象的设计方法进行架构和设计的。面向对象三大特性中的多态，就可以通过函数指针的方式来实现。框架可以过函数指针，把接口定义好，然后实现通用的框架逻辑，最后通过传入不同的函数指针来执行差异的功能。
+
+例如，设计一个通用的sort函数，对任意类型的数组进行排序，可以通过函数指针的方式，传入compare函数，用于比较数组的两个元素，而具体的排序逻辑，则由sort函数实现。当涉及比较时，则调用compare方法来完成。
+
+```text
+// len，数组长度
+// elemSize，元素的size大小，如int数组，则为sizeof(int)
+void sort(void *elems, int len, int elemSize, compare CmpFunc);
+```
+
+在业界，Linux内核、Redis等C语言的项目，都是使用面向对象的方法实现的。
+
+
 
 ### 7.2 指针变量的定义和使用
 
@@ -3096,7 +3216,7 @@ int main() {
 **指针变量和普通变量的区别：**
 
 * **普通变量存放的是数据, 指针变量存放的是地址**
-* **指针变量可以通过" * "操作符，操作指针变量指向的内存空间，这个过程称为解引用**
+* **指针变量可以通过" * "操作符，<u>操作指针变量指向的内存空间</u>，这个过程称为解引用**
 
 **\* 的不同使用方式：**
 
@@ -3307,9 +3427,9 @@ int main() {
 
 ```c++
 const int  ptr;   //ptr为常量，初始化后不可更改
-const int* ptr;   //*ptr为常量，不能通过*ptr改变它指向的内容 
-int const* ptr;   //*ptr为常量，同上
-int* const ptr;   //ptr为常量，初始化后不能再指向其它地址
+const int* ptr;   //常量指针 *ptr为常量，不能通过*ptr改变它指向的内容 
+int const* ptr;   //常量指针 *ptr为常量，同上
+int* const ptr;   //指针常量 ptr为常量，初始化后不能再指向其它地址
 ```
 
 
@@ -3900,13 +4020,11 @@ int main() {
 
 	cout << "姓名：" << p->name << " 年龄：" << p->age << " 分数：" << p->score << endl;
 	
-	
-
 	return 0;
 }
 ```
 
-> 总结：结构体指针可以通过 -> 操作符 来访问结构体中的成员
+> **总结：结构体指针可以通过 `->` 操作符，操作结构体指针指向的内存空间 (结构体中的成员)**
 
 
 
@@ -3956,19 +4074,11 @@ int main() {
 	
 	cout << "辅导学员 姓名： " << t1.stu.name << " 年龄：" << t1.stu.age << " 考试分数： " << t1.stu.score << endl;
 
-	
-
 	return 0;
 }
 ```
 
-
-
-**总结：**在结构体中可以定义另一个结构体作为成员，用来解决实际问题
-
-
-
-
+> **总结：在结构体中可以定义另一个结构体作为成员，用来解决实际问题**
 
 
 
@@ -3980,8 +4090,8 @@ int main() {
 
 传递方式有两种：
 
-* 值传递
-* 地址传递
+* **值传递**
+* **地址传递（结构体指针可以通过 `->` 操作符，<u>操作结构体指针指向的内存空间</u>）**
 
 **示例：**
 
@@ -4022,15 +4132,11 @@ int main() {
 	printStudent2(&stu);
 	cout << "主函数中 姓名：" << stu.name << " 年龄： " << stu.age  << " 分数：" << stu.score << endl;
 
-	
-
 	return 0;
 }
 ```
 
-> 总结：如果不想修改主函数中的数据，用值传递，反之用地址传递
-
-
+> **总结：如果不想修改主函数中的数据，用值传递，反之用地址传递**
 
 
 
@@ -4038,7 +4144,7 @@ int main() {
 
 ### 8.7 结构体中 const使用场景
 
-**作用：**用const来防止误操作
+**作用：用const来防止误操作**
 
 **示例：**
 
@@ -4066,15 +4172,9 @@ int main() {
 
 	printStudent(&stu);
 
-	
-
 	return 0;
 }
 ```
-
-
-
-
 
 
 
@@ -4093,8 +4193,6 @@ int main() {
 学生的成员有姓名、考试分数，创建数组存放3名老师，通过函数给每个老师及所带的学生赋值
 
 最终打印出老师数据以及老师所带的学生数据。
-
-
 
 **示例：**
 
@@ -4151,15 +4249,9 @@ int main() {
 
 	printTeachers(tArray, len); //打印数据
 	
-	
-
 	return 0;
 }
 ```
-
-
-
-
 
 
 
@@ -4184,14 +4276,6 @@ int main() {
 		{"赵云",21,"男"},
 		{"貂蝉",19,"女"},
 ```
-
-
-
-
-
-
-
-
 
 **示例：**
 

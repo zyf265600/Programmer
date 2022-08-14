@@ -3,6 +3,7 @@
         "__node_handle": "cpp",
         "iostream": "cpp",
         "__bit_reference": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "iosfwd": "cpp"
     }
 }
