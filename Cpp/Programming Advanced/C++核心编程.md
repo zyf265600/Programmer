@@ -8,14 +8,12 @@
 
 C++程序在执行时，将内存大方向划分为**4个区域**
 
-- 代码区：存放函数体的二进制代码，由操作系统进行管理的
-- 全局区：存放全局变量和静态变量以及常量
-- 栈区：由编译器自动分配释放, 存放函数的参数值,局部变量等
-- 堆区：由程序员分配和释放,若程序员不释放,程序结束时由操作系统回收
+- **代码区：**存放函数体的**二进制代码**，由操作系统进行管理的
+- **全局区：**存放**全局变量**和**静态变量**以及**常量**
+- **栈区：**由编译器自动分配释放, 存放**函数的参数值**，**局部变量**等
+- **堆区：**由程序员分配和释放,若程序员不释放,程序结束时由操作系统回收
 
-**内存四区意义：**
-
-不同区域存放的数据，赋予不同的生命周期, 给我们更大的灵活编程
+***内存四区意义：不同区域存放的数据，<u>赋予不同的生命周期,</u> 给我们更大的灵活编程***
 
 
 
@@ -23,34 +21,28 @@ C++程序在执行时，将内存大方向划分为**4个区域**
 
 ### 1.1 程序运行前
 
-​	在程序编译后，生成了exe可执行程序，**未执行该程序前**分为两个区域
+在程序**编译**后，生成了exe可执行程序，**未执行该程序前**分为两个区域
 
-​	**代码区：**
+**代码区：**
 
-​		存放 CPU 执行的机器指令
-
-​		代码区是**共享**的，共享的目的是对于频繁被执行的程序，只需要在内存中有一份代码即可
-
-​		代码区是**只读**的，使其只读的原因是防止程序意外地修改了它的指令
-
-​	**全局区：**
-
-​		全局变量和静态变量存放在此.
-
-​		全局区还包含了常量区, 字符串常量和其他常量也存放在此.
-
-​		**该区域的数据在程序结束后由操作系统释放.**
+- 存放 CPU 执行的机器指令
 
 
+- 代码区是**<u>共享</u>**的 (即另外的执行程序可以调用它)，共享的目的是对于频繁被执行的程序，只需要在内存中有一份代码即可
 
 
+- 代码区是**<u>只读</u>**的，使其只读的原因是防止程序意外地修改了它的指令
 
+**全局区：**
 
+- **全局变量**和**静态变量**存放在此
 
+- *全局区还包含了**常量区***：**字符串常量 (双括号包含的字符串等)**和**其他常量**也存放在此
 
-
-
-
+- **该区域的数据在程序结束后由操作系统释放.**
+- 这部分还可以细分为 **data 区**和 **bss 区**：
+  - data 区里主要存放的是已经初始化的全局变量、静态变量和常量
+  - bss 区主要存放的是未初始化的全局变量、静态变量，这些未初始化的数据在程序执行前会自动被系统初始化为 0 或者 NULL
 
 
 **示例：**
@@ -95,8 +87,6 @@ int main() {
 	cout << "局部常量c_l_a地址为： " << (int)&c_l_a << endl;
 	cout << "局部常量c_l_b地址为： " << (int)&c_l_b << endl;
 
-	system("pause");
-
 	return 0;
 }
 ```
@@ -105,14 +95,12 @@ int main() {
 
 ![1545017602518](assets/1545017602518.png)
 
-
-
-总结：
+**总结：**
 
 * C++中在程序运行前分为全局区和代码区
 * 代码区特点是共享和只读
-* 全局区中存放全局变量、静态变量、常量
-* 常量区中存放 const修饰的全局常量  和 字符串常量
+* 全局区中存放 **全局变量**、**静态变量**、**全局静态变量**、**常量**
+* 全局区中细分的**常量区**中存放 **const **修饰的 **全局常量**  和 **字符串常量**
 
 
 
@@ -121,15 +109,12 @@ int main() {
 
 ### 1.2 程序运行后
 
+**栈区：**
+
+- 由<u>编译器自动分配</u>释放, **存放函数的参数值**, **局部变量**等
 
 
-​	**栈区：**
-
-​		由编译器自动分配释放, 存放函数的参数值,局部变量等
-
-​		注意事项：不要返回局部变量的地址，栈区开辟的数据由编译器自动释放
-
-
+- **注意⚠️：不要返回局部变量的地址，栈区开辟的数据由编译器自动释放**
 
 **示例：**
 
@@ -147,29 +132,26 @@ int main() {
 	cout << *p << endl;
 	cout << *p << endl;
 
-	system("pause");
-
 	return 0;
 }
 ```
 
 
 
+**堆区：**
+
+- 由<u>程序员分配释放</u>, 若程序员不释放, 程序结束时由操作系统回收
 
 
-
-
-​	**堆区：**
-
-​		由程序员分配释放,若程序员不释放,程序结束时由操作系统回收
-
-​		在C++中主要利用new在堆区开辟内存
+- **在C++中主要利用 new 在堆区开辟内存**
 
 **示例：**
 
 ```c++
 int* func()
 {
+  //利用new关键字，可以将数据开辟到堆区
+  //指针 本质也是局部变量，放在栈上，指针保存的数据是放在堆区
 	int* a = new int(10);
 	return a;
 }
@@ -178,10 +160,8 @@ int main() {
 
 	int *p = func();
 
+	cout << *p << endl; 
 	cout << *p << endl;
-	cout << *p << endl;
-    
-	system("pause");
 
 	return 0;
 }
@@ -189,32 +169,17 @@ int main() {
 
 
 
-**总结：**
-
-堆区数据由程序员管理开辟和释放
-
-堆区数据利用new关键字进行开辟内存
-
-
-
-
-
-
-
 
 
 ### 1.3 new操作符
 
+​	C++中利用 **new** 操作符在堆区开辟数据
 
-
-​	C++中利用==new==操作符在堆区开辟数据
-
-​	堆区开辟的数据，由程序员手动开辟，手动释放，释放利用操作符 ==delete==
+​	堆区开辟的数据，由程序员手动开辟，手动释放，释放利用操作符 **delete**
 
 ​	语法：` new 数据类型`
 
 ​	利用new创建的数据，会返回该数据对应的类型的指针
-
 
 
 **示例1： 基本语法**
@@ -222,7 +187,10 @@ int main() {
 ```c++
 int* func()
 {
+  //在堆区创建整型数据
+  //new返回的是该数据类型的指针
 	int* a = new int(10);
+  
 	return a;
 }
 
@@ -238,12 +206,10 @@ int main() {
 
 	//cout << *p << endl; //报错，释放的空间不可访问
 
-	system("pause");
-
 	return 0;
 }
-```
 
+```
 
 
 **示例2：开辟数组**
@@ -266,8 +232,6 @@ int main() {
 	//释放数组 delete 后加 []
 	delete[] arr;
 
-	system("pause");
-
 	return 0;
 }
 
@@ -276,6 +240,166 @@ int main() {
 
 
 
+
+### 1.4 变量作用域及储存类总结
+
+作用域是程序的一个区域，一般来说有三个地方可以定义变量：
+
+- 在函数或一个代码块内部声明的变量，称为**局部变量**。
+- 在函数参数的定义中声明的变量，称为**形式参数**。
+- 在所有函数外部声明的变量，称为**全局变量**。
+
+
+
+<u>**全局变量**：</u>
+
+在所有函数外部定义的变量（通常是在程序的头部），称为全局变量。**全局变量的值在程序的整个生命周期内都是有效的。**
+
+全局变量可以被任何函数访问。也就是说，全局变量一旦声明，在整个程序中都是可用的。**在程序中，局部变量和全局变量的名称可以相同，但是在函数内，局部变量的值会覆盖全局变量的值。**
+
+
+
+<u>**局部变量：**</u>
+
+在函数或一个代码块内部声明的变量，称为局部变量。它们只能被函数内部或者代码块内部的语句使用。
+
+
+
+**<u>储存类：</u>**
+
+1. **auto 存储类（少用）**
+
+   自 C++ 11 以来，**auto** 关键字用于两种情况：声明变量时根据初始化表达式自动推断该变量的类型、声明函数时函数返回值的占位符。
+
+   C++98标准中auto关键字用于自动变量的声明，但由于使用极少且多余，在 C++17 中已删除这一用法。
+
+   根据初始化表达式自动推断被声明的变量的类型，如：
+
+   ```c++
+   auto f=3.14;      //double
+   auto s("hello");  //const char*
+   auto z = new auto(9); // int*
+   auto x1 = 5, x2 = 5.0, x3='r';//错误，必须是初始化为同一类型
+   ```
+
+
+
+2. **register 存储类**
+
+   **register** 存储类用于定义存储在寄存器中而不是 RAM 中的局部变量。这意味着变量的最大尺寸等于寄存器的大小（通常是一个词），且不能对它应用一元的 '&' 运算符（因为它没有内存位置）。
+
+   ```c++
+   {   
+     register int  miles; 
+   }
+   ```
+
+   寄存器只用于需要快速访问的变量，比如计数器。还应注意的是，定义 'register' 并不意味着变量将被存储在寄存器中，它意味着变量可能存储在寄存器中，这取决于硬件和实现的限制。
+
+
+
+3. **static 存储类**
+
+   **static** 存储类指示编译器在**程序的生命周期内保持局部变量的存在**，而不需要在每次它进入和离开作用域时进行创建和销毁。因此，使用 static 修饰局部变量可以在函数调用之间保持局部变量的值。
+
+   static 修饰符也可以应用于全局变量。当 static 修饰全局变量时，**会使变量的作用域限制在声明它的文件内。**
+
+   在 C++ 中，当 static 用在类数据成员上时，会导致仅有一个该成员的副本被类的所有对象共享。
+
+   ```c++
+   #include <iostream>
+   
+   static int count = 10; /* 全局变量 */
+    
+   // 函数声明 
+   void func(void);
+   
+   // 函数定义
+   void func( void )
+   {
+       static int i = 5; // 局部静态变量
+       i++;
+       std::cout << "变量 i 为 " << i ;
+       std::cout << " , 变量 count 为 " << count << std::endl;
+   }
+   
+    
+   int main()
+   {
+       while(count--)
+       {
+          func();
+       }
+       return 0;
+   }
+   
+   ```
+
+   当上面的代码被编译和执行时，它会产生下列结果：
+
+   ```c++
+   变量 i 为 6 , 变量 count 为 9
+   变量 i 为 7 , 变量 count 为 8
+   变量 i 为 8 , 变量 count 为 7
+   变量 i 为 9 , 变量 count 为 6
+   变量 i 为 10 , 变量 count 为 5
+   变量 i 为 11 , 变量 count 为 4
+   变量 i 为 12 , 变量 count 为 3
+   变量 i 为 13 , 变量 count 为 2
+   变量 i 为 14 , 变量 count 为 1
+   变量 i 为 15 , 变量 count 为 0
+   ```
+
+
+
+4. **extern 存储类**
+
+   **extern** 存储类用于提供一个全局变量的引用，全局变量对所有的程序文件都是可见的。当您使用 'extern' 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置。
+
+   当您有多个文件且定义了一个可以在其他文件中使用的全局变量或函数时，可以在其他文件中使用 *extern* 来得到已定义的变量或函数的引用。可以这么理解，***extern* 是用来在另一个文件中声明一个全局变量或函数。**
+
+   extern 修饰符通常用于当有两个或多个文件共享相同的全局变量或函数的时候，如下所示：
+
+   第一个文件：main.cpp
+
+   ```c++
+   #include <iostream>
+    
+   int count ;
+   extern void write_extern();
+    
+   int main()
+   {
+      count = 5;
+      write_extern();
+   }
+   ```
+
+   第二个文件：support.cpp
+
+   ```c++
+   #include <iostream>
+    
+   extern int count;
+    
+   void write_extern(void)
+   {
+      std::cout << "Count is " << count << std::endl;
+   }
+   ```
+
+   在这里，第二个文件中的 *extern* 关键字用于声明已经在第一个文件 main.cpp 中定义的 count。现在 ，编译这两个文件，如下所示：
+
+   ```
+   $ g++ main.cpp support.cpp -o write
+   ```
+
+   这会产生 **write** 可执行程序，尝试执行 **write**，它会产生下列结果：
+
+   ```
+   $ ./write
+   Count is 5
+   ```
 
 
 
@@ -309,7 +433,7 @@ int main() {
 	cout << "a = " << a << endl;
 	cout << "b = " << b << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -341,7 +465,7 @@ int main() {
 	cout << "b = " << b << endl;
 	cout << "c = " << c << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -403,7 +527,7 @@ int main() {
 	mySwap03(a, b);
 	cout << "a:" << a << " b:" << b << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -472,7 +596,7 @@ int main() {
 	cout << "ref2 = " << ref2 << endl;
 	cout << "ref2 = " << ref2 << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -568,7 +692,7 @@ int main() {
 	int a = 10;
 	showValue(a);
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -613,7 +737,7 @@ int main() {
 	cout << "ret = " << func(20, 20) << endl;
 	cout << "ret = " << func(100) << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -653,7 +777,7 @@ int main() {
 
 	func(10,10); //占位参数必须填补
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -729,7 +853,7 @@ int main() {
 	func(10,3.14);
 	func(3.14 , 10);
 	
-	system("pause");
+	
 
 	return 0;
 }
@@ -796,7 +920,7 @@ int main() {
 
 	//func2(10); //碰到默认参数产生歧义，需要避免
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -889,7 +1013,7 @@ int main() {
 	//2 * pi * 10 = = 62.8
 	cout << "圆的周长为： " << c1.calculateZC() << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -933,7 +1057,7 @@ int main() {
 	stu.setID(250);
 	stu.showStudent();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1004,7 +1128,7 @@ int main() {
 	//p.m_Car = "奔驰";  //保护权限类外访问不到
 	//p.m_Password = 123; //私有权限类外访问不到
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1048,7 +1172,7 @@ int main() {
 	C2 c2;
 	c2.m_A = 10; //正确，访问权限是公共
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1134,7 +1258,7 @@ int main() {
 	p.setLover("苍井");
 	//cout << "情人： " << p.m_Lover << endl;  //只写属性，不可以读取
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1268,7 +1392,7 @@ int main() {
 	
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1365,7 +1489,7 @@ int main() {
 	test01();
 	//test02();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1456,7 +1580,7 @@ int main() {
 	//test02();
 	test03();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1540,7 +1664,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1625,7 +1749,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1687,7 +1811,7 @@ int main() {
 	p.PrintPerson();
 
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1786,7 +1910,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1870,7 +1994,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1929,7 +2053,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -1980,7 +2104,7 @@ int main() {
 
 	cout << sizeof(Person) << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2052,7 +2176,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2111,7 +2235,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2196,7 +2320,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2285,7 +2409,7 @@ int main(){
 
 	test01();
 
-	system("pause");
+	
 	return 0;
 }
 ```
@@ -2352,7 +2476,7 @@ int main(){
 
 	test01();
 
-	system("pause");
+	
 	return 0;
 }
 ```
@@ -2429,7 +2553,7 @@ int main(){
     
 	test01();
 
-	system("pause");
+	
 	return 0;
 }
 ```
@@ -2517,7 +2641,7 @@ int main() {
 
 	test();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2582,7 +2706,7 @@ int main() {
 
 	test();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2669,7 +2793,7 @@ int main() {
 	test01();
 	//test02();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2789,7 +2913,7 @@ int main() {
 	//cout << "b = " << b << endl;
 	//cout << "c = " << c << endl;
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2883,7 +3007,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -2947,7 +3071,7 @@ int main() {
 	test01();
 	test02();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3086,7 +3210,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3180,7 +3304,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3373,7 +3497,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3478,7 +3602,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3569,7 +3693,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 	return EXIT_SUCCESS;
 }
 ```
@@ -3674,7 +3798,7 @@ int main() {
 	//test01();
 	test02();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3770,7 +3894,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3853,7 +3977,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -3971,7 +4095,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4132,7 +4256,7 @@ int main() {
 
 	test02();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4220,7 +4344,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4338,7 +4462,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4465,7 +4589,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4795,7 +4919,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4909,7 +5033,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -4990,7 +5114,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
@@ -5049,7 +5173,7 @@ int main() {
 
 	test01();
 
-	system("pause");
+	
 
 	return 0;
 }
