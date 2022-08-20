@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "__node_handle": "cpp",
+        "iostream": "cpp",
+        "__bit_reference": "cpp",
+        "ostream": "cpp",
+        "iosfwd": "cpp",
+        "random": "cpp",
+        "new": "cpp",
+        "vector": "cpp"
+    }
+}
