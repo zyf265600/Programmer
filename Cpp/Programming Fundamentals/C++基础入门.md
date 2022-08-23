@@ -3438,6 +3438,104 @@ int main() {
 
 
 
+#### 7.4.1**空指针详解：**
+
+**NULL，0 和 nullptr：**
+
+1. **NULL与0**
+
+   - 在 C 和 C++中，NULL 和 0 都可以使用。
+
+   - **C 通常使用 NULL，C++ 通常使用 nullptr 或 0**
+
+     
+
+   **问：**NULL到底是什么？
+
+   **答：**NULL是一个宏。
+
+   **问：**它的值是多少？
+
+   **答：**C/C++标准规定：它的值是一个空指针常量（null pointer constant），由实现定义。
+
+   **问：**NULL宏是如何定义的？
+
+   **答：**以gcc或clang编译器为例，NULL的定义大致如下（稍有简化）：
+
+   ```c++
+   #if defined(__cplusplus)
+   # define NULL 0              // C++中使用0作为NULL的值
+   #else
+   # define NULL ((void *)0)    // C中使用((void *)0)作为NULL的值
+   #endif
+   ```
+
+   **问：**什么样的值才能称之为空指针常量？
+
+   **答：**C语言中常数0和(void\*)0都是空指针常量；C++中（暂且忽略C++11）常数0是，而(void*)0 不是
+
+   **问：**为什么 C 中(void*)0 是空指针常量，而 C++ 中不是？
+
+   **答：**因为C语言中任何类型的指针都可以（隐式地）转换为 void\* 型，反过来也行。而 C++ 中 void\* 型不能隐式地转换为别的类型指针（例如：int\*p = (void*) 0; 使用 C++ 编译器编译会报错）
+
+   
+
+2. **nullptr**
+
+ C++11 引入了 nullptr 关键字，都用来表示空指针。
+那问题来了，为什么 C++11 要引入 nullptr 呢？
+那必定是 NULL 在某些方面存在某些不足，所以引入了nullptr，下面我们来看一下！
+
+```c
+#include <iostream>
+using namespace std;
+
+void func(int x) {
+    cout<<"void func(int x)"<<endl;
+}
+
+void func(char *y) {
+    cout<<"void func(int *y)"<<endl;
+}
+
+int main()
+{
+    func(NULL);
+    return 0;
+}
+```
+
+编译结果显示程序有二义性，程序提示 func(NULL) 有两个可选项。
+先解释下上面的 C++ 程序：程序中重载了函数 func，可根据参数不同分别进行调用。但是存在一个问题，C语言是有隐式类型转换的，所以 NULL（这里实际上是 (void *)0 ） 可以隐式转换到 int 或 char * 。这就让程序很为难了，程序不知道选择调用哪个函数。而在 C 语言中，并不支持函数重载，故在纯 C 语言中不会有上面这个问题。
+
+下面我们来修改一下上面的程序，将 NULL 替换为 nullptr，修改后如下所示：
+
+```c++
+#include <iostream>
+using namespace std;
+
+void func(int x) {
+    cout<<"void func(int x)"<<endl;
+}
+
+void func(char *y) {
+    cout<<"void func(int *y)"<<endl;
+}
+
+int main()
+{
+    func(nullptr);
+    return 0;
+}
+```
+
+编译通过，并且执行成功！
+为什么 C++11 引入 nullptr，就是因为 NULL 在 C++ 程序中容易引起二义性！
+
+
+
+
+
 ### 7.5 const修饰指针
 
 const修饰指针有三种情况
@@ -4073,7 +4171,7 @@ int main() {
 	
 	struct student * p = &stu;
 	
-	p->score = 80; //指针通过 -> 操作符可以访问成员
+	p->score = 80; //对象指针通过 -> 操作符可以访问成员
 
 	cout << "姓名：" << p->name << " 年龄：" << p->age << " 分数：" << p->score << endl;
 	
