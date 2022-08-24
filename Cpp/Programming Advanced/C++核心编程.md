@@ -240,7 +240,7 @@ int main() {
 
 
 
-### 1.4 变量作用域及储存类总结
+### 1.4 变量作用域及储存类总结 (auto,register,extern)
 
 作用域是程序的一个区域，一般来说有三个地方可以定义变量：
 
@@ -299,7 +299,7 @@ int main() {
 
 3. **extern 存储类**
 
-   **extern** 存储类用于提供一个全局变量的引用，全局变量对所有的程序文件都是可见的。当您使用 'extern' 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置。
+   **extern** 存储类用于提供一个全局变量的引用，全局变量对所有的程序文件都是可见的。当您使用 `extern` 时，对于无法初始化的变量，会把变量名指向一个之前定义过的存储位置。
 
    当您有多个文件且定义了一个可以在其他文件中使用的全局变量或函数时，可以在其他文件中使用 *extern* 来得到已定义的变量或函数的引用。可以这么理解，***extern* 是用来在另一个文件中声明一个全局变量或函数。**
 
@@ -1114,6 +1114,8 @@ int main() {
 
 “隐藏”机制还可以避免对对象的不正确操作。有的成员函数只是设计用来让同类的成员函数调用的，并不希望对外开放，因此就可以将它们声明为私有的，隐藏起来。
 
+**⚠️注意：类内函数可以类内声明，类外定义。**
+
 
 
 
@@ -1351,6 +1353,8 @@ int main()
 }
 ```
 
+**⚠️注意：类内函数可以类内声明，类外定义。**
+
 
 
 
@@ -1467,9 +1471,9 @@ int main()
 
 C++中拷贝构造函数调用时机通常有三种情况
 
-* 使用一个已经创建完毕的对象来初始化一个新对象
-* 值传递的方式给函数参数传值
-* 以值方式返回局部对象
+* **使用一个已经创建完毕的对象来初始化一个新对象**
+* **值传递的方式给函数参数传值**
+* **以值方式返回局部对象**
 
 **示例：**
 
@@ -1868,7 +1872,9 @@ int main()
 
 > **总结：**
 >
-> **构造的顺序是 ：先调用对象成员的构造，再调用本类构造。析构顺序是：先调用本类析构函数，再调用对象成员的析构。**
+> **构造的顺序是 ：先调用对象成员的构造，再调用本类构造。**
+>
+> **析构顺序是：先调用本类析构函数，再调用对象成员的析构。**
 >
 > **可以这样理解，先进后出。先生成部分，后定义整体。先消除整体，在整体这个意义不存在时，后析构部分。**
 
@@ -2259,149 +2265,145 @@ int main() {
 
 ### 4.4 友元
 
-
-
-生活中你的家有客厅(Public)，有你的卧室(Private)
+生活中你的家有客厅 (Public)，有你的卧室 (Private)
 
 客厅所有来的客人都可以进去，但是你的卧室是私有的，也就是说只有你能进去
 
-但是呢，你也可以允许你的好闺蜜好基友进去。
+但是呢，你也可以允许你的好闺蜜好基友进去。在程序里，有些**私有属性** 也想让类外特殊的一些函数或者类进行访问，就需要用到**友元**的技术
 
+- **友元的目的就是让一个函数或者类 访问另一个类中私有成员**
 
+友元的关键字为 ` friend`
 
-在程序里，有些私有属性 也想让类外特殊的一些函数或者类进行访问，就需要用到友元的技术
+友元的三种实现：
 
-
-
-友元的目的就是让一个函数或者类 访问另一个类中私有成员
-
-
-
-友元的关键字为  ==friend==
-
-
-
-友元的三种实现
-
-* 全局函数做友元
-* 类做友元
-* 成员函数做友元
-
-
+* **全局函数做友元**
+* **类做友元**
+* **成员函数做友元**
 
 
 
 #### 4.4.1 全局函数做友元
 
+**格式：`friend 函数声明;`**
+
 ```C++
 class Building
 {
-	//告诉编译器 goodGay全局函数 是 Building类的好朋友，可以访问类中的私有内容
-	friend void goodGay(Building * building);
+    //告诉编译器 goodGay全局函数 是 Building类的好朋友，可以访问类中的私有内容
+    friend void goodGay(Building *building);
 
 public:
-
-	Building()
-	{
-		this->m_SittingRoom = "客厅";
-		this->m_BedRoom = "卧室";
-	}
-
-
-public:
-	string m_SittingRoom; //客厅
+    string m_SittingRoom; //客厅
 
 private:
-	string m_BedRoom; //卧室
+    string m_BedRoom; //卧室
+
+public:
+    Building()
+    {
+        m_SittingRoom = "客厅";
+        m_BedRoom = "卧室";
+    }
 };
 
-
-void goodGay(Building * building)
+//全局函数
+void goodGay(Building *building)
 {
-	cout << "好基友正在访问： " << building->m_SittingRoom << endl;
-	cout << "好基友正在访问： " << building->m_BedRoom << endl;
+    cout << "好基友正在访问： " << building->m_SittingRoom << endl;
+    cout << "好基友正在访问： " << building->m_BedRoom << endl;
 }
-
 
 void test01()
 {
-	Building b;
-	goodGay(&b);
+    Building building;
+    goodGay(&building);
 }
 
-int main(){
-
-	test01();
-
-	
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
 
 
 
+
+
 #### 4.4.2 类做友元
 
-
+**格式：`friend class 类名;`**
 
 ```C++
-class Building;
-class goodGay
-{
-public:
-
-	goodGay();
-	void visit();
-
-private:
-	Building *building;
-};
-
-
 class Building
 {
-	//告诉编译器 goodGay类是Building类的好朋友，可以访问到Building类中私有内容
-	friend class goodGay;
+    //告诉编译器 Goodgay类是Building类的好朋友，可以访问到Building类中私有内容
+    friend class Goodgay;
 
 public:
-	Building();
+    Building();
+
+    ~Building()
+    {
+        cout << "Building析构函数!" << endl;
+    }
 
 public:
-	string m_SittingRoom; //客厅
+    string m_SittingRoom; //客厅
 private:
-	string m_BedRoom;//卧室
+    string m_BedRoom; //卧室
 };
 
+//类作友元
+class Goodgay
+{
+public:
+    //好基友要访问的建筑
+    Building *building;
+
+    Goodgay();
+    void visit(); //参观函数 要访问Building中的属性
+
+    ~Goodgay()
+    {
+        //在这里，什么时候指针什么时候消亡（被delete），指针对象成员building什么时候析构
+        delete building;
+        cout << "Goodgay析构函数!" << endl;
+    }
+};
+
+//类内函数 类外实现
 Building::Building()
 {
-	this->m_SittingRoom = "客厅";
-	this->m_BedRoom = "卧室";
+    cout << "Building无参构造函数!" << endl;
+    m_SittingRoom = "客厅";
+    m_BedRoom = "卧室";
 }
 
-goodGay::goodGay()
+Goodgay::Goodgay()
 {
-	building = new Building;
+    cout << "Goodgay无参构造函数!" << endl;
+    //创建建筑物的对象
+    building = new Building;
 }
 
-void goodGay::visit()
+void Goodgay::visit()
 {
-	cout << "好基友正在访问" << building->m_SittingRoom << endl;
-	cout << "好基友正在访问" << building->m_BedRoom << endl;
+    cout << "好基友正在访问" << building->m_SittingRoom << endl;
+    cout << "好基友正在访问" << building->m_BedRoom << endl;
 }
 
 void test01()
 {
-	goodGay gg;
-	gg.visit();
-
+    Goodgay goodgay;
+    goodgay.visit();
 }
 
-int main(){
-
-	test01();
-
-	
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
 
@@ -2411,78 +2413,82 @@ int main(){
 
 #### 4.4.3 成员函数做友元
 
-
+**格式：`friend return类型 作用域::函数名();`**
 
 ```C++
-
 class Building;
-class goodGay
-{
-public:
 
-	goodGay();
-	void visit(); //只让visit函数作为Building的好朋友，可以发访问Building中私有内容
-	void visit2(); 
+class Goodgay
+{
+
+public:
+    Goodgay();
+    ~Goodgay();
+    void visit();  //只让visit函数作为Building的好朋友，可以发访问Building中私有内容
+    void visit2(); //不让visit2函数作为Building的好朋友，不可以可以发访问Building中私有内容
 
 private:
-	Building *building;
+    Building *building;
 };
-
 
 class Building
 {
-	//告诉编译器  goodGay类中的visit成员函数 是Building好朋友，可以访问私有内容
-	friend void goodGay::visit();
+    //告诉编译器  goodGay类中的visit成员函数 是Building好朋友，可以访问私有内容
+    friend void Goodgay::visit();
 
 public:
-	Building();
+    Building();
 
 public:
-	string m_SittingRoom; //客厅
+    string m_SittingRoom; //客厅
 private:
-	string m_BedRoom;//卧室
+    string m_BedRoom; //卧室
 };
 
+//类外实现成员函数
 Building::Building()
 {
-	this->m_SittingRoom = "客厅";
-	this->m_BedRoom = "卧室";
+    m_SittingRoom = "客厅";
+    m_BedRoom = "卧室";
 }
 
-goodGay::goodGay()
+Goodgay::Goodgay()
 {
-	building = new Building;
+    building = new Building;
 }
 
-void goodGay::visit()
+Goodgay::~Goodgay()
 {
-	cout << "好基友正在访问" << building->m_SittingRoom << endl;
-	cout << "好基友正在访问" << building->m_BedRoom << endl;
+    delete building;
 }
 
-void goodGay::visit2()
+void Goodgay::visit()
 {
-	cout << "好基友正在访问" << building->m_SittingRoom << endl;
-	//cout << "好基友正在访问" << building->m_BedRoom << endl;
+    cout << "好基友正在访问 " << building->m_SittingRoom << endl;
+    cout << "好基友正在访问 " << building->m_BedRoom << endl;
+}
+
+void Goodgay::visit2()
+{
+    cout << "好基友正在访问 " << building->m_SittingRoom << endl;
+    // cout << "好基友正在访问 " building->m_BedRoom << endl;
 }
 
 void test01()
 {
-	goodGay  gg;
-	gg.visit();
-
+    Goodgay g1;
+    g1.visit();
+    g1.visit2();
 }
 
-int main(){
-    
-	test01();
-
-	
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
 
-
+**⚠️注意： 可以声明一个类而不定义它。这个声明，有时候被称为前向声明(forward declaration)。在声明之后，定义之前，类Screen是一个不完全类型(incompete type)，即已知Screen是一个类型，但不知道包含哪些成员。不完全类型只能以有限方式使用，不能定义该类型的对象，不完全类型只能用于定义指向该类型的指针及引用，或者用于声明(而不是定义)使用该类型作为形参类型或返回类型的函数。**
 
 
 
@@ -2491,8 +2497,6 @@ int main(){
 
 
 ### 4.5 运算符重载
-
-
 
 运算符重载概念：对已有的运算符重新进行定义，赋予其另一种功能，以适应不同的数据类型
 

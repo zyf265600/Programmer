@@ -6,6 +6,8 @@
         "ostream": "cpp",
         "iosfwd": "cpp",
         "random": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "__config": "cpp",
+        "__nullptr": "cpp"
     }
 }
