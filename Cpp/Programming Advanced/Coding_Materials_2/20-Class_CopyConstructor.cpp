@@ -61,7 +61,7 @@ Person doWork2()
 
 void test03()
 {
-	Person p = doWork2(); //这里Person p = doWork2()不会调用拷贝构造是因为处理器优化，p的空间直接存储了dowork2()的返回值 （p1 就是 p）这种行为是复制省略 而不是拷贝构造
+	Person p = doWork2(); //这里Person p = doWork2()不会调用拷贝构造是因为处理器优化，p的空间直接存储了dowork2()的返回值 （p1 就是 p 且都在栈区）这种行为是复制省略 而不是拷贝构造
 	cout << (int *) &p << endl;
 }
 
