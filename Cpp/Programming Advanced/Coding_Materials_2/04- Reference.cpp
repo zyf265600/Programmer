@@ -25,5 +25,24 @@ int main()
     cout << "B = " << B << endl;
     cout << "C = " << C << endl;
 
+    // int a = 0;
+    // int const *d = &a;
+
+    // int &b = a; // int* const b = &a;
+    // int &c = b; // int* const c = &b;
+    // int *e = &b;
+
+    // cout << &a << endl;
+    // cout << &b << endl;
+    // cout << &c << endl;
+    // cout << &d << endl;
+    // cout << &e << endl;
+
+    // cout << a << endl;
+    // cout << b << endl;
+    // cout << c << endl;
+    // cout << d << endl;
+    // cout << e << endl;
+
     return 0;
 }
