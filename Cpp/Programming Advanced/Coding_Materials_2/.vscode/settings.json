@@ -8,6 +8,8 @@
         "random": "cpp",
         "new": "cpp",
         "__config": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "concepts": "cpp",
+        "type_traits": "cpp"
     }
 }
