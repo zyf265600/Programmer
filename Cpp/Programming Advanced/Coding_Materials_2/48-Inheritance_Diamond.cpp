@@ -36,6 +36,9 @@ void test01()
     //当菱形继承 两个父类具有相同的数据 可以加作用域加以区分
     cout << "a.Sheep::m_Age = " << a.Sheep::m_Age << endl;
     cout << "a.Camelus::m_Age = " << a.Camelus::m_Age << endl;
+    cout << "a.Sheep::Animal::m_Age = " << a.Sheep::Animal::m_Age << endl;
+    cout << "a.Camelus::Animal::m_Age = " << a.Camelus::Animal::m_Age << endl;
+    cout << "a.Animal::m_Age = " << a.Animal::m_Age << endl;
     cout << "a.m_Age = " << a.m_Age << endl;
 
     //然而这份数据我们只需要一份就可以 现在两份资源浪费 到底多少岁？
