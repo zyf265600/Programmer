@@ -1378,6 +1378,7 @@ int main()
 
 ⚠️**注意2：在隐式转换法中，不能利用 拷贝构造函数 初始化匿名对象 编译器会认为是对象声明**
 
+
 **示例：**
 
 ```C++
@@ -2019,7 +2020,7 @@ int main()
 
 - **在C++中，类内的成员变量和成员函数分开存储**
 
-- **只有非静态成员变量占对象空间**
+- **只有非静态成员变量占对象空间（虚函数指针和虚基类指针也包括）**
 
 **示例：**
 
@@ -2183,6 +2184,8 @@ int main() {
 	return 0;
 }
 ```
+
+**⚠️注意：空类的大小为 1** 
 
 
 
@@ -3926,7 +3929,11 @@ void test01()
     //当菱形继承 两个父类具有相同的数据 可以加作用域加以区分
     cout << "a.Sheep::m_Age = " << a.Sheep::m_Age << endl;
     cout << "a.Camelus::m_Age = " << a.Camelus::m_Age << endl;
-    cout << "a.m_Age = " << a.m_Age << endl;
+    cout << "a.Sheep::Animal::m_Age = " << a.Sheep::Animal::m_Age << endl;
+    cout << "a.Camelus::Animal::m_Age = " << a.Camelus::Animal::m_Age << endl;
+    cout << "a.Animal::m_Age = " << a.Animal::m_Age << endl;
+    cout << "a.m_Age = " << a.m_Age << endl;//来自派生类 Sheep 的数据优先级比 虚基类要高 优先继承来自sheep的成员函数
+
 
     //然而这份数据我们只需要一份就可以 现在两份资源浪费 到底多少岁？
     //使用虚拟继承 合并参数
@@ -4025,6 +4032,8 @@ int main()
 
 **多态是C++面向对象三大特性之一**
 
+**多态的目的：封装可以使得代码模块化，继承可以扩展已存在的代码，他们的目的都是为了代码重用。而多态的目的则是为了“接口重用”。<u>也即，不论传递过来的究竟是类的哪个对象，函数都能够通过同一个接口调用到适应各自对象的实现方法。</u>**
+
 多态分为**两类**
 
 * **静态多态: 函数重载 和 运算符重载 属于 静态多态，复用函数名**
@@ -4036,6 +4045,16 @@ int main()
 
 * **静态多态的函数地址早绑定  -  编译阶段确定函数地址**
 * **动态多态的函数地址晚绑定  -  运行阶段确定函数地址**
+
+
+
+**⚠️⚠️注意：**
+
+1. 只有类的成员函数才能声明为虚函数，虚函数仅适用于有继承关系的类对象。普通函数不能声明为虚函数。
+2. 静态成员函数不能是虚函数，因为静态成员函数不受限于某个对象。
+3. 内联函数（inline）不能是虚函数，因为内联函数不能在运行中动态确定位置。
+4. 构造函数不能是虚函数。
+5. 析构函数可以是虚函数，而且建议声明为虚函数。
 
 
 
@@ -4093,7 +4112,7 @@ void DoSpeak(Animal &animal) //Animal &animal = cat;
 //2、子类重写父类中的虚函数
 
 //动态多态使用
-//父类的指针或引用 执行子类对象
+//父类的指针或引用 指向子类对象
 
 int main()
 {
@@ -4106,18 +4125,165 @@ int main()
 }
 ```
 
-总结：
+> **总结：**
+>
+> 多态满足条件
+>
+> * 有继承关系
+> * 子类重写父类中的虚函数
+>
+> 多态使用条件
+>
+> * 父类指针或引用指向子类对象
+>
+> 重写：函数返回值类型  函数名 参数列表 完全一致称为重写
+>
 
-多态满足条件
 
-* 有继承关系
-* 子类重写父类中的虚函数
 
-多态使用条件
+##### 4.7.1.1 多态详解
 
-* 父类指针或引用指向子类对象
+每一个有「虚函数」的类（或有虚函数的类的派生类）都有一个 **vftable「虚函数表」**，**该类的任何对象中都放着 vfpter 虚函数表的指针。**「虚函数表」中记录了该类的「虚函数」地址。
 
-重写：函数返回值类型  函数名 参数列表 完全一致称为重写
+```c++
+// 基类
+class Base 
+{
+public:
+    int i;
+    virtual void Print() { } // 虚函数
+};
+
+// 派生类
+class Derived : public Base
+{
+public:
+    int n;
+    virtual void Print() { } // 虚函数
+};
+```
+
+上面 Derived 类继承了 Base类，两个类都有「虚函数」，那么它「虚函数表」的形式可以理解成下图：
+
+![img](https://segmentfault.com/img/remote/1460000021668997)
+
+子类继承父类时会把 **<u>虚函数表指针</u>** 和 **<u>虚函数表</u>** 一起继承，然而当子类**重写**了父类的**虚函数**，**子类中的虚函数表内部 会替换成 子类的虚函数地址。**
+
+多态的函数调用语句被编译成一系列根据**基类指针所指向**（或**基类引用所引用**）的对象中存放的虚函数表的地址，<u>在虚函数表中查找虚函数地址，并调用虚函数的指令。</u> **因此当父类的指针或者引用指向子类对象的时候，发生多态。**
+
+ ![image-20220828211915889](assets/image-20220828211915889.png)
+
+![image-20220828212403569](assets/image-20220828212403569.png)
+
+![image-20220828211830930](assets/image-20220828211830930.png)
+
+
+
+
+
+##### 4.7.1.2 C++多态为何只能通过指针或引用实现
+
+在c++的多态中，如果一个基类的虚函数被派生类重写，那么把基类的指针指向派生类， 或引用派生类，就能够通过基类调用被派生类重写的这个虚函数。那么如果不用指针或引用会如何？
+
+```c++
+class Animal
+{
+public:
+    // Animal()
+    // {
+    //     cout << "Animal 构造函数" << endl;
+    // }
+
+    virtual void eat()
+    {
+        cout << "能吃什么就吃什么" << endl;
+    }
+    virtual void run() {}
+
+    // Animal(const Animal &a){
+    //     cout << "Animal 拷贝构造函数" << endl;
+    // }
+
+    // ~Animal()
+    // {
+    //     cout << "Animal 析构函数" << endl;
+    // }
+
+private:
+    int name;
+};
+class Dog : public Animal
+{
+public:
+    // Dog()
+    // {
+    //     cout << "Dog 构造函数" << endl;
+    // }
+    virtual void eat()
+    {
+        cout << "吃狗粮" << endl;
+    }
+    virtual void shout() {}
+
+    // Dog(const Dog &a){
+    //     cout << "Dog 拷贝构造函数" << endl;
+    // }
+    // ~Dog()
+    // {
+    //     cout << "Dog 析构函数" << endl;
+    // }
+
+private:
+    int age;
+};
+int main()
+{
+    Dog dog;
+    Animal &animal1 = dog;
+    Animal *animal2 = new Dog;
+    Animal animal3 = dog; //相当于 Animal animal3 = Dog(dog); 显示法 去调用构造函数 会调用 Animal 的拷贝函数
+
+    animal1.eat();
+    animal2->eat();
+    animal3.eat();
+}
+```
+
+输出结果为：
+
+```c++
+吃狗粮
+吃狗粮
+能吃什么就吃什么
+```
+
+不用指针或引用，我们直接取值时，就不能调用多态。那么为什么呢？
+
+
+
+**内存切割**
+
+之所以能够多态是因为虚函数的内存布局，以之前代码为例，Dog 类的内存布局在 gcc 下如图：
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20190506230902705.png)
+
+当我们执行以下代码时
+
+	Animal &animal1 = dog;
+	Animal *animal2 = new Dog();
+将会产生内存切割，图中 Dog 类的 Animal 部分被 animal1 和 animal2 得到，从而实现多态机制。
+
+	Ainmal animal3 = dog;
+那么为什么 这样调用就不能通过内存切割实现多态呢？
+
+在《深度探索C++对象模型》中找到了答案：
+
+**“一个 pointer 或一个 reference 之所以支持多态，是因为它们并不引发内存任何“与类型有关的内存委托操作； 会受到改变的只有它们所指向内存的大小和解释方式 而已”**
+
+对这句话解释就是：
+
+1. **指针和引用类型只是要求了基地址和这种指针所指对象的内存大小，与对象的类型无关，相当于把指向的内存解释成指针或引用的类型。**
+2. **而把一个派生类对象直接赋值给基类对象，就牵扯到对象的类型问题，编译器就会回避之前的的虚机制。从而无法实现多态。（ Animal animal3 = dog ; 相当于直接调用 Animal 类的拷贝构造函数，因为产生的对象是 Animal 类，所以多态无效了）**
 
 
 
@@ -4125,141 +4291,149 @@ int main()
 
 #### 4.7.2 多态案例一-计算器类
 
-
-
-案例描述：
+**案例描述：**
 
 分别利用普通写法和多态技术，设计实现两个操作数进行运算的计算器类
 
+答案见：50-Polymorphism_Ex1_Calculator.cpp
 
 
-多态的优点：
 
-* 代码组织结构清晰
-* 可读性强
-* 利于前期和后期的扩展以及维护
+**多态的优点：**
+
+* **代码组织结构清晰**
+* **可读性强**
+* **利于前期和后期的扩展以及维护**
 
 
 
 **示例：**
 
 ```C++
-//普通实现
-class Calculator {
+//多态的好处：
+// 1. 组织结构清晰 便于问题定位
+// 2. 可读性强
+// 3. 对于前期后期拓展以及维护性高（对扩展进行开放，对修改进行关闭）
+
+//分别利用普通写法和多态技术，设计实现两个操作数进行运算的计算器类
+
+//普通写法
+//如果要拓展新的功能，需要修改源码
+//在真实的开发过程中，提倡开闭原则：对扩展进行开放，对修改进行关闭。
+class Calculator
+{
+
 public:
-	int getResult(string oper)
-	{
-		if (oper == "+") {
-			return m_Num1 + m_Num2;
-		}
-		else if (oper == "-") {
-			return m_Num1 - m_Num2;
-		}
-		else if (oper == "*") {
-			return m_Num1 * m_Num2;
-		}
-		//如果要提供新的运算，需要修改源码
-	}
+    int m_Num1; //操作数1
+    int m_Num2; //操作数2
+
 public:
-	int m_Num1;
-	int m_Num2;
+    int getResult(string oper)
+    {
+        if (oper == "+")
+        {
+            return m_Num1 + m_Num2;
+        }
+        else if (oper == "-")
+        {
+            return m_Num1 - m_Num2;
+        }
+        else if (oper == "*")
+        {
+            return m_Num1 * m_Num2;
+        }
+    }
 };
 
 void test01()
 {
-	//普通实现测试
-	Calculator c;
-	c.m_Num1 = 10;
-	c.m_Num2 = 10;
-	cout << c.m_Num1 << " + " << c.m_Num2 << " = " << c.getResult("+") << endl;
+    //普通实现测试
+    Calculator c;
+    c.m_Num1 = 10;
+    c.m_Num2 = 10;
+    cout << c.m_Num1 << " + " << c.m_Num2 << " = " << c.getResult("+") << endl;
 
-	cout << c.m_Num1 << " - " << c.m_Num2 << " = " << c.getResult("-") << endl;
+    cout << c.m_Num1 << " - " << c.m_Num2 << " = " << c.getResult("-") << endl;
 
-	cout << c.m_Num1 << " * " << c.m_Num2 << " = " << c.getResult("*") << endl;
+    cout << c.m_Num1 << " * " << c.m_Num2 << " = " << c.getResult("*") << endl;
 }
 
-
-
 //多态实现
-//抽象计算器类
-//多态优点：代码组织结构清晰，可读性强，利于前期和后期的扩展以及维护
+//首先实现计算器抽象类
 class AbstractCalculator
 {
-public :
+public:
+    virtual int getResult()
+    {
+        return 0;
+    }
 
-	virtual int getResult()
-	{
-		return 0;
-	}
-
-	int m_Num1;
-	int m_Num2;
+    int m_Num1;
+    int m_Num2;
 };
 
-//加法计算器
-class AddCalculator :public AbstractCalculator
+//加法计算器类
+class AddCalculator : public AbstractCalculator
 {
 public:
-	int getResult()
-	{
-		return m_Num1 + m_Num2;
-	}
+    int getResult()
+    {
+        return m_Num1 + m_Num2;
+    }
 };
 
 //减法计算器
-class SubCalculator :public AbstractCalculator
+class SubCalculator : public AbstractCalculator
 {
 public:
-	int getResult()
-	{
-		return m_Num1 - m_Num2;
-	}
+    int getResult()
+    {
+        return m_Num1 - m_Num2;
+    }
 };
 
 //乘法计算器
-class MulCalculator :public AbstractCalculator
+class MulCalculator : public AbstractCalculator
 {
 public:
-	int getResult()
-	{
-		return m_Num1 * m_Num2;
-	}
+    int getResult()
+    {
+        return m_Num1 * m_Num2;
+    }
 };
-
 
 void test02()
 {
-	//创建加法计算器
-	AbstractCalculator *abc = new AddCalculator;
-	abc->m_Num1 = 10;
-	abc->m_Num2 = 10;
-	cout << abc->m_Num1 << " + " << abc->m_Num2 << " = " << abc->getResult() << endl;
-	delete abc;  //用完了记得销毁
+    //多态使用条件: 父类指针或引用指向子类对象
 
-	//创建减法计算器
-	abc = new SubCalculator;
-	abc->m_Num1 = 10;
-	abc->m_Num2 = 10;
-	cout << abc->m_Num1 << " - " << abc->m_Num2 << " = " << abc->getResult() << endl;
-	delete abc;  
+    //加法运算
+    AbstractCalculator *abc = new AddCalculator;
 
-	//创建乘法计算器
-	abc = new MulCalculator;
-	abc->m_Num1 = 10;
-	abc->m_Num2 = 10;
-	cout << abc->m_Num1 << " * " << abc->m_Num2 << " = " << abc->getResult() << endl;
-	delete abc;
+    abc->m_Num1 = 10;
+    abc->m_Num2 = 10;
+    cout << abc->m_Num1 << " + " << abc->m_Num2 << " = " << abc->getResult() << endl;
+    delete abc; //用完了记得销毁
+
+    //创建减法计算器
+    abc = new SubCalculator;
+    abc->m_Num1 = 10;
+    abc->m_Num2 = 10;
+    cout << abc->m_Num1 << " - " << abc->m_Num2 << " = " << abc->getResult() << endl;
+    delete abc;
+
+    //创建乘法计算器
+    abc = new MulCalculator;
+    abc->m_Num1 = 10;
+    abc->m_Num2 = 10;
+    cout << abc->m_Num1 << " * " << abc->m_Num2 << " = " << abc->getResult() << endl;
+    delete abc;
 }
 
-int main() {
-
-	//test01();
-
-	test02();
-
-	
-
-	return 0;
+int main()
+{
+    test01();
+    test02();
+    return 0;
 }
 ```
 
@@ -4269,43 +4443,20 @@ int main() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #### 4.7.3 纯虚函数和抽象类
 
+在多态中，通常父类中虚函数的实现是毫无意义的，主要都是调用子类重写的内容，因此可以将虚函数改为**纯虚函数**
 
 
-在多态中，通常父类中虚函数的实现是毫无意义的，主要都是调用子类重写的内容
+**纯虚函数语法：`virtual 返回值类型 函数名 （参数列表）= 0 ;`**
 
+当类中有了纯虚函数，这个类也称为**抽象类**
 
+- **抽象类特点**：
 
-因此可以将虚函数改为**纯虚函数**
+   * 无法实例化对象
 
-
-
-纯虚函数语法：`virtual 返回值类型 函数名 （参数列表）= 0 ;`
-
-
-
-当类中有了纯虚函数，这个类也称为==抽象类==
-
-
-
-**抽象类特点**：
-
- * 无法实例化对象
- * 子类必须重写抽象类中的纯虚函数，否则也属于抽象类
-
+   * **子类必须重写抽象类中的纯虚函数，否则也属于抽象类**
 
 
 
@@ -4315,51 +4466,55 @@ int main() {
 ```C++
 class Base
 {
+
 public:
-	//纯虚函数
-	//类中只要有一个纯虚函数就称为抽象类
-	//抽象类无法实例化对象
-	//子类必须重写父类中的纯虚函数，否则也属于抽象类
-	virtual void func() = 0;
+    //纯虚函数
+    //类中只要有一个纯虚函数就称为抽象类
+    //抽象类无法实例化对象
+    //子类必须重写父类中的纯虚函数，否则也属于抽象类
+    virtual void func() = 0;
 };
 
-class Son :public Base
+class Son : public Base
 {
-public:
-	virtual void func() 
-	{
-		cout << "func调用" << endl;
-	};
+    virtual void func()
+    {
+        cout << "Son - func调用" << endl;
+    };
+};
+
+class Grandson : public Son
+{
+    virtual void func()
+    {
+        cout << "Grandson - func调用" << endl;
+    };
 };
 
 void test01()
 {
-	Base * base = NULL;
-	//base = new Base; // 错误，抽象类无法实例化对象
-	base = new Son;
-	base->func();
-	delete base;//记得销毁
+
+    // 抽象类不允许实例化对象
+    // Base b;
+    // new Base;
+
+    Son s; //子类必须重写父类的纯虚函数，否则视为抽象类，也无法实例化对象
+    Base *b = new Son;
+    b->func();
+    delete b;
+
+    Grandson g; //子类必须重写父类的纯虚函数，否则视为抽象类，也无法实例化对象
+    b = new Grandson;
+    b->func();
+    delete b;
 }
 
-int main() {
-
-	test01();
-
-	
-
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -4369,17 +4524,13 @@ int main() {
 
 **案例描述：**
 
-制作饮品的大致流程为：煮水 -  冲泡 - 倒入杯中 - 加入辅料
-
-
+制作饮品的大致流程为：<u>煮水 -  冲泡 - 倒入杯中 - 加入辅料</u>
 
 利用多态技术实现本案例，提供抽象制作饮品基类，提供子类制作咖啡和茶叶
 
-
+答案见：52-Polymorphism_Ex2_MakingBeverage.cpp
 
 ![1545985945198](assets/1545985945198.png)
-
-
 
 **示例：**
 

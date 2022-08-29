@@ -55,7 +55,7 @@ int main() {
 
 	//情人设置
 	p.setLover("苍井");
-	//cout << "情人： " << p.m_Lover << endl;  //只写属性，不可以读取
+	// cout << "情人： " << p.m_Lover << endl;  //只写属性，不可以读取
 
 	return 0;
 }

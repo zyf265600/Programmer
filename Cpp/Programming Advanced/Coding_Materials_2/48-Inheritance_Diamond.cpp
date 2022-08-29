@@ -39,7 +39,7 @@ void test01()
     cout << "a.Sheep::Animal::m_Age = " << a.Sheep::Animal::m_Age << endl;
     cout << "a.Camelus::Animal::m_Age = " << a.Camelus::Animal::m_Age << endl;
     cout << "a.Animal::m_Age = " << a.Animal::m_Age << endl;
-    cout << "a.m_Age = " << a.m_Age << endl;
+    cout << "a.m_Age = " << a.m_Age << endl;//来自派生类 Sheep 的数据优先级比 虚基类要高 优先继承来自sheep的成员函数
 
     //然而这份数据我们只需要一份就可以 现在两份资源浪费 到底多少岁？
     //使用虚拟继承 合并参数
