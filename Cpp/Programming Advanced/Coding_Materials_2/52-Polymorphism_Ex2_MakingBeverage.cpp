@@ -1,22 +1,17 @@
 #include <iostream>
 using namespace std;
 
-class Beverage
+class AbstractBeverage
 {
 
 public:
-    void Boil()
-    {
-        cout << "煮水" << endl;
-    }
-
+    //煮水
+    virtual void Boil() = 0;
+    //冲泡
     virtual void Brew() = 0;
-
-    virtual void Pour()
-    {
-        cout << "倒入杯中" << endl;
-    }
-
+    //倒杯
+    virtual void Pour() = 0;
+    //加料
     virtual void Side() = 0;
 
     //规定流程
@@ -29,39 +24,61 @@ public:
     }
 };
 
-class Coffee : public Beverage
+class Coffee : public AbstractBeverage
 {
 public:
+    //烧水
+    virtual void Boil()
+    {
+        cout << "煮农夫山泉!" << endl;
+    }
+    //冲泡
     virtual void Brew()
     {
-        cout << "冲泡咖啡" << endl;
+        cout << "冲泡咖啡!" << endl;
     }
-
+    //倒入杯中
+    virtual void Pour()
+    {
+        cout << "将咖啡倒入杯中!" << endl;
+    }
+    //加入辅料
     virtual void Side()
     {
-        cout << "加糖和牛奶" << endl;
+        cout << "加入牛奶!" << endl;
     }
 };
 
-class Tea : public Beverage
+class Tea : public AbstractBeverage
 {
 public:
+    //烧水
+    virtual void Boil()
+    {
+        cout << "煮自来水!" << endl;
+    }
+    //冲泡
     virtual void Brew()
     {
-        cout << "冲泡茶叶" << endl;
+        cout << "冲泡茶叶!" << endl;
     }
-
+    //倒入杯中
+    virtual void Pour()
+    {
+        cout << "将茶水倒入杯中!" << endl;
+    }
+    //加入辅料
     virtual void Side()
     {
-        cout << "加柠檬" << endl;
+        cout << "加入枸杞!" << endl;
     }
 };
 
 //业务函数
-void DoWork(Beverage *drink)
+void DoWork(AbstractBeverage *drink) // AbstractBeverage *drink = new Coffee;
 {
     drink->MakeDrink();
-    delete drink;
+    delete drink; //释放内存
 }
 
 void test01()
