@@ -1,4 +1,4 @@
-#     C++核心编程
+#      C++核心编程
 
 本阶段主要针对C++**面向对象**编程技术做详细讲解，探讨C++中的核心和精髓。
 
@@ -2628,8 +2628,8 @@ int main()
 
 实际上有两种方式重载左移运算符：
 
-1. **成员函数**实现 << 左移运算符重载
-2. **全局函数**实现 << 左移运算符重载
+1. **成员函数**实现 `<< `左移运算符重载
+2. **全局函数**实现` << `左移运算符重载
 
 ⚠️注意：但是其中**成员函数**实现不能得到我们平时使用的 cout<< ... 的形式，所以**我们只使用全局函数实现 << 左移运算符重载** 
 
@@ -4753,8 +4753,42 @@ int main()
 >
 > ​	**2. ⚠️ 如果子类中没有堆区数据，可以不写为虚析构或纯虚析构**
 >
-> ​	**3. 拥有纯虚析构函数的类也属于抽象类，此外纯虚析构一定要有具体实现**
+> ​	**3. 拥有纯虚析构函数的类也属于抽象类，此外 纯虚析构一定要有具体实现**
 >
+
+
+
+##### 4.7.5.1 虚析构函数和普通纯虚函数的区别
+
+纯虚函数和普通纯虚函数的区别在于，**纯虚析构函数需要提供函数的实现，而一般纯虚函数不能有实现，这样的原因在于，纯虚析构函数最终需要被调用，以析构基类对象，虽然是抽象类没有实体。**而如果不提供该析构函数的实现，将使得在析构过程中，析构无法完成而导致析构异常的问题
+
+```c++
+Calss A
+{
+public:
+   A(){
+   }
+   virtual ~A()=0;
+}
+
+A::~A(){}
+
+ClassB : public A
+{
+
+}
+
+A *p =new B();
+Delete p;//通过父类指针去析构子类对象
+```
+
+通过父类指针去析构子类对象，**分三种情况**：
+
+1、父类如 A 的析构函数不是虚函数，这种情况下，将只会调用A的析构函数而不会调用子类的析构函数，前面的文章中有提到过，**非虚函数是通过类型来寻址的，这样的析构将会导致析构畸形**
+
+2、父类如 A 的析构函数是普通的虚函数，这种情况下，会很正常，从子类一直析构到基类，最后完成析构
+
+3、父类如 A 的析构函数是纯析构函数，如本文所提，正是重点，在这种情况之下，由于析构函数首先是虚函数，所以会按 2 的方法从子类一直析构到父类，但是，又由于父类的析构函数是纯虚函数，没有实现体，所以，当析构到父类时，由于没有实现体，所以导致父类无法析构，最终也导致了析构畸形，**因此，特殊的地方就在于这里，纯虚析构函数需要提供一个实现体，以完成对象的析构**
 
 
 
@@ -4948,21 +4982,13 @@ int main()
 
 
 
-
-
-
-
-
-
 ## 5 文件操作
-
-
 
 程序运行时产生的数据都属于临时数据，程序一旦运行结束都会被释放
 
-通过**文件可以将数据持久化**
+通过 <u>**文件可以将数据持久化**</u>
 
-C++中对文件操作需要包含头文件 ==&lt; fstream &gt;==
+C++中对文件操作需要包含头文件 &lt; **fstream** &gt;
 
 
 
@@ -4973,11 +4999,13 @@ C++中对文件操作需要包含头文件 ==&lt; fstream &gt;==
 
 
 
-操作文件的三大类:
+**操作文件的三大类:**
 
-1. ofstream：写操作
-2. ifstream： 读操作
-3. fstream ： 读写操作
+1. **ofstream：写操作**
+2. **ifstream： 读操作**
+3. **fstream ： 读写操作**
+
+
 
 
 
@@ -4987,93 +5015,91 @@ C++中对文件操作需要包含头文件 ==&lt; fstream &gt;==
 
    写文件步骤如下：
 
-1. 包含头文件   
+1. **包含头文件**   
 
      \#include <fstream\>
 
-2. 创建流对象  
+2. **创建流对象**  
 
    ofstream ofs;
 
-3. 打开文件
+3. **打开文件**
 
-   ofs.open("文件路径",打开方式);
+   ofs.open("文件路径", 打开方式);
 
-4. 写数据
+4. **写数据**
 
    ofs << "写入的数据";
 
-5. 关闭文件
+5. **关闭文件**
 
    ofs.close();
 
+   - 如果不关闭文件，
+   
    
 
 文件打开方式：
 
 | 打开方式    | 解释                       |
 | ----------- | -------------------------- |
-| ios::in     | 为读文件而打开文件         |
-| ios::out    | 为写文件而打开文件         |
+| ios::in     | 为**读**文件而打开文件     |
+| ios::out    | 为**写**文件而打开文件     |
 | ios::ate    | 初始位置：文件尾           |
 | ios::app    | 追加方式写文件             |
 | ios::trunc  | 如果文件存在先删除，再创建 |
 | ios::binary | 二进制方式                 |
 
-**注意：** 文件打开方式可以配合使用，利用|操作符
+**注意：** 文件打开方式可以配合使用，利用 `| `  操作符
 
 **例如：**用二进制方式写文件 `ios::binary |  ios:: out`
-
-
 
 
 
 **示例：**
 
 ```C++
-#include <fstream>
+#include <iostream>
+#include <fstream> //包含头文件
+using namespace std;
+
+//文本文件 写文件
 
 void test01()
 {
-	ofstream ofs;
-	ofs.open("test.txt", ios::out);
+    // 1. 包含头文件
+    //#include <fstream>
 
-	ofs << "姓名：张三" << endl;
-	ofs << "性别：男" << endl;
-	ofs << "年龄：18" << endl;
+    // 2. 创建流对象
+    ofstream newFile;
 
-	ofs.close();
+    // 3. 指定打开方式
+    newFile.open("56-File_writeFile_testFile.txt", ios::out);
+
+    // 4. 写文件内容
+    newFile << "姓名：张三" << endl;
+	newFile << "性别：男" << endl;
+	newFile << "年龄：18" << endl;
+
+    // 5. 关闭文件
+    newFile.close();
 }
 
-int main() {
-
-	test01();
-
-	
-
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
 
-总结：
-
-* 文件操作必须包含头文件 fstream
-* 读文件可以利用 ofstream  ，或者fstream类
-* 打开文件时候需要指定操作文件的路径，以及打开方式
-* 利用<<可以向文件中写数据
-* 操作完毕，要关闭文件
-
-
-
-
-
-
-
-
-
-
-
-
+> 总结：
+>
+> * 文件操作必须包含头文件 fstream
+> * 读文件可以利用 ofstream  ，或者fstream类
+> * 打开文件时候需要指定操作文件的路径，以及打开方式
+> * 利用 `<<` 可以向文件中写数据
+> * 操作完毕，**要关闭文件**
+>
 
 
 
@@ -5081,31 +5107,30 @@ int main() {
 
 #### 5.1.2读文件
 
-
-
 读文件与写文件步骤相似，但是读取方式相对于比较多
-
 
 
 读文件步骤如下：
 
-1. 包含头文件   
+1. **包含头文件**   
 
      \#include <fstream\>
 
-2. 创建流对象  
+2. **创建流对象**  
 
    ifstream ifs;
 
-3. 打开文件并判断文件是否打开成功
+3. **打开文件并判断文件是否打开成功**
 
    ifs.open("文件路径",打开方式);
 
-4. 读数据
+4. **读数据**
 
    四种方式读取
 
-5. 关闭文件
+   - 
+
+5. **关闭文件**
 
    ifs.close();
 
@@ -5114,76 +5139,80 @@ int main() {
 **示例：**
 
 ```C++
+#include <iostream>
 #include <fstream>
-#include <string>
+using namespace std;
+
+//文本文件 读文件
+
 void test01()
 {
-	ifstream ifs;
-	ifs.open("test.txt", ios::in);
+    // 1.包含头文件
+    // #include <fstream>
 
-	if (!ifs.is_open())
-	{
-		cout << "文件打开失败" << endl;
-		return;
-	}
+    // 2.创建文件对象
+    ifstream reader;
 
-	//第一种方式
-	//char buf[1024] = { 0 };
-	//while (ifs >> buf)
-	//{
-	//	cout << buf << endl;
-	//}
+    // 3.打开文件并判断是否打开成功
+    reader.open("56-File_writeFile_testFile.txt", ios::in);
 
-	//第二种
-	//char buf[1024] = { 0 };
-	//while (ifs.getline(buf,sizeof(buf)))
-	//{
-	//	cout << buf << endl;
-	//}
+    if (reader.is_open())
+    {
+        cout << "文件成功打开！" << endl;
+    }
+    else
+    {
+        cout << "文件打开失败！" << endl;
+        return;
+    }
 
-	//第三种
-	//string buf;
-	//while (getline(ifs, buf))
-	//{
-	//	cout << buf << endl;
-	//}
+    // 4.读数据
 
-	char c;
-	while ((c = ifs.get()) != EOF)
-	{
-		cout << c;
-	}
+    // 第一种方法
+    // char buf[1024] = {0};
+    // while (reader >> buf)
+    // {
+    //     cout << buf << endl;
+    // }
 
-	ifs.close();
+    // 第二种方法
+    // char buf[1024] = {0};
+    // while (reader.getline(buf, sizeof(buf)))
+    // {
+    //     cout << buf << endl;
+    // }
+ 
+    // 第三种方法
+    // string buf;
+    // while (getline(reader, buf))
+    // {
+    // 	cout << buf << endl;
+    // }
 
+    // 第四种方法(不推荐)
+    char c;
+    while ( (c = reader.get()) != EOF) // EOF: end of file
+    {
+        cout << c;
+    }
 
+    // 5.关闭文件
+    reader.close();
 }
 
-int main() {
-
-	test01();
-
-	
-
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
 
-总结：
-
-- 读文件可以利用 ifstream  ，或者fstream类
-- 利用is_open函数可以判断文件是否打开成功
-- close 关闭文件 
-
-
-
-
-
-
-
-
-
-
+> 总结：
+>
+> - 读文件可以利用 ifstream  ，或者fstream类
+> - 利用is_open函数可以判断文件是否打开成功
+> - close 关闭文件 
+>
 
 
 
@@ -5191,74 +5220,66 @@ int main() {
 
 ### 5.2 二进制文件
 
-以二进制的方式对文件进行读写操作
+以二进制的方式对文件进行读写操作，**<u>并且可以读写自定义的数据类型</u>**
 
-打开方式要指定为 ==ios::binary==
+打开方式要指定为` ios::binary`
 
 
 
 #### 5.2.1 写文件
 
-二进制方式写文件主要利用流对象调用成员函数write
+二进制方式写文件主要利用 流对象调用成员函数 **write**
 
 函数原型 ：`ostream& write(const char * buffer,int len);`
 
-参数解释：字符指针buffer指向内存中一段存储空间。len是读写的字节数
+**参数解释：字符指针 buffer 指向内存中一段存储空间。len 是读写的字节数**
 
 
 
 **示例：**
 
 ```C++
+#include <iostream>
 #include <fstream>
-#include <string>
+using namespace std;
 
 class Person
 {
 public:
-	char m_Name[64];
-	int m_Age;
+    char m_Name[64]; //姓名
+    int m_Age;       //年龄
 };
 
 //二进制文件  写文件
 void test01()
 {
-	//1、包含头文件
+    // 1、包含头文件
 
-	//2、创建输出流对象
-	ofstream ofs("person.txt", ios::out | ios::binary);
-	
-	//3、打开文件
-	//ofs.open("person.txt", ios::out | ios::binary);
+    // 2、创建输出流对象
+    ofstream ofs("58-person.txt", ios::out | ios::binary); //构造函数
 
-	Person p = {"张三"  , 18};
+    // 3、打开文件
+    // ofs.open("person.txt", ios::out | ios::binary);
 
-	//4、写文件
-	ofs.write((const char *)&p, sizeof(p));
+    // 4、写文件 - write 函数
+    Person p = {"张三", 18};
+    ofs.write((const char *)&p, sizeof(Person)); //注意要强转数据类型
 
-	//5、关闭文件
-	ofs.close();
+    // 5、关闭文件
+    ofs.close();
 }
 
-int main() {
-
-	test01();
-
-	
-
-	return 0;
+int main()
+{
+    test01();
+    return 0;
 }
 ```
 
-总结：
-
-* 文件输出流对象 可以通过write函数，以二进制方式写数据
-
-
-
-
-
-
+> 总结：
+>
+> * 文件输出流对象 可以通过 **write函数**，以二进制方式写数据
+>
 
 
 
@@ -5266,11 +5287,11 @@ int main() {
 
 #### 5.2.2 读文件
 
-二进制方式读文件主要利用流对象调用成员函数read
+二进制方式读文件主要利用流对象**调用成员函数 read**
 
 函数原型：`istream& read(char *buffer,int len);`
 
-参数解释：字符指针buffer指向内存中一段存储空间。len是读写的字节数
+参数解释：字符指针 buffer 指向内存中一段存储空间。len是读写的字节数
 
 示例：
 
@@ -5309,7 +5330,7 @@ int main() {
 }
 ```
 
-
-
-- 文件输入流对象 可以通过read函数，以二进制方式读数据
+> 总结：
+>
+> 文件输入流对象 可以通过 read 函数，以二进制方式读数据
 
