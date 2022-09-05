@@ -35,5 +35,8 @@ void test01()
 int main()
 {
     test01();
+
+    const char *url ="http://c.biancheng.net/cplus/";
+    cout << *url << endl;
     return 0;
 }

@@ -1,5 +1,9 @@
 # Cpp Basic Grammer Citation
 
+**仅供学习交流使用禁止用于商业用途：**
+
+**For study only. No commercial use is allowed:**
+
 https://blog.csdn.net/whzhaochao/article/details/12885875
 
 https://www.runoob.com/w3cnote/bit-operation.html
