@@ -5168,12 +5168,12 @@ void open(const char* szFileName, int mode)
 
 调用 open 成员函数时，给出的文件名可以是全路径的，如 `c:\\tmp\\test.txt` ， 指明文件在 c 盘的 tmp 文件夹中；也可以只给出文件名，如 `test1.txt` ，这种情况下程序会在当前文件夹（也就是可执 行程序所在的文件夹）中寻找要打开的文件。同样的，相对路径也是合法的，如 `..\\test3.txt`  代表要到上一层文件夹中查找 test3.txt
 
-在流对象上执行 open 成员函数，给出文件名和打开模式，就可以打开文件。判断文件打开是否成功，可以用成员函数 `.isopen()` 看返回值是否为 true，**如果文件打开成功，返回 true，反之返回 false。**
+在流对象上执行 open 成员函数，给出文件名和打开模式，就可以打开文件。判断文件打开是否成功，可以用成员函数 `.isopen()` 或者 文件名 看返回值是否为 true，**如果文件打开成功，返回 true，反之返回 false。**
 
 **示例：**
 
 ```c++
-    if (reader.is_open())
+    if (reader.is_open()) // if(reader)
     {
         cout << "文件成功打开！" << endl;
     }
@@ -5333,7 +5333,7 @@ int main() {
 
 
 
-#### 5.1.4 C++文本文件读写操作详解
+#### 5.1.4 文本文件读写操作详解
 
 在讲解具体读写文件的方法之前，首先要搞清楚的是，对文件的读/写操作又可以细分为 2 类，分别是以**文本形式**读写文件和以**二进制形式**读写文件。
 
@@ -5365,57 +5365,7 @@ C++ 标准库中提供了 2 套读写文件的方法组合，分别是：
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### 5.1.2 写文件
-
-   写文件步骤如下：
+##### **1. 写文件步骤如下：**
 
 1. **包含头文件**   
 
@@ -5485,16 +5435,15 @@ int main()
 
 
 
-#### 5.1.3 读文件
+
 
 读文件与写文件步骤相似，但是读取方式相对于比较多
 
-
-读文件步骤如下：
+##### **2. 读文件步骤如下：**
 
 1. **包含头文件**   
 
-     \#include <fstream\>
+   \#include <fstream\>
 
 2. **创建流对象**  
 
@@ -5506,9 +5455,7 @@ int main()
 
 4. **读数据**
 
-   四种方式读取
-
-   - 
+   多种方式读取
 
 5. **关闭文件**
 
@@ -5521,33 +5468,39 @@ int main()
 ```C++
 #include <iostream>
 #include <fstream>
+
 using namespace std;
 
-//文本文件 读文件
-
-void test01()
+int main()
 {
-    // 1.包含头文件
-    // #include <fstream>
 
-    // 2.创建文件对象
-    ifstream reader;
+    int x;
 
-    // 3.打开文件并判断是否打开成功
-    reader.open("56-File_writeFile_testFile.txt", ios::in);
+    int sum=0;
 
-    if (reader.is_open())
-    {
-        cout << "文件成功打开！" << endl;
-    }
-    else
-    {
-        cout << "文件打开失败！" << endl;
-        return;
+    ifstream srcFile("56-File_writeFile_testFile.txt", ios::in); //以文本模式打开 in.txt 备读
+
+    if (!srcFile)
+    { //打开失败
+
+        cout << "error opening source file." << endl;
+
+        return 0;
     }
 
-    // 4.读数据
+    //可以像用 cin 那样用 ifstream 对象
+    while (srcFile >> x)
+    {
+        sum+=x;
+    }
 
+    cout << "sum：" << sum << endl;
+    srcFile.close();
+
+    return 0;
+}
+
+    // 其他读数据方法
     // 第一种方法
     // char buf[1024] = {0};
     // while (reader >> buf)
@@ -5570,149 +5523,295 @@ void test01()
     // }
 
     // 第四种方法(不推荐)
-    char c;
-    while ( (c = reader.get()) != EOF) // EOF: end of file
-    {
-        cout << c;
-    }
-
-    // 5.关闭文件
-    reader.close();
-}
-
-int main()
-{
-    test01();
-    return 0;
-}
+    //char c;
+    //while ( (c = reader.get()) != EOF) // EOF: end of file
+    //{
+    //    cout << c;
+    //}
 ```
 
-> 总结：
->
-> - 读文件可以利用 ifstream  ，或者fstream类
-> - 利用is_open函数可以判断文件是否打开成功
-> - close 关闭文件 
->
+执行此程序之前，必须在和该程序源文件同目录中手动创建一个 "56-File_writeFile_testFile.txt" 文件，假设其内部存储的字符串为：
+
+```c
+10 20 30 40 50
+```
+
+建立之后，执行程序，其执行结果为：
+
+```
+sum：150
+```
+
+通过分析程序的执行结果不难理解，对于 in.txt 文件中的 "10 20 30 40 50" 字符串，srcFile 对象会依次将 "10"、"20"、"30"、"40"、"50" 读取出来，将它们解析成 int 类型的整数 10、20、30、40、50 并赋值给 x，同时完成和 sum 的加和操作。
+
+同样，对于每次从 in.txt 文件读取并解析出的整形 x，destFile 对象都会原封不动地将其再解析成对应的字符串 （如整数 10 解析成字符串 "10"），然后和 " " 空格符一起写入 out.txt 文件。
 
 
 
 
 
-### 5.2 二进制文件
+#### 5.1.5 read()和 write()读写二进制文件
 
-除了纯文本文件外，图像、视频、可执行文件等一般被称作“二进制文件”。二进制文件如果用“记事本”程 序打开，看到的是一片乱码。
+以二进制形式读写文件有哪些好处？
 
-以二进制的方式对文件进行读写操作，**<u>并且可以读写自定义的数据类型</u>**
+举个例子，现在要做一个学籍管理程序，其中一个重要的工作就是记录学生的学号、姓名、年龄等信息。这意 味着，我们需要用一个类 CStudent 来表示学生。以二进制形式将学生信息存储到文件中，是非常不错的选择，因为以此形式存储学生信息，**可以直接把 CStudent 对象写入文件中，**这意味着每个学生的信息都只占用 sizeof(CStudent) 个字节。
 
-打开方式要指定为` ios::binary`
-
-
-
-#### 5.2.1 写文件
-
-二进制方式写文件主要利用 流对象调用成员函数 **write**
-
-函数原型 ：`ostream& write(const char * buffer,int len);`
-
-**参数解释：字符指针 buffer 指向内存中一段存储空间。len 是读写的字节数**
+**⚠️注意：要实现以二进制形式读写文件，<< 和 >> 将不再适用，需要使用 C++ 标准库专门提供的 read() 和 write() 成员方法。其中，read() 方法用于以二进制形式从文件中读取数据；write() 方法用于以二进 制形式将数据写入文件。**
 
 
 
-**示例：**
+##### **1. ostream::write() 方法写文件**
 
-```C++
+**ofstream 和 fstream 的 write() 成员方法实际上继承自 ostream 类，其功能是将内存中 buffer 指向的 count 个字节的内容写入文件，**基本格式如下：
+
+```c++
+ostream & write(char* buffer, int count);
+```
+
+**其中，buffer 用于指定要写入文件的二进制数据的起始位置；count 用于指定写入字节的个数。** 也就是说，该方法可以被 ostream 类的 cout 对象调用，常用于向屏幕上输出字符串。同时，它还可以被 ofstream 或者 fstream 对象调用，用于将指定个数的二进制数据写入文件。 同时，该方法会返回一个作用于该函数的引用形式的对象。举个例子，obj.write() 方法的返回值就是对 obj 对象的引用。
+
+需要注意的一点是，write() 成员方法向文件中写入若干字节，可是调用 write() 函数时并没有指定这些字节写入文件中的具体位置。事实上，**write() 方法会从文件写指针指向的位置将二进制数据写入。**所谓文件写指针， 是 ofstream 或 fstream 对象内部维护的一个变量，**文件刚打开时，文件写指针指向的是文件的开头（如果以 ios::app 方式打开，则指向文件末尾）**，用 write() 方法写入 n 个字节，写指针指向的位置就向后移动 n 个 字节。
+
+
+下面的程序演示了如何将学生信息以二进制形式写入文件：
+
+```c++
 #include <iostream>
 #include <fstream>
 using namespace std;
 
-class Person
+class CStudent
 {
 public:
-    char m_Name[64]; //姓名
-    int m_Age;       //年龄
+    char szName[20];
+    int age;
 };
 
-//二进制文件  写文件
-void test01()
-{
-    // 1、包含头文件
-
-    // 2、创建输出流对象
-    ofstream ofs("58-person.txt", ios::out | ios::binary); //构造函数
-
-    // 3、打开文件
-    // ofs.open("person.txt", ios::out | ios::binary);
-
-    // 4、写文件 - write 函数
-    Person p = {"张三", 18};
-    ofs.write((const char *)&p, sizeof(Person)); //注意要强转数据类型
-
-    // 5、关闭文件
-    ofs.close();
-}
-
 int main()
+
 {
-    test01();
+    CStudent s;
+
+    ofstream outFile("students.dat", ios::out | ios::binary);
+
+    while (cin >> s.szName >> s.age)
+    {
+      	//&s 不是 char * 类型， 因此要进行强制类型转换
+        outFile.write((char *)&s, sizeof(s));
+    }
+
+    outFile.close();
+
     return 0;
 }
 ```
 
-> 总结：
->
-> * 文件输出流对象 可以通过 **write函数**，以二进制方式写数据
->
+输入：
+
+```
+Tom 60↙ 
+Jack 80↙ 
+Jane 40↙ 
+^D↙
+```
+
+其中，`↙`表示输出换行符，`^D` 表示输入 Ctrl+D 组合键结束输入。
+
+执行程序后，会自动生成一个 students.dat 文件，其内部存有 72 字节的数据，如果用“记事本”打开此文件， 可能看到如下乱码：
+
+```c++
+Tom 烫烫烫烫烫烫烫烫< Jack 烫烫烫烫烫烫烫蘌 Jane 烫烫烫烫烫烫烫?
+```
+
+值得一提的是，程序中指定文件的打开模式为 `ios::out | ios::binary`，即以二进制写模式打开。在 Windows 平台中，以二进制模式打开文件是非常有必要的，否则可能出错，原因会在《文件的文本打开方式和二进制打开方式的区别》一节中介绍。
+
+另外，将 s 对象写入文件。**s 的地址就是要写入文件的内存缓冲区的地址，**但是 &s 不是 char * 类型， 因此要进行**强制类型转换**；文件使用完毕一定要关闭，否则程序结束后文件的内容可能不完整。
 
 
 
+##### **2. istream::read() 方法读文件**
 
+**ifstream 和 fstream 的 read() 方法实际上继承自 istream 类，其功能正好和 write() 方法相反，即从文件中读 取 count 个字节的数据。**该方法的语法格式如下：
 
-#### 5.2.2 读文件
+```c++
+istream & read(char* buffer, int count);
+```
 
-二进制方式读文件主要利用流对象**调用成员函数 read**
+**其中，buffer 用于指定读取字节的起始位置，count 指定读取字节的个数。同样，该方法也会返回一个调用该方法的对象的引用。**
 
-函数原型：`istream& read(char *buffer,int len);`
+和 write() 方法类似，read() 方法从**文件读指针**指向的位置开始读取若干字节。所谓文件读指针，可以理解为是 ifstream 或 fstream 对象内部维护的一个变量。文件刚打开时，文件读指针指向文件的开头（如果以 ios::app 方式打开，则指向文件末尾），用 read() 方法读取 n 个字节，读指针指向的位置就向后移动 n 个字节。**因此，打开一个文件后连续调用 read() 方法，就能将整个文件的内容读取出来。**
 
-参数解释：字符指针 buffer 指向内存中一段存储空间。len是读写的字节数
+通过执行 write() 方法的示例程序，我们将 3 个学生的信息存储到了 students.dat 文件中，下面程序演示了如 何使用 read() 方法将它们读取出来：
 
-示例：
-
-```C++
+```c++
+#include <iostream>
 #include <fstream>
-#include <string>
+using namespace std;
 
-class Person
+class CStudent
+
 {
 public:
-	char m_Name[64];
-	int m_Age;
+    char szName[20];
+    int age;
 };
 
-void test01()
+int main()
+
 {
-	ifstream ifs("person.txt", ios::in | ios::binary);
-	if (!ifs.is_open())
-	{
-		cout << "文件打开失败" << endl;
-	}
+    CStudent s;
 
-	Person p;
-	ifs.read((char *)&p, sizeof(p));
+    ifstream inFile("students.dat", ios::in | ios::binary); //二进制读方式打开
 
-	cout << "姓名： " << p.m_Name << " 年龄： " << p.m_Age << endl;
+    if (!inFile)
+    {
+        cout << "error" << endl;
+        return 0;
+    }
+
+    while (inFile.read((char *)&s, sizeof(s))) //一直读到文件结束
+    { 
+        cout << s.szName << " " << s.age << endl;
+    }
+
+    inFile.close();
+    return 0;
 }
 
-int main() {
+```
 
-	test01();
+程序的输出结果是：
 
-	
+```
+Tom 60 
+Jack 80 
+Jane 40
+```
 
-	return 0;
+注意，程序中直接将 read() 方法作为 while 循环的判断条件，这意味着，read() 方法会一直读取到文件的末尾，将所有字节全部读取完毕，while 循环才会终止。
+
+另外，在使用 read() 方法的同时，如果想知道一共成功读取了多少个字节（读到文件尾时，未必能读取 count 个字节），可以在 read() 方法执行后立即调用文件流对象的 **gcount()** 成员方法，其返回值就是最近一次 read() 方法成功读取的字节数。感兴趣的读者可自行尝试，这里不再做具体演示。
+
+
+
+
+
+#### 5.1.6 get()和 put()读写文件详解
+
+在某些特殊的场景中，我们可能需要逐个读取文件中存储的字符，或者逐个将字符存储到文件中。这种情况下， 就可以调用 get() 和 put() 成员方法实现。
+
+
+##### **1. ostream::put()成员方法**
+
+通过[《C++ cout.put()》](http://c.biancheng.net/view/3750.html)一节的学习，读者掌握了如何通过执行 cout.put() 方法向屏幕输出单个字符。我们知道，fstream 和 ofstream 类继承自 ostream 类，因此 fstream 和 ofstream 类对象都可以调用 **put()** 方法。
+
+当 fstream 和 ofstream 文件流对象调用 put() 方法时，该方法的功能就变成了向指定文件中写入单个字符。 put() 方法的语法格式如下：
+
+```c++
+ostream& put (char c);
+```
+
+**其中，c 用于指定要写入文件的字符。该方法会返回一个调用该方法的对象的引用形式。**例如，obj.put() 方法 会返回 obj 这个对象的引用。
+
+举个例子：
+
+```c++
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+
+{
+    char c;
+
+    //以二进制形式打开文件
+    ofstream outFile("out.txt", ios::out | ios::binary);
+
+    if (!outFile)
+    {
+        cout << "error" << endl;
+        return 0;
+    }
+
+    while (cin >> c)
+    {
+        //将字符 c 写入 out.txt 文件
+        outFile.put(c);
+    }
+
+    outFile.close();
+    return 0;
 }
 ```
 
-> 总结：
->
-> 文件输入流对象 可以通过 read 函数，以二进制方式读数据
+执行程序，输入：
+
+```c+
+http://c.biancheng.net/cplus/↙
+^D↙
+```
+
+其中，`↙`表示输入换行符；
+
+`^D`是 Ctrl+D 的组合键，表示输入结束。
+
+由此，程序中通过执行 while 循环，会将 ` "http://c.biancheng.net/cplus/" ` 字符串的字符逐个复制给变量 c， 并逐个写入到 out.txt 文件。
+
+注意，由于文件存放在硬盘中，硬盘的访问速度远远低于内存。如果每次写一个字节都要访问硬盘，那么文件 的读写速度就会慢得不可忍受。因此，操作系统在接收到 put() 方法写文件的请求时，会先将指定字符存储在 一块指定的内存空间中（称为文件流输出缓冲区），等刷新该缓冲区（缓冲区满、关闭文件、手动调用 flush() 方法等，都会导致缓冲区刷新）时，才会将缓冲区中存储的所有字符“一股脑儿”全写入文件。
+
+
+
+##### **2. istream::get()成员方法**
+
+和 put() 成员方法的功能相对的是 **get()** 方法，其定义在 istream 类中，借助 cin.get() 可以读取用户输入的字符。在此基础上，fstream 和 ifstream 类继承自 istream 类，因此 fstream 和 ifstream 类的对象也能调用 get() 方法。
+
+当 fstream 和 ifstream 文件流对象调用 get() 方法时，其功能就变成了从指定文件中读取单个字符（还可以读 取指定长度的字符串）。值得一提的是，get() 方法的语法格式有很多[（请猛击这里了解详情）](https://cplusplus.com/reference/istream/istream/get/)，这里仅介绍最 常用的 2 种：
+
+```c#
+int get(); 
+istream& get (char& c);
+```
+
+其中，第一种语法格式的返回值就是读取到的字符，只不过返回的是它的 ASCII 码，如果碰到输入的末尾，则返回值为 EOF。第二种语法格式需要传递一个字符变量，get() 方法会自行将读取到的字符赋值给这个变量。
+
+本节前面在讲解 put() 方法时，生成了一个 out.txt 文件，下面的样例演示了如何通过 get() 方法逐个读取 out.txt 文件中的字符：
+
+```c++
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+    char c;
+
+    //以二进制形式打开文件 
+    ifstream inFile("students.dat", ios::out | ios::binary);
+
+    if (!inFile)
+    {
+        cout << "error" << endl;
+        return 0;
+    }
+
+    while ((c = inFile.get()) && c != EOF)
+    {
+        cout << c;
+    }
+
+    cout << endl;
+
+    inFile.close();
+    return 0;
+}
+```
+
+程序执行结果为：
+
+```
+http://c.biancheng.net/cplus/
+```
+
+注意，和 put() 方法一样，操作系统在接收到 get() 方法的请求后，哪怕只读取一个字符，也会一次性从文件中 将很多数据（通常至少是 512 个字节，因为硬盘的一个扇区是 512 B）读到一块内存空间中（可称为文件流输 入缓冲区），这样当读取下一个字符时，就不需要再访问硬盘中的文件，直接从该缓冲区中读取即可。
 
