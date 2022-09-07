@@ -8,6 +8,7 @@
 			"args": [
 				"-g",
 				"${file}",
+				"EmployeeManager.cpp",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}",
 				"--std=c++11"
