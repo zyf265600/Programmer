@@ -11,6 +11,12 @@
         "__nullptr": "cpp",
         "concepts": "cpp",
         "type_traits": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "regex": "cpp",
+        "__locale": "cpp",
+        "__string": "cpp",
+        "string": "cpp",
+        "string_view": "cpp",
+        "algorithm": "cpp"
     }
 }

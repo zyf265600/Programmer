@@ -2,15 +2,19 @@
 #include <iostream>
 using namespace std;
 
-class EmpolyeeManager{
+class EmpolyeeManager
+{
 
 public:
-    //constructor declaration
+    // constructor declaration
     EmpolyeeManager();
 
-    //show menu
+    // show menu
     void showMenu();
 
-    //destructor declaration
+    // Exit the System
+    void exitSystem();
+
+    // destructor declaration
     ~EmpolyeeManager();
 };

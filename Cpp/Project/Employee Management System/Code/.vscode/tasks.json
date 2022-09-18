@@ -9,6 +9,11 @@
 				"-g",
 				"${file}",
 				"EmployeeManager.cpp",
+				"Input_Tester.cpp",
+				"Employee.cpp",
+				"Staff.cpp",
+				"Manager.cpp",
+				"CEO.cpp",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}",
 				"--std=c++11"

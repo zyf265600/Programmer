@@ -22,6 +22,7 @@ public:
         this->m_Age = new int(*p.m_Age);
     }
 
+    //链式编程
     Person& operator=(Person p)
     {
         if (m_Age != NULL)
