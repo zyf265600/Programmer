@@ -59,7 +59,7 @@ To build a web site that shows data from a database, you will need:
 
 
 
-### 1.2 SQL Syntax
+### 1.2 Syntax
 
 #### 1.2.1 Database Tables
 
@@ -105,7 +105,7 @@ SELECT * FROM Customers;
 
 
 
-### 1.3 SQL Select Statement
+### 1.3 Select Statement
 
 #### 1.3.1 The SQL Select Statement
 
@@ -159,7 +159,7 @@ FROM (SELECT DISTINCT Country FROM Customers);
 
 
 
-### 1.4 SQL WHERE Clause
+### 1.4 WHERE Clause
 
 ==The `WHERE` clause is used to filter records.==
 
@@ -199,8 +199,8 @@ The `WHERE` clause can be combined with `AND`, `OR`, and `NOT` operators.
 
 The `AND` and `OR` operators are used to filter records based on more than one condition:
 
-- ==The `AND` operator displays a record if all the conditions separated by `AND` are TRUE.==
-- ==The `OR` operator displays a record if any of the conditions separated by `OR` is TRUE.==
+- **The `AND` operator displays a record if all the conditions separated by `AND` are TRUE.**
+- **The `OR` operator displays a record if any of the conditions separated by `OR` is TRUE.**
 
 The `NOT` operator displays a record if the condition(s) is NOT TRUE.
 
@@ -241,7 +241,99 @@ The `NOT` operator displays a record if the condition(s) is NOT TRUE.
    WHERE NOT Country='Germany' AND NOT Country='USA';
    ```
 
-   
+
+
+### 1.5 Order by Keyword
+
+**The `ORDER BY` keyword is used to sort the result-set in ==ascending== or descending order.**
+
+**The `ORDER BY` keyword sorts the records in ascending order by default. To sort the records in ==descending== order, use the `DESC` keyword.**
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1, column2, ... ASC|DESC;
+```
+
+The following SQL statement selects all customers from the "Customers" table, sorted by the "Country" column: **(alphabet sequence for string)**
+
+```sql
+SELECT * FROM Customers
+ORDER BY Country;
+```
+
+The following SQL statement selects all customers from the "Customers" table, sorted DESCENDING by the "Country" column:
+
+```sql
+SELECT * FROM Customers
+ORDER BY Country DESC;
+```
+
+**The following SQL statement selects all customers from the "Customers" table, sorted ascending by the "Country" and descending by the "CustomerName" column:**
+
+```sql
+SELECT * FROM Customers
+ORDER BY Country ASC, CustomerName DESC;
+```
+
+> (Priority from **LEFT** to **RIGHT**)
+
+
+
+### 1.6 Insert Into Statement 
+
+**The `INSERT INTO` statement is used to insert new records in a table.**
+
+#### 1.6.1 INSERT INTO Syntax
+
+It is possible to write the `INSERT INTO` statement in two ways:
+
+1. ==Specify both the column names and the values to be inserted:==
+
+   ```sql
+   INSERT INTO table_name (column1, column2, column3, ...)
+   VALUES (value1, value2, value3, ...);
+   ```
+
+2. ==If you are adding values for **all** the columns of the table, you do not need to specify the column names in the SQL query.== However, make sure the order of the values is in the same order as the columns in the table. Here, the `INSERT INTO` syntax would be as follows:
+
+   ```sql
+   INSERT INTO table_name
+   VALUES (value1, value2, value3, ...);
+   ```
+
+   > **Corresponding to each column**
+   >
+   > Only use when want to add values for **all** the columns of the table
+
+**:warning: NOTE: The CustomerID column is an auto-increment field and will be generated automatically when a new record is inserted into the table**
+
+
+
+#### 1.6.2 Insert Data Only in Specified Columns
+
+**It is also possible to only insert data in specific columns.**
+
+The following SQL statement will insert a new record, but only insert data in the "CustomerName", "City", and "Country" columns (CustomerID will be updated automatically):
+
+```sql
+INSERT INTO Customers (CustomerName, City, Country)
+VALUES ('Cardinal', 'Stavanger', 'Norway');
+```
+
+:warning:NOTE: The columns without any data will show **null**
+
+![image-20221021173538181](assets/image-20221021173538181.png)
+
+
+
+
+
+
+
+
+
+
 
 
 
