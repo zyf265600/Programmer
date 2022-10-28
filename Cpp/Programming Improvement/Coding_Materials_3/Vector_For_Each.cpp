@@ -12,6 +12,7 @@ void test01() {
 
 	//创建vector容器对象，并且通过模板参数指定容器中存放的数据的类型
 	vector<int> v;
+	
 	//向容器中放数据
 	v.push_back(10);
 	v.push_back(20);

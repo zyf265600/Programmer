@@ -295,7 +295,7 @@ It is possible to write the `INSERT INTO` statement in two ways:
    VALUES (value1, value2, value3, ...);
    ```
 
-2. ==If you are adding values for **all** the columns of the table, you do not need to specify the column names in the SQL query.== However, make sure the order of the values is in the same order as the columns in the table. Here, the `INSERT INTO` syntax would be as follows:
+2. ==If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.== However, make sure the order of the values is in the same order as the columns in the table. Here, the `INSERT INTO` syntax would be as follows:
 
    ```sql
    INSERT INTO table_name
@@ -303,27 +303,14 @@ It is possible to write the `INSERT INTO` statement in two ways:
    ```
 
    > **Corresponding to each column**
-   >
-   > Only use when want to add values for **all** the columns of the table
-
-**:warning: NOTE: The CustomerID column is an auto-increment field and will be generated automatically when a new record is inserted into the table**
 
 
 
-#### 1.6.2 Insert Data Only in Specified Columns
 
-**It is also possible to only insert data in specific columns.**
 
-The following SQL statement will insert a new record, but only insert data in the "CustomerName", "City", and "Country" columns (CustomerID will be updated automatically):
 
-```sql
-INSERT INTO Customers (CustomerName, City, Country)
-VALUES ('Cardinal', 'Stavanger', 'Norway');
-```
 
-:warning:NOTE: The columns without any data will show **null**
 
-![image-20221021173538181](assets/image-20221021173538181.png)
 
 
 

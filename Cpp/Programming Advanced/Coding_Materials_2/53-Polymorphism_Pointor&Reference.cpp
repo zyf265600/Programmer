@@ -53,13 +53,13 @@ private:
 };
 int main()
 {
-    // Dog dog;
-    // Animal &animal1 = dog;
+    Dog dog;
+    Animal &animal1 = dog;
     Animal *animal2 = new Dog;
-    // Animal animal3 = dog; //相当于 Animal animal3 = Dog(dog); 显示法 去调用构造函数 会调用 Animal 的拷贝函数
+    Animal animal3 = dog; //相当于 Animal animal3 = Dog(dog); 显示法 去调用构造函数 会调用 Animal 的拷贝函数
 
-    // animal1.eat();
+    animal1.eat();
     animal2->eat();
     delete animal2; //无法释放子类对象，此时需要使用虚析构 详见 54-Polymorphism_Destructor 
-    // animal3.eat();
+    animal3.eat();
 }
