@@ -1724,8 +1724,6 @@ int main() {
 
 	test01();
 
-
-
 	return 0;
 }
 ```
@@ -2313,7 +2311,7 @@ int main() {
 
 
 
-* vector 容器的迭代器是**支持随机访问**的迭代器
+* ==vector 容器的迭代器是**支持随机访问**的迭代器==
 
 
 
@@ -2326,9 +2324,9 @@ int main() {
 **函数原型：**
 
 * `vector<T> v; `               				       //采用模板实现类实现，默认构造函数
-* `vector(v.begin(), v.end());   `       //将v [ begin(), end() ) 区间中的元素拷贝给本身。
-* `vector(n, elem);`                             //构造函数将 n 个 elements 拷贝给本身。
-* `vector(const vector &vec);`         //拷贝构造函数。
+* `vector<T> v (v.begin(), v.end());   `       //将v [ begin(), end() ) 区间中的元素拷贝给本身。
+* `vector<T> v (n, elem);`                             //构造函数将 n 个 elements 拷贝给本身。
+* `vector<T> v (const vector &vec);`         //拷贝构造函数。
 
 
 
@@ -2373,11 +2371,7 @@ int main() {
 }
 ```
 
-**总结：**vector的多种构造方式没有可比性，灵活使用即可
-
-
-
-
+> **总结：**vector的多种构造方式没有可比性，灵活使用即可
 
 
 
@@ -2389,8 +2383,6 @@ int main() {
 
 * 给vector容器进行赋值
 
-
-
 **函数原型：**
 
 * `vector& operator=(const vector &vec);`//重载等号操作符
@@ -2398,8 +2390,6 @@ int main() {
 
 * `assign(beg, end);`       //将[beg, end)区间中的数据拷贝赋值给本身。
 * `assign(n, elem);`        //将n个elem拷贝赋值给本身。
-
-
 
 
 
@@ -2443,16 +2433,13 @@ int main() {
 
 	test01();
 
-
-
 	return 0;
 }
 
 ```
 
-总结： vector赋值方式比较简单，使用operator=，或者assign都可以
-
-
+> 总结： vector赋值方式比较简单，使用operator=，或者assign都可以
+>
 
 
 
@@ -2462,7 +2449,7 @@ int main() {
 
 **功能描述：**
 
-* 对vector容器的容量和大小操作
+* ==对vector容器的容量和大小操作==
 
 
 
@@ -2474,14 +2461,13 @@ int main() {
 
 * `size();`                              //返回容器中元素的个数
 
-* `resize(int num);`             //重新指定容器的长度为num，若容器变长，则以默认值填充新位置。
+* `resize(int num);`             //重新指定容器的长度为num，若容器变长，则以默认值 (0) 填充新位置。
 
   ​					      //如果容器变短，则末尾超出容器长度的元素被删除。
 
 * `resize(int num, elem);`  //重新指定容器的长度为num，若容器变长，则以elem值填充新位置。
 
   ​				              //如果容器变短，则末尾超出容器长度的元素被删除
-
 
 
 
@@ -2531,27 +2517,18 @@ int main() {
 
 	test01();
 
-
-
 	return 0;
 }
 
 ```
 
-总结：
-
-* 判断是否为空  --- empty
-* 返回元素个数  --- size
-* 返回容器容量  --- capacity
-* 重新指定大小  ---  resize
-
-
-
-
-
-
-
-
+> 总结：
+>
+> * 判断是否为空  --- empty
+> * 返回元素个数  --- size
+> * 返回容器容量  --- capacity
+> * 重新指定大小  ---  resize
+>
 
 
 
@@ -2561,7 +2538,7 @@ int main() {
 
 **功能描述：**
 
-* 对vector容器进行插入、删除操作
+* ==对vector容器进行插入、删除操作==
 
 
 
@@ -2574,8 +2551,6 @@ int main() {
 * `erase(const_iterator pos);`                     //删除迭代器指向的元素
 * `erase(const_iterator start, const_iterator end);`//删除迭代器从start到end之间的元素
 * `clear();`                                                        //删除容器中所有元素
-
-
 
 
 
@@ -2628,27 +2603,20 @@ int main() {
 
 	test01();
 
-
-
 	return 0;
 }
 ```
 
-总结：
-
-* 尾插  --- push_back
-* 尾删  --- pop_back
-* 插入  --- insert    (位置迭代器)
-* 删除  --- erase  （位置迭代器）
-* 清空  ---  clear  
-
-
-
-
-
-
-
-
+> 总结：
+>
+> * 尾插  --- push_back
+> * 尾删  --- pop_back
+> * 插入  --- insert    (位置迭代器)
+> * 删除  --- erase  （位置迭代器）
+> * 清空  ---  clear  
+>
+> 
+>
 
 
 
@@ -2656,13 +2624,9 @@ int main() {
 
 #### 3.2.6 vector数据存取
 
-
-
 **功能描述：**
 
-* 对vector中的数据的存取操作
-
-
+* ==对vector中的数据的存取操作==
 
 **函数原型：**
 
@@ -2670,8 +2634,6 @@ int main() {
 * `operator[]; `       //返回索引idx所指的数据
 * `front(); `            //返回容器中第一个数据元素
 * `back();`              //返回容器中最后一个数据元素
-
-
 
 
 
@@ -2708,23 +2670,16 @@ int main() {
 
 	test01();
 
-
-
 	return 0;
 }
 ```
 
-总结：
-
-* 除了用迭代器获取vector容器中元素，[ ]和at也可以
-* front返回容器第一个元素
-* back返回容器最后一个元素
-
-
-
-
-
-
+> 总结：
+>
+> * 除了用迭代器获取vector容器中元素，[ ]和at也可以
+> * front返回容器第一个元素
+> * back返回容器最后一个元素
+>
 
 
 
@@ -2734,15 +2689,13 @@ int main() {
 
 **功能描述：**
 
-* 实现两个容器内元素进行互换
+* ==实现两个容器内元素进行互换==
 
 
 
 **函数原型：**
 
 * `swap(vec);`  // 将vec与本身的元素互换
-
-
 
 
 
@@ -2807,7 +2760,6 @@ void test02()
 int main() {
 
 	test01();
-
 	test02();
 
 	return 0;
@@ -2815,11 +2767,14 @@ int main() {
 
 ```
 
-总结：swap可以使两个容器互换，可以达到实用的收缩内存效果
+> 总结：swap可以使两个容器互换，可以达到实用的**收缩内存**效果
+>
 
+```c++
+vector<int>(v).swap(v); //匿名对象 当前代码执行完，对象马上被释放 - 匿名对象特点
+```
 
-
-
+![image-20221029141139912](assets/image-20221029141139912.png)
 
 
 
@@ -2829,7 +2784,7 @@ int main() {
 
 **功能描述：**
 
-* 减少vector在动态扩展容量时的扩展次数
+* ==减少vector在动态扩展容量时的扩展次数==
 
 
 
@@ -2868,17 +2823,58 @@ int main() {
 
 	test01();
     
-
-
 	return 0;
 }
 ```
 
-总结：如果数据量较大，可以一开始利用reserve预留空间
+> 总结：如果数据量较大，可以一开始利用reserve预留空间
+>
 
 
 
 
+
+#### 3.2.9 vector 做函数返回值
+
+Vector本身存放在栈区，函数返回的Vector是右值，接收右值会调用移动语义，移动语义会修改对象所有权。
+因此栈内的数据没有随着函数结束被销毁，而是所有权发生了变更。
+更多移动语义相关介绍，可以看本人的文章。三、精通类与对象
+
+在下面的例子中，因为只是修改对象所有权，所以两个vec[0]的地址是相同的。
+
+```c#
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// 返回一个vector变量，并打印vec的地址和存放在容器中第一个数据的首地址
+vector<int> fun() {
+    vector<int> vec;    // 创建vector
+    vec.push_back(10);   // 添加一个元素
+
+    cout << "fun():&vec" << &vec << endl;
+    cout << "fun():&vec[0]" << &vec[0] << endl;
+
+    return vec;   // 返回vector
+
+}
+
+int main() {
+    vector<int> vec;   // 创建一个vector
+    vec = fun();      // 接收传来的参数
+
+    cout << "----------------------" <<endl;
+
+    cout << "main():&vec" << &vec << endl;
+    cout << "main():&vec[0]" << &vec[0] << endl;
+    
+    system("pause");
+    return 0;
+}
+```
+
+![【c++】——函数为什么能返回vector？_右值](https://s2.51cto.com/images/blog/202109/06/1f984b8301db20c4bc9828b591480a49.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_30,g_se,x_10,y_10,shadow_20,type_ZmFuZ3poZW5naGVpdGk=/format,webp/resize,m_fixed,w_1184)
 
 
 
@@ -5335,8 +5331,6 @@ void test01()
 int main() {
 
 	test01();
-
-
 
 	return 0;
 }

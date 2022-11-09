@@ -1512,7 +1512,7 @@ void test01() {
 
 	Person man(100); //p对象已经创建完毕
 	Person newman(man); //调用拷贝构造函数 括号法
-	Person newman2 = man; //调用拷贝构造函数 隐式转换法
+	Person newman2 = man; //调用拷贝构造函数 隐式转换法 相当于 Person newman2 = Person(man);
 
 	Person newman3;
 	newman3 = man; //不是调用拷贝构造函数，赋值操作
