@@ -135,18 +135,142 @@ Git 有三种状态，你的文件可能 处于其中之一： **已提交（com
 - 当执行 `git checkout .` 或者 `git checkout -- <file> ` 命令时，会用 index 全部或指定的文件替换 workspace 的文件。**这个操作很危险，会清除 workspace 中未添加到 index 中的改动。**
 - 当执行 `git checkout HEAD .` 或者 `git checkout HEAD <file>` 命令时，会用 HEAD 指向的 main 分支中的全部或者部分文件替换 index 和以及 workspace 中的文件。**这个命令也是极具危险性的，因为不但会清除workspace中未提交的改动，也会清除暂存区中未提交的改动。**
 
+==**思考：为什么Git要设计暂存区？(说实话看的不是很懂)**==
+
+Git 设计暂存区，决不是图什么操作方便、原子提交。更不是像某些人说的，用 GUI 就不需要暂存区了。**Git 的底层数据结构决定了必须设置暂存区**，不然就连最简单的 git diff 操作都可能很慢。理解 Git 的存区需要从底层原理入手。
+
+前文讲到，一个 commit 对象对应一个 tree 对象，一个 tree 对象对应多个 tree 对象或者 blob 对象。这些 object 都是根据对象的**内容**命名的。我们修改了某个文件之后，需要对比改动的状态和内容。这就需要查看该文件被修改之前的版本。这需要找到当前 commit 对应的 tree，然后根据被修改文件的**路径**该 tree 做**深度优先搜索**才能找到对应的 blob。如果文件目录的层级很深，每一次 git diff 都会触发大量的磁盘操作，势必拖慢速度。
+
+这个问题的根源是 tree 对象没有存储 blob 对象的**完整路径**，一个 blob 对象的路径信息被分散存储到了不同的 tree 对象中。例如前面提到的 ./foo/bar.txt，路径 foo 被存储到了 tree:612ef，文件名 bar.txt 则被存储到了 tree:69ccc 中。解决的思路也很简单，就是**加缓存**。
+
+暂存区是一个文件，路径为 .git/index。Git 使用了 mmap 将文件映射到内存，可以像内存一样操作文件内容。文件的内容是一组所谓的 entry，每个 entry 对应一个 blob 对象，并且存储了 blob 对象的**完整路径**和其他一些状态信息。所有的 entry 是按照 blob 对象的文件路径**升序排列**的。这样，对于给定路径，Git 可以使用**二分查找**快速找到对应的 blob 对象。
+
+所以，暂存区是 working directory 和 object database 纽带。
+
+更多完整内容请阅读 [博客原文](https://taoshu.in/git/git-internal.html)
 
 
-## Git 工作流程
 
-Git 一般工作流程如下：
 
-- Clone Git 资源作为工作目录。
-- 在克隆的资源上添加或修改文件。
-- 如果其他人修改了，你可以更新资源。
-- 在提交前查看修改。
-- 提交修改。
-- 在修改完成后，如果发现错误，可以撤回提交并再次修改并提交。
 
-如果 Git 目录中保存着特定版本的文件，就属于 已提交 状态。 如果文件已修改并放入暂存区，就属于 已暂存 状 态。 如果自上次检出后，作了修改但还没有放到暂存区域，就是 已修改 状态。 
+# 初次运行 Git 前的配置
+
+既然已经在系统上安装了 Git，你会想要做几件事来定制你的 Git 环境。 每台计算机上只需要配置一次，程序升 级时会保留配置信息。 你可以在任何时候再次通过运行命令来修改它们。
+
+Git 自带一个 git config 的工具来帮助设置控制 Git 外观和行为的配置变量。 这些变量存储在三个不同的位 置：
+
+1. /etc/gitconfig 文件: 包含系统上每一个用户及他们仓库的通用配置。 如果在执行 git config 时带上 --system 选项，那么它就会读写该文件中的配置变量。 （由于它是系统配置文件，因此你需要管理员或 超级用户权限来修改它。）
+
+2. ~/.gitconfig 或 ~/.config/git/config 文件：只针对当前用户。 你可以传递 --global 选项让 Git 读写此文件，这会对你系统上 所有 的仓库生效。
+
+3. 当前使用仓库的 Git 目录中的 config 文件（即 .git/config）：针对该仓库。 你可以传递 --local 选 项让 Git 强制读写此文件，虽然默认情况下用的就是它。。 （当然，你需要进入某个 Git 仓库中才能让该选 项生效。）
+
+**==每一个级别会覆盖上一级别的配置，所以 .git/config 的配置变量会覆盖 /etc/gitconfig 中的配置变量。==**
+
+**在 Windows 系统中**，Git 会查找 $HOME 目录下（一般情况下是 C:\Users\$USER ）的 .gitconfig 文件。 Git 同样也会寻找 /etc/gitconfig 文件，但只限于 MSys 的根目录下，即安装 Git 时所选的目标位置。 如果 你在 Windows 上使用 Git 2.x 以后的版本，那么还有一个系统级的配置文件，Windows XP 上在 C:\Documents and Settings\All Users\Application Data\Git\config ，Windows Vista 及更新 的版本在 C:\ProgramData\Git\config 。此文件只能以管理员权限通过 git config -f \<file> 来修 改。
+
+你可以通过以下命令查看所有的配置以及它们所在的文件：
+
+```$ git config --list --show-origin```
+
+
+
+## 用户信息
+
+安装完 Git 之后，要做的第一件事就是设置你的用户名和邮件地址。 这一点很重要，因为每一个 Git 提交都会使 用这些信息，它们会写入到你的每一次提交中，不可更改：
+
+```$ git config --global user.name "John Doe" ```
+
+```$ git config --global user.email johndoe@example.com```
+
+再次强调，如果使用了 --global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事 情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 **--global** 选项的命令来配置。
+
+很多 GUI 工具都会在第一次运行时帮助你配置这些信息。
+
+
+
+## 文本编辑器
+
+既然用户信息已经设置完毕，你可以配置默认**文本编辑器**了，当 Git 需要你输入信息时会调用它。 如果未配 置，Git 会使用操作系统默认的文本编辑器。
+
+如果你想使用不同的文本编辑器，例如 Emacs，可以这样做：
+
+```$ git config --global core.editor emacs```
+
+在 Windows 系统上，如果你想要使用别的文本编辑器，那么必须指定可执行文件的完整路径。 它可能随你的编 辑器的打包方式而不同。
+
+对于 Notepad++，一个流行的代码编辑器来说，你可能想要使用 32 位的版本， 因为在本书编写时 64 位的版本 尚不支持所有的插件。 如果你在使用 32 位的 Windows 系统，或在 64 位系统上使用 64 位的编辑器，那么你需 要输入如下命令：
+
+```$ git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"```
+
+![image-20230315212800206](assets/image-20230315212800206.png)
+
+
+
+## 检查配置信息
+
+如果想要检查你的配置，可以使用``` git config --list ```命令来列出所有 Git 当时能找到的配置。
+
+````txt
+$ git config --list 
+user.name=John Doe 
+user.email=johndoe@example.com 
+color.status=auto 
+color.branch=auto 
+color.interactive=auto 
+color.diff=auto 
+...
+````
+
+**你可能会看到重复的变量名，因为 Git 会从不同的文件中读取同一个配置（例如：/etc/gitconfig 与 ~/.gitconfig）。 这种情况下，Git 会使用它找到的每一个变量的最后一个配置。**
+
+你可以通过输入 ```git config <key>```： 来检查 Git 的某一项配置
+
+```txt
+$ git config user.name 
+John Doe
+```
+
+由于 Git 会从多个文件中读取同一配置变量的不同值，因此你可能会在其中看到意料之外的值 而不知道为什么。 此时，你可以查询 Git 中该变量的 原始 值，它会告诉你哪一个配置文件最 后设置了该值：
+
+```
+$ git config --show-origin rerere.autoUpdate 
+file:/home/johndoe/.gitconfig false
+```
+
+
+
+## 获取帮助
+
+若你使用 Git 时需要获取帮助，有三种等价的方法可以找到 Git 命令的综合手册（manpage）：
+
+```
+$ git help <verb> 
+$ git <verb> --help 
+$ man git-<verb>
+```
+
+例如，要想获得 git config 命令的手册，执行
+
+```
+$ git help config
+```
+
+这些命令很棒，因为你随时随地可以使用而无需联网。 如果你觉得手册或者本书的内容还不够用，你可以尝试 在 Freenode IRC 服务器 https://freenode.net 上的 #git 或 #github 频道寻求帮助。 这些频道经常有上百人 在线，他们都精通 Git 并且乐于助人。
+
+此外，如果你不需要全面的手册，只需要可用选项的快速参考，那么可以用 -h 选项获得更简明的 “help” 输出
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,4 +1,118 @@
-# Git 基本操作
+# Git 创建仓库
+
+通常有两种获取 Git 项目仓库的方式：
+
+1. **将尚未进行版本控制的本地目录转换为 Git 仓库；**
+
+2. **从其它服务器 clone 一个已存在的 Git 仓库。**
+
+两种方式都会在你的本地机器上得到一个工作就绪的 Git 仓库。
+
+
+
+## 在已存在目录中初始化仓库 git init
+
+如果你有一个尚未进行版本控制的项目目录，想要用 Git 来控制它，那么首先需要进入该项目目录中。之后执行：
+
+```
+$ git init
+```
+
+**该命令将创建一个名为 .git 的子目录，这个子目录含有你初始化的 Git 仓库中所有的必须文件，这些文件是 Git 仓库的骨干。** ==但是，在这个时候，我们仅仅是做了一个初始化的操作，你的项目里的文件还没有被跟踪。== (参见 Git 内部原理 来了解更多关于到底 .git 文件夹中包含了哪些文件的信息。) 如果在一个已存在文件的文件夹（而非空文件夹）中进行版本控制，你应该开始追踪这些文件并进行初始提交。 可以通过 **git add** 命令来指定所需的文件来进行追踪，然后执行 **git commit**
+
+ 此外，使用我们**指定目录**作为Git repository。
+
+```
+$ git init newrepo
+```
+
+初始化后，会在 newrepo 目录下会出现一个名为 .git 的目录，所有 Git 需要的数据和资源都存放在这个目录中。
+
+```
+$ git add *.c
+$ git add README
+$ git commit -m '初始化项目版本'
+```
+
+以上命令将目录下以 .c 结尾及 README 文件提交到repository中，且备注为“初始化项目版本”。
+
+> **注：** 在 Linux 系统中，commit 信息使用单引号 **'**，Windows 系统，commit 信息使用双引号 **"**。
+>
+> 所以在 git bash 中 **git commit -m '提交说明'** 这样是可以的，在 Windows 命令行中就要使用双引号 **git commit -m "提交说明"**。
+
+
+
+## 克隆现有的仓库 git clone
+
+如果你想获得一份已经存在了的 Git 仓库的拷贝，比如说，你想为某个开源项目贡献自己的一份力，这时就要用 到 git clone 命令。 如果你对其它的 VCS 系统（比如说 Subversion）很熟悉，请留心一下你所使用的命令 是"clone"而不是"checkout"。 这是 Git 区别于其它版本控制系统的一个重要特性，**Git 克隆的是该 Git 仓库服务 器上的几乎所有数据，而不是仅仅复制完成你的工作所需要文件。 ==当你执行 git clone 命令的时候，默认配置 下远程 Git 仓库中的每一个文件的每一个版本都将被拉取下来。==** 事实上，如果你的服务器的磁盘坏掉了，你通常 可以使用任何一个克隆下来的用户端来重建服务器上的仓库 （虽然可能会丢失某些服务器端的钩子（hook）设 置，但是所有版本的数据仍在，详见 在服务器上搭建 Git ）。
+
+克隆仓库的命令是 git clone \<url> 。 比如，要克隆 Git 的链接库 libgit2到当前目录，可以用下面的命令：
+
+```
+$ git clone https://github.com/libgit2/libgit2
+```
+
+如果我们需要克隆到指定的目录，可以使用以下命令格式：
+
+```
+$ git clone <repo> <directory>
+```
+
+这会在目标目录下创建一个名为 “libgit2” 的目录，并在这个目录下初始化一个 .git 文件夹， 从远程仓库拉 取下所有数据放入 .git 文件夹，然后从中读取最新版本的文件的拷贝。 如果你进入到这个新建的 libgit2 文 件夹，你会发现所有的项目文件已经在里面了，准备就绪等待后续的开发和使用。
+
+如果你想在克隆远程仓库的时候，自定义本地仓库的名字，你可以通过额外的参数指定新的目录名：
+
+```
+$ git clone https://github.com/libgit2/libgit2 mylibgit
+```
+
+这会执行与上一条命令相同的操作，但目标目录名变为了 mylibgit。
+
+Git 支持多种数据传输协议。 上面的例子使用的是 https:// 协议，不过你也可以使用 git:// 协议或者使用 SSH 传输协议，比如 user@server:path/to/repo.git 。 在服务器上搭建 Git 将会介绍所有这些协议在服 务器端如何配置使用，以及各种方式之间的利弊。
+
+
+
+## 配置
+
+git 的设置使用 `git config` 命令。
+
+显示当前的 git 配置信息：
+
+```
+$ git config --list
+credential.helper=osxkeychain
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+```
+
+编辑 git 配置文件:
+
+```
+$ git config -e    # 针对当前仓库 
+```
+
+或者：
+
+```
+$ git config -e --global   # 针对系统上所有仓库
+```
+
+设置提交代码时的用户信息：
+
+```
+$ git config --global user.name "runoob"
+$ git config --global user.email test@runoob.com
+```
+
+*如果去掉 **--global** 参数只对当前仓库有效。*
+
+
+
+# Git 基本指令
 
 Git 的工作就是创建和保存你项目的快照及与之后的快照进行对比。
 
