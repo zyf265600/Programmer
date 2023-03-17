@@ -72,43 +72,50 @@ Git 支持多种数据传输协议。 上面的例子使用的是 https:// 协�
 
 
 
-## 配置
+## 记录每次更新到仓库
 
-git 的设置使用 `git config` 命令。
+现在我们的机器上有了一个 **真实项目** 的 Git 仓库，并从这个仓库中检出了所有文件的 工作副本。 通常，你会对 这些文件做些修改，每当完成了一个阶段的目标，想要将记录下它时，就将它提交到仓库。
 
-显示当前的 git 配置信息：
+请记住，你工作目录下的每一个文件都不外乎这两种状态：已跟踪 或 未跟踪。 **已跟踪的文件是指那些被纳入了 版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后， 它们的状态可能是未修改，已修改或已放入暂存区。简而言之，已跟踪的文件就是 Git 已经知道的文件。**
 
-```
-$ git config --list
-credential.helper=osxkeychain
-core.repositoryformatversion=0
-core.filemode=true
-core.bare=false
-core.logallrefupdates=true
-core.ignorecase=true
-core.precomposeunicode=true
-```
+工作目录中除已跟踪文件外的其它所有文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有被放 入暂存区。 初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态，因为 Git 刚刚检出了它们， 而你尚未编辑过它们。==（比如 Programmer 就是已追踪文件，此外都是未追踪文件）==
 
-编辑 git 配置文件:
+编辑过某些文件之后，由于自上次提交后你对它们做了修改，Git 将它们标记为已修改文件。 在工作时，你可以 选择性地将这些修改过的文件放入暂存区，然后提交所有已暂存的修改，如此反复。
+
+![image-20230316022240531](assets/image-20230316022240531.png)
+
+### 检查当前文件状态
+
+可以用 **git status** 命令查看哪些文件处于什么状态。
 
 ```
-$ git config -e    # 针对当前仓库 
+$ git status 
+On branch master 
+Your branch is up-to-date with 'origin/master'. 
+nothing to commit, working directory clean
 ```
 
-或者：
 
-```
-$ git config -e --global   # 针对系统上所有仓库
-```
 
-设置提交代码时的用户信息：
 
-```
-$ git config --global user.name "runoob"
-$ git config --global user.email test@runoob.com
-```
 
-*如果去掉 **--global** 参数只对当前仓库有效。*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
