@@ -135,7 +135,9 @@ Git 有三种状态，你的文件可能 处于其中之一： **已提交（com
 - 当执行 `git checkout .` 或者 `git checkout -- <file> ` 命令时，会用 index 全部或指定的文件替换 workspace 的文件。**这个操作很危险，会清除 workspace 中未添加到 index 中的改动。**
 - 当执行 `git checkout HEAD .` 或者 `git checkout HEAD <file>` 命令时，会用 HEAD 指向的 main 分支中的全部或者部分文件替换 index 和以及 workspace 中的文件。**这个命令也是极具危险性的，因为不但会清除workspace中未提交的改动，也会清除暂存区中未提交的改动。**
 
-==**思考：为什么Git要设计暂存区？(说实话看的不是很懂)**==
+
+
+## **思考：为什么Git要设计暂存区？**
 
 Git 设计暂存区，决不是图什么操作方便、原子提交。更不是像某些人说的，用 GUI 就不需要暂存区了。**Git 的底层数据结构决定了必须设置暂存区**，不然就连最简单的 git diff 操作都可能很慢。理解 Git 的存区需要从底层原理入手。
 

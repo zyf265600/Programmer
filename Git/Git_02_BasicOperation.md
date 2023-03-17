@@ -10,7 +10,7 @@
 
 
 
-## 在已存在目录中初始化仓库 git init
+## git init (初始化仓库) 
 
 如果你有一个尚未进行版本控制的项目目录，想要用 Git 来控制它，那么首先需要进入该项目目录中。之后执行：
 
@@ -42,7 +42,7 @@ $ git commit -m '初始化项目版本'
 
 
 
-## 克隆现有的仓库 git clone
+## git clone (克隆现有的仓库) 
 
 如果你想获得一份已经存在了的 Git 仓库的拷贝，比如说，你想为某个开源项目贡献自己的一份力，这时就要用 到 git clone 命令。 如果你对其它的 VCS 系统（比如说 Subversion）很熟悉，请留心一下你所使用的命令 是"clone"而不是"checkout"。 这是 Git 区别于其它版本控制系统的一个重要特性，**Git 克隆的是该 Git 仓库服务 器上的几乎所有数据，而不是仅仅复制完成你的工作所需要文件。 ==当你执行 git clone 命令的时候，默认配置 下远程 Git 仓库中的每一个文件的每一个版本都将被拉取下来。==** 事实上，如果你的服务器的磁盘坏掉了，你通常 可以使用任何一个克隆下来的用户端来重建服务器上的仓库 （虽然可能会丢失某些服务器端的钩子（hook）设 置，但是所有版本的数据仍在，详见 在服务器上搭建 Git ）。
 
@@ -72,7 +72,9 @@ Git 支持多种数据传输协议。 上面的例子使用的是 https:// 协�
 
 
 
-## 记录每次更新到仓库
+
+
+# Git 记录每次更新到仓库
 
 现在我们的机器上有了一个 **真实项目** 的 Git 仓库，并从这个仓库中检出了所有文件的 工作副本。 通常，你会对 这些文件做些修改，每当完成了一个阶段的目标，想要将记录下它时，就将它提交到仓库。
 
@@ -84,34 +86,258 @@ Git 支持多种数据传输协议。 上面的例子使用的是 https:// 协�
 
 ![image-20230316022240531](assets/image-20230316022240531.png)
 
-### 检查当前文件状态
+## git status (状态查询命令)
 
-可以用 **git status** 命令查看哪些文件处于什么状态。
+git status 命令用于查看在你上次提交之后是否有对文件进行再次修改。
 
 ```
-$ git status 
-On branch master 
-Your branch is up-to-date with 'origin/master'. 
-nothing to commit, working directory clean
+$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+    new file:   README
+    new file:   hello.php
 ```
 
-这说明你现在的工作目录相当干净。换句话说，所有已跟踪文件在上次提交后都未被更改过。 此外，上面的信 息还表明，当前目录下没有出现任何处于未跟踪状态的新文件，否则 Git 会在这里列出来。 最后，该命令还显示 了当前所在分支，并告诉你这个分支同远程服务器上对应的分支没有偏离。 现在，分支名是“master”，这是 默认的分支名。
+通常我们使用 **-s** 参数来获得简短的输出结果：
+
+```
+$ git status -s
+AM README
+A  hello.php
+```
+
+![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
+
+==新添加的未跟踪文件前面有 ?? 标记，新添加到暂存区中的文件前面有 A 标记，修改过的文件前面有 M 标记。==
+
+**AM** 状态的意思是这个文件在我们将它添加到缓存之后又有改动。
 
 
 
 
 
+## git add (跟踪新文件)
+
+**git add** 命令可将该文件添加到暂存区也就是**开始追踪一个新文件**。
+
+添加一个或多个文件到暂存区：
+
+```
+git add [file1] [file2] ...
+```
+
+添加指定目录到暂存区，包括子目录：
+
+```
+git add [dir]
+```
+
+==**添加当前目录下的所有文件到暂存区：**==
+
+```
+git add .
+```
+
+以下实例我们添加两个文件：
+
+```
+$ touch README                # 创建文件
+$ touch hello.php             # 创建文件
+$ ls
+README        hello.php
+$ git status -s
+?? README
+?? hello.php
+$ 
+```
+
+![img](https://www.runoob.com/wp-content/uploads/2015/02/B8B4BCDD-158E-4A48-AF22-55CBE0D89F62.jpg)
+
+git status 命令用于查看项目的当前状态。
+
+接下来我们执行 git add 命令来添加文件：
+
+```
+$ git add README hello.php 
+```
+
+现在我们再执行 git status，就可以看到这两个文件已经加上去了。
+
+```
+$ git status -s
+A  README
+A  hello.php
+$ 
+```
+
+![img](https://www.runoob.com/wp-content/uploads/2020/08/C87C909B-94F9-496B-B942-1FE9DD464843.jpg)
+
+新项目中，添加所有文件很普遍，我们可以使用 **git add .** 命令来添加当前项目的所有文件。
+
+现在我们修改 README 文件：
+
+```
+$ vim README
+```
+
+在 README 添加以下内容：**# Runoob Git 测试**，然后保存退出。
+
+再执行一下 git status：
+
+```
+$ git status -s
+AM README
+A  hello.php
+```
+
+![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
+
+**AM 状态的意思是这个文件在我们将它添加到缓存之后又有改动**。改动后我们再执行 **git add .** 命令将其添加到缓存中：
+
+```
+$ git add .
+$ git status -s
+A  README
+A  hello.php
+```
 
 
 
+## git diff (查看修改内容)
+
+```
+git diff 
+```
+
+命令目的 —— 查看：
+
+- **当前做的哪些更新尚未暂存？**
+- **有哪些更新已暂存并准备好下次提交？**
+
+此命令比较的是工作目录中当前文件和暂存区域快照之间的差异。 ==**也就是修改之后还没有暂存起来的变化内容。**==
+
+**==若要查看已暂存的将要添加到下次提交里的内容，==**可以用
+
+```
+ git diff --staged 
+ 或者  git diff --cached (--staged 同义词)
+```
+
+ 这条命令将比对**已暂存文件与最后一次提交的文件差异**
+
+⚠️注意，**git diff 本身只显示尚未暂存的改动**，而不是自上次提交以来所做的所有改动。 所以有时候你一下子暂存了所有更新过的文件，运行 git diff 后却什么也没有，就是这个原因。
 
 
 
+## git commit (提交命令)
 
+前面章节我们使用 git add 命令将内容写入暂存区。
 
+==**git commit 命令将暂存区内容添加到本地仓库中。**==
 
+提交暂存区到本地仓库中:
 
+```
+git commit -m [message]
+```
 
+[message] 可以是一些备注信息。 ***必须要写***
+
+提交暂存区的指定文件到仓库区：
+
+```
+$ git commit [file1] [file2] ... -m [message]
+```
+
+**-a** 参数设置修改文件后不需要执行 git add 命令，直接来提交
+
+```
+$ git commit -m "comments" -a
+```
+
+**设置提交代码时的用户信息**
+
+开始前我们需要先设置提交的用户信息，包括用户名和邮箱：
+
+```
+$ git config --global user.name 'runoob'
+$ git config --global user.email test@runoob.com
+```
+
+如果去掉 --global 参数只对当前仓库有效。
+
+**提交修改**
+
+接下来我们就可以对 hello.php 的所有改动从暂存区内容添加到本地仓库中。
+
+以下实例，我们使用 -m 选项以在命令行中提供提交注释。
+
+```
+$ git add hello.php
+$ git status -s
+A  README
+A  hello.php
+$ git commit -m '第一次版本提交'
+[master (root-commit) d32cf1f] 第一次版本提交
+ 2 files changed, 4 insertions(+)
+ create mode 100644 README
+ create mode 100644 hello.php
+ 
+```
+
+现在我们已经记录了快照。如果我们再执行 git status:
+
+```
+$ git status
+# On branch master
+nothing to commit (working directory clean)
+```
+
+以上输出说明我们在最近一次提交之后，没有做任何改动，是一个 "working directory clean"，翻译过来就是干净的工作目录。
+
+如果你没有设置 -m 选项，Git 会尝试为你打开一个编辑器以填写提交信息。 如果 Git 在你对它的配置中找不到相关信息，默认会打开 vim。屏幕会像这样：
+
+```
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+# modified:   hello.php
+#
+~
+~
+".git/COMMIT_EDITMSG" 9L, 257C
+```
+
+==如果你觉得 git add 提交缓存的流程太过繁琐，Git 也允许你用 -a 选项跳过这一步。命令格式如下：==
+
+```
+git commit -a
+```
+
+我们先修改 hello.php 文件为以下内容：
+
+```
+<?php
+echo '菜鸟教程：www.runoob.com';
+echo '菜鸟教程：www.runoob.com';
+?>
+```
+
+再执行以下命令：
+
+```
+$ git commit -am '修改 hello.php 文件'
+[master 71ee2cb] 修改 hello.php 文件
+ 1 file changed, 1 insertion(+)
+```
 
 
 
@@ -246,125 +472,11 @@ Git 的工作就是创建和保存你的项目的快照及与之后的快照进�
 
 下面列出了有关创建与提交你的项目的快照的命令：
 
-### git add (添加命令):
-
-**git add** 命令可将该文件添加到暂存区。
-
-添加一个或多个文件到暂存区：
-
-```
-git add [file1] [file2] ...
-```
-
-添加指定目录到暂存区，包括子目录：
-
-```
-git add [dir]
-```
-
-**添加当前目录下的所有文件到暂存区：**
-
-```
-git add .
-```
-
-以下实例我们添加两个文件：
-
-```
-$ touch README                # 创建文件
-$ touch hello.php             # 创建文件
-$ ls
-README        hello.php
-$ git status -s
-?? README
-?? hello.php
-$ 
-```
-
-![img](https://www.runoob.com/wp-content/uploads/2015/02/B8B4BCDD-158E-4A48-AF22-55CBE0D89F62.jpg)
-
-git status 命令用于查看项目的当前状态。
-
-接下来我们执行 git add 命令来添加文件：
-
-```
-$ git add README hello.php 
-```
-
-现在我们再执行 git status，就可以看到这两个文件已经加上去了。
-
-```
-$ git status -s
-A  README
-A  hello.php
-$ 
-```
-
-![img](https://www.runoob.com/wp-content/uploads/2020/08/C87C909B-94F9-496B-B942-1FE9DD464843.jpg)
-
-新项目中，添加所有文件很普遍，我们可以使用 **git add .** 命令来添加当前项目的所有文件。
-
-现在我们修改 README 文件：
-
-```
-$ vim README
-```
-
-在 README 添加以下内容：**# Runoob Git 测试**，然后保存退出。
-
-再执行一下 git status：
-
-```
-$ git status -s
-AM README
-A  hello.php
-```
-
-![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
-
-**AM 状态的意思是这个文件在我们将它添加到缓存之后又有改动**。改动后我们再执行 **git add .** 命令将其添加到缓存中：
-
-```
-$ git add .
-$ git status -s
-A  README
-A  hello.php
-```
-
-**文件修改后，我们一般都需要进行 git add 操作，从而保存历史版本。**
 
 
 
 
 
-### git status (状态查询命令):
-
-git status 命令用于查看在你上次提交之后是否有对文件进行再次修改。
-
-```
-$ git status
-On branch master
-
-Initial commit
-
-Changes to be committed:
-  (use "git rm --cached <file>..." to unstage)
-
-    new file:   README
-    new file:   hello.php
-```
-
-通常我们使用 **-s** 参数来获得简短的输出结果：
-
-```
-$ git status -s
-AM README
-A  hello.php
-```
-
-![img](https://www.runoob.com/wp-content/uploads/2020/08/F3B705BE-7D52-46E7-BF64-EA0EFCC52373.jpg)
-
-**AM** 状态的意思是这个文件在我们将它添加到缓存之后又有改动。
 
 
 
