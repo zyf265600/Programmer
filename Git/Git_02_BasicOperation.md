@@ -386,11 +386,7 @@ git rm -f runoob.txt
 git rm --cached <file>
 ```
 
-以下实例从暂存区中删除 runoob.txt 文件：
-
-```
-git rm --cached runoob.txt
-```
+此指令只会 untrack 选定文件，也就是从暂存区移除，**依然需要使用 commit 更新删除后版本库**。此外，
 
 **实例**
 
