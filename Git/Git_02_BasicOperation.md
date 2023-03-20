@@ -386,7 +386,7 @@ git rm -f runoob.txt
 git rm --cached <file>
 ```
 
-此指令只会 untrack 选定文件，也就是从暂存区移除，**依然需要使用 commit 更新删除后版本库**。此外，
+此指令只会 untrack 选定文件，也就是从暂存区移除，**依然需要使用 commit 更新删除后版本库**。此外，如果文件有修改并 git add 到暂存区，再执行 git rm --cached 和 git commit，那么保留的工作区文件是修改后的文件，同时暂存区的修改文件和版本库的文件也被删了。
 
 **实例**
 
