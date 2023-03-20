@@ -386,7 +386,7 @@ git rm -f runoob.txt
 git rm --cached <file>
 ```
 
-此指令只会 untrack 选定文件，也就是从暂存区移除，**依然需要使用 commit 更新删除后版本库**。此外，如果文件有修改并 git add 到暂存区，再执行 git rm --cached 和 git commit，那么保留的工作区文件是修改后的文件，同时暂存区的修改文件和版本库的文件也被删了。
+此指令只会 untrack 选定文件，也就是从暂存区移除，**依然需要使用 commit 更新删除后版本库**。==**此外，如果文件有修改，无论是否 git add 到暂存区，执行 git rm --cached 暂存区文件都会被删除，并且保留的工作区文件是修改后的文件。**==然后 commit， 那么版本库的文件也被删了。
 
 **实例**
 
@@ -429,21 +429,15 @@ git mv [file] [newfile]
 git mv -f [file] [newfile]
 ```
 
-我们可以添加一个 README 文件（如果没有的话）：
+**其实，运行 git mv 就相当于运行了下面三条命令：**
 
 ```
-$ git add README 
+$ mv README.md README 
+$ git rm README.md 
+$ git add README
 ```
 
-然后对其重命名:
-
-```
-$ git mv README  README.md
-$ ls
-README.md
-```
-
-
+如此分开操作，Git 也会意识到这是一次重命名，所以不管何种方式结果都一样。 两者唯一的区别在于，git mv 是一条命令而非三条命令，直接使用 git mv 方便得多。 不过在使用其他工具重命名文件时，记得在提交前 git rm 删除旧文件名，再 git add 添加新文件名。
 
 
 
