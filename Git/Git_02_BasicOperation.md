@@ -619,26 +619,23 @@ b6c8d2d Documentation/remote-helpers: Add invocation section
 636db2c t3301: add tests to use --format="%N"
 ```
 
-**git log  的常用选项**
+**该命令可用的格式十分丰富——可以是类似 "2008-01-15" 的具体的某一天，也可以是类似 "2 years 1 day 3 minutes ago" 的相对日期。**
 
-| 选项            | 说明                                                         |
-| --------------- | ------------------------------------------------------------ |
-| -p              | 按补丁格式显示每个提交引入的差异。                           |
-| --stat          | 显示每次提交的文件修改统计信息。                             |
-| --shortstat     | 只显示 --stat 中最后的行数修改添加移除统计。                 |
-| --name-only     | 仅在提交信息后显示已修改的文件清单。                         |
-| --name-status   | 显示新增、修改、删除的文件清单。                             |
-| --abbrev-commit | 仅显示SHA-1 校验和所有 40 个字符中的前几个字符。             |
-| --relative-date | 使用较短的相对时间而不是完整格式显示日期（比如“2weeks ago”）。 |
-| --graph         | 在日志旁以 ASCII 图形显示分支与合并历史。                    |
-| --pretty        | 使用其他格式显示历史提交信息。可用的选项包括 oneline、short、full、fuller 和 format（用来定义自己的格式）。 |
-| --oneline       | --pretty=oneline --abbrev-commit 合用的简写。                |
+**10. 用 git log -S 选项来接受一个字 符串参数，并且只会显示那些添加或删除了该字符串的提交**
 
-更多 git log 命令可查看：http://git-scm.com/docs/git-log
+假设你想找出添加或删除了对某一个特定函数的 引用的提交，可以调用：
+
+```
+$ git log -S function_name
+```
 
 
+**11. 在 git log 选项的最后指定路径，只显示某些文件或者目录的历史提交**
 
-如果要查看指定文件的修改记录可以使用 **git blame** 命令，格式如下： 
+如果只关心某些文件或者目录的历史提交，可以在 git log 选项的最后指定它们的路径。 **因为是放在最后位置上的选项，所以用两个短划线（--）隔开之前的选项和后面限 定的路径名。**
+
+
+**12. 用 git blame 选项来查看指定文件的修改记录**
 
 ```
 git blame <file>
@@ -651,6 +648,106 @@ $ git blame README
 ^d2097aa (tianqixin 2020-08-25 14:59:25 +0800 1) # Runoob Git 测试
 db9315b0 (runoob    2020-08-25 16:00:23 +0800 2) # 菜鸟教程 
 ```
+
+
+
+==**git log  的常用选项**==
+
+| 选项              | 说明                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| -p                | 按补丁格式显示每个提交引入的差异。                           |
+| --stat            | 显示每次提交的文件修改统计信息。                             |
+| --shortstat       | 只显示 --stat 中最后的行数修改添加移除统计。                 |
+| --name-only       | 仅在提交信息后显示已修改的文件清单。                         |
+| --name-status     | 显示新增、修改、删除的文件清单。                             |
+| --abbrev-commit   | 仅显示SHA-1 校验和所有 40 个字符中的前几个字符。             |
+| --relative-date   | 使用较短的相对时间而不是完整格式显示日期（比如“2weeks ago”）。 |
+| --graph           | 在日志旁以 ASCII 图形显示分支与合并历史。                    |
+| --pretty          | 使用其他格式显示历史提交信息。可用的选项包括 oneline、short、full、fuller 和 format（用来定义自己的格式）。 |
+| --oneline         | --pretty=oneline --abbrev-commit 合用的简写。                |
+| -\<n>             | 仅显示最近的 n 条提交。                                      |
+| --since, --after  | 仅显示指定时间之后的提交。                                   |
+| --until, --before | 仅显示指定时间之前的提交。                                   |
+| --author          | 仅显示作者匹配指定字符串的提交。                             |
+| --committer       | 仅显示提交者匹配指定字符串的提交。                           |
+| --grep            | 仅显示提交说明中包含指定字符串的提交。                       |
+| -S                | 仅显示添加或删除内容匹配指定字符串的提交。                   |
+
+更多 git log 命令可查看：http://git-scm.com/docs/git-log
+
+
+
+**实例总结：**
+
+如果要在 Git 源码库中查看 Junio Hamano 在 2008 年 10 月其间， 除了合并提交之外的 哪一个提交修改了测试文件，可以使用下面的命令：
+
+```
+$ git log --pretty="%h - %s" --author='Junio C Hamano' --since="2008-10-01" \
+	--before="2008-11-01" --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are in use 
+acd3b9e - Enhance hold_lock_file_for_{update,append}() API 
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD 
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths 
+51a94af - Fix "checkout --track -b newbranch" on detached HEAD b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unborn branch
+```
+
+
+
+# Git 撤销操作
+
+在任何一个阶段，你都有可能想要撤消某些操作。 这里，我们将会学习几个撤消你所做修改的基本工具。 注 意，有些撤消操作是不可逆的。 这是在使用 Git 的过程中，会因为操作失误而导致之前的工作丢失的少有的几个 地方之一。
+
+
+
+## git commit --amend (重新提交)
+
+这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了 此命令）， 那么快照会保持不变，而你所修改的只是提交信息。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
