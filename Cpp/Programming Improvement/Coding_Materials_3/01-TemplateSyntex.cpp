@@ -35,10 +35,10 @@ void test01()
 
     //利用模板实现交换
     // 1、自动类型推导
-    Swap(a, b);
+    Swap (a, b);
 
     // 2、显示指定类型
-    Swap<int>(a, b);
+    Swap<int> (a, b);
 
     cout << "a = " << a << endl;
     cout << "b = " << b << endl;

@@ -473,13 +473,17 @@ String functions are used to manipulate strings of text; for example, trimming o
 
 ##### 1.10.1.1 Substring()
 
+```sql
+# SUBSTRING (name, pos, len) -> position counts from 1
+SELECT vend_name, SUBSTRING (vend_name,1,4) AS first_4_letters_of_vend_name FROM Vendors ORDER BY vend_name;
+```
+
+
+
 ##### 1.10.1.2 UPPER()/LOWER()
 
 ```sql
 SELECT vend_name, UPPER (vend_name) AS vend_name_uppercase FROM Vendors ORDER BY vend_name;
-
-# SUBSTRING (name, pos, len) -> position counts from 1
-SELECT vend_name, SUBSTRING (vend_name,1,4) AS first_4_letters_of_vend_name FROM Vendors ORDER BY vend_name;
 ```
 
 
@@ -978,7 +982,26 @@ GROUP BY Customers.cust_id;
 
 
 
-#### 2.2.6 Thinking About Join Operation 
+#### 2.2.6 USING
+
+If the join condition uses the ==**equality operator (=) and the column names in both tables used for matching are the same**==, then can use the USING *clause*
+
+````sql
+SELECT salesRepEmployeeNumber as employeeNumber,
+SUM(quantityOrdered * priceEach) sales FROM
+orders
+INNER JOIN
+orderdetails USING (orderNumber) 
+INNER JOIN
+customers USING (customerNumber) 
+WHERE YEAR(shippedDate) = 2003 AND status = 'Shipped'
+GROUP BY salesRepEmployeeNumber ORDER BY sales DESC
+LIMIT 5
+````
+
+
+
+#### 2.2.7 Thinking About Join Operation 
 
 如果A表有100条，B表有50条，A LEFT JOIN B 结果是 >= 100 条，而不是100条
 
@@ -1172,4 +1195,196 @@ WINDOW_FUNCTION_NAME(expression) OVER (
 		)      
 ```
 
-![image-20230429230919412](assets/image-20230429230919412.png)
+![image-20230429232716724](assets/image-20230429232716724.png)
+
+1. 可以看到，**OVER()** 就是对所有行都进行 FUNCITON 操作，如果括号里特别指明了 query rows 则按照指定条件进行Function操作
+2. **PARTITION BY...** 的含义是 对Partition row ... 进行操作。**The function produces this sum for each partition row**
+
+
+
+#### 2.10.1 row_number () Function
+
+==**• Note that window functions are performed on the result set after all JOIN, WHERE, GROUP BY, and HAVING clauses and before the ORDER BY**==
+
+**• The most commonly used Window Functions: ROW_NUMBER()**
+
+**==Returns the number of the current row within its partition. Rows numbers range from 1 to the number of partition rows==**
+
+```sql
+SELECT id, name, 
+ROW_NUMBER() OVER (PARTITION BY id, name ORDER BY name desc) AS row_num 
+FROM t;
+```
+
+<img src="assets/image-20230429232838562.png" alt="image-20230429232838562" style="zoom:50%;" />
+
+这里 ```PARTITION BY id, name``` 的意思是我们**将每一个 id 和 name 的组合看成一项**并对其进行排序。
+
+==As you can see from the output, the unique rows are the ones whose the row number equals one. Then, you can use *row_num=1* to **dedupe**==
+
+比如：
+
+````sql
+Select * 
+from 
+	(SELECT id, name,
+	ROW_NUMBER() OVER (PARTITION BY id, name ORDER BY name desc) AS row_num FROM t) 
+	as a 
+where a.row_num =1
+````
+
+
+
+**Example:**
+
+• Use **row_number()** function to only output the **most recent order** for each customer ID in table Orders ; the output should look like this:
+
+<img src="assets/image-20230430000414962.png" alt="image-20230430000414962" style="zoom:50%;" />
+
+````sql
+SELECT cust_id, order_date, order_num
+FROM 
+		(SELECT cust_id, order_date, order_num, ROW_NUMBER() OVER (PARTITION BY cust_id Order BY 		 order_date DESC) as row_num
+    FROM retail.Orders
+    ) AS a
+WHERE a.row_num = 1;
+````
+
+
+
+
+
+## 3. Improved
+
+### 3.1 CET (common table experssion) -- After version 8.0
+
+**What is a common table expression (CTE)?**
+
+A common table expression is ==**a named temporary result table that exists only within the execution scope of a single SQL statement e.g., SELECT, INSERT, UPDATE, or DELETE.**== 
+
+在SQL中，CTE（Common Table Expression）是一种临时表，它在查询中被定义，并且**只在查询语句的生命周期中存在**。查询结束指的是查询语句的执行完成并返回结果集之后的状态。在查询结束之后，数据库管理系统会释放相应的系统资源和锁，并将结果集返回给客户端或应用程序
+
+➢ **Like a derive table, a CTE is not stored**
+➢ **Unlike a derive table, a CTE can be self-referencing; also, CTE has a better performance than derive tables** 
+
+**The general syntax:**
+
+```sql
+WITH cte_name (column_list) AS ( 
+query
+)
+SELECT * FROM cte_name;
+```
+
+![image-20230504091619807](assets/image-20230504091619807.png)
+
+**此外，同一个 with 后可接多个 CTE，用逗号隔开即可**
+
+![image-20230504094235954](assets/image-20230504094235954.png)
+
+
+
+### 3.2 Recursive CTE
+
+==**A recursive common table expression (CTE) is a CTE that has a subquery which refers to the CTE name itself**==
+
+Recursion: the process in which a function calls itself directly or indirectly is called recursion and the corresponding function is called as recursive function.
+
+**A recursive CTE consists of three main parts:**
+
+1. ***An initial query that forms the base result set of the CTE structure. The initial query part is referred to as an anchor member. 第一个子查询称作定点（Anchor）子查询：定点查询只是一个返回有效表的查询，用于设置递归的初始值；***
+2. ***A recursive query part is a query that references to the CTE name; therefore, it is called a recursive member. The recursive member is joined with the anchor member by a UNION ALL or UNION DISTINCT operator. 第二个子查询称作递归子查询：该子查询调用CTE名称，触发递归查询，实际上是递归子查询调用递归子查询；两个子查询使用union all，求并集***
+3. ***A termination condition that ensures the recursion stops when the recursive member returns no row. 递归查询没有显式的递归终止条件，只有当递归子查询返回空结果集（没有数据行返回）或是超出了递归次数的最大限制时，才停止递归。***
+
+![image-20230504095118866](assets/image-20230504095118866.png)
+
+
+
+**==递归cte的语法格式是不是特定的？==**
+
+是的，递归CTE的语法格式是特定的。以下是递归CTE的基本语法格式：
+
+```sql 
+WITH RECURSIVE cte_name (column_list)
+AS (
+    initial_query
+    UNION ALL
+    recursive_query
+)
+SELECT column_list FROM cte_name;
+```
+
+其中：
+
+- `cte_name`：递归CTE的名称，可以自定义。
+- `column_list`：递归CTE返回结果的列名列表。
+- `initial_query`：递归CTE的初始查询语句，用于生成递归查询的起点。
+- `recursive_query`：==**递归查询语句，用于生成递归查询的下一级结果！！！！**==
+- `UNION ALL`：递归CTE的关键字，用于将初始查询和递归查询结果合并。
+- `SELECT`：最终查询语句，用于从递归CTE中检索数据。
+
+需要注意的是，递归CTE的`initial_query`和`recursive_query`必须具有相同的列数、名称和数据类型。此外，在递归CTE中，初始查询必须返回一组初始行，而递归查询必须使用初始行生成下一级行，直到递归过程结束。
+
+
+
+### 3.3 **Stored Procedures**
+
+By definition, a stored procedure is a segment of declarative SQL statements stored inside the MySQL Server for execution later. **Once you save the stored procedure, you can invoke it by using the CALL statement**
+
+➢ A stored procedure can **have parameters** so you can pass values to it and get the result back
+
+➢ A stored procedure may contain control flow statements such as IF, CASE, and LOOP that allow you to implement the code in the procedural way
+
+➢ A stored procedure can call other stored procedures or stored functions
+
+**Basic syntax of the CREATE PROCEDURE statement:**
+
+````sql
+CREATE PROCEDURE procedure_name(parameter_list) 
+BEGIN
+	statements;
+END //
+````
+
+````sql
+CALL stored_procedure_name(argument_list);
+````
+
+![image-20230504162156043](assets/image-20230504162156043.png)
+
+1. **To create a new stored procedure, you use the CREATE PROCEDURE statement**
+2. ==**Execute the statements, MySQL will create the stored procedure and save it in the server.**==
+
+
+
+#### 3.3.1 Delimiter
+
+Usually, we uses the delimiter (;) to separate statements and executes each statement separately; However, **typically, a stored procedure contains multiple statements separated by semicolons (;)**
+
+**To compile the whole stored procedure as a single compound statement, you need to temporarily change the delimiter from the semicolon (;) to another delimiter such as $$ or //:**
+
+````sql
+DELIMITER $$
+CREATE PROCEDURE sp_name() 
+BEGIN
+-- statements 
+END $$
+DELIMITER ;
+````
+
+- First, change the default delimiter to $$.
+- Second, use (;) in the body of the stored procedure and $$ after the END keyword to end the stored procedure.
+- Third, change the default delimiter back to a semicolon (;)
+
+
+
+#### 3.3.2 Drop Procedures
+
+The **DROP PROCEDURE** statement deletes a stored procedure created by the CREATE PROCEDURE statement
+
+```sql
+Drop PROCEDURE [IF EXISTS] stored_procedure_name;
+```
+
+**• use IF EXISTS option to conditionally drop the stored procedure if it exists**
+

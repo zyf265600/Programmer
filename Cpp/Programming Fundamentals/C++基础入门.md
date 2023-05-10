@@ -4024,7 +4024,7 @@ int main() {
 
 ```c++
 //冒泡排序函数
-void bubbleSort(int * arr, int len)  //int * arr 也可以写为int arr[]
+void. bubbleSort(int * arr, int len)  //int * arr 也可以写为int arr[]
 {
 	for (int i = 0; i < len - 1; i++)
 	{
