@@ -16,16 +16,16 @@
 
 顺序结构执行流程图：
 
-![1545615769372](../../../Java基础-资料/day04-判断和循环/笔记/img\1545615769372.png)
+![1545615769372](file:///Users/zyf/Desktop/Java%E5%9F%BA%E7%A1%80-%E8%B5%84%E6%96%99/day04-%E5%88%A4%E6%96%AD%E5%92%8C%E5%BE%AA%E7%8E%AF/%E7%AC%94%E8%AE%B0/img\1545615769372.png?lastModify=1684204967)
 
 ## 第二章 判断语句：if语句
 
 ### 2.1 if语句格式1
 
-```java
+```
 格式：
 if (关系表达式) {
-    语句体;	
+    语句体;  
 }
 ```
 
@@ -39,28 +39,28 @@ if (关系表达式) {
 
 ④继续执行后面的语句内容
 
-![1545616039363](../../../Java基础-资料/day04-判断和循环/笔记/img\1545616039363.png)
+![1545616039363](file:///Users/zyf/Desktop/Java%E5%9F%BA%E7%A1%80-%E8%B5%84%E6%96%99/day04-%E5%88%A4%E6%96%AD%E5%92%8C%E5%BE%AA%E7%8E%AF/%E7%AC%94%E8%AE%B0/img\1545616039363.png?lastModify=1684204967)
 
 示例：
 
-```java
+```
 public class IfDemo {
-	public static void main(String[] args) {
-		System.out.println("开始");	
-		//定义两个变量
-		int a = 10;
-		int b = 20;	
-		//需求：判断a和b的值是否相等，如果相等，就在控制台输出：a等于b
-		if(a == b) {
-			System.out.println("a等于b");
-		}		
-		//需求：判断a和c的值是否相等，如果相等，就在控制台输出：a等于c
-		int c = 10;
-		if(a == c) {
-			System.out.println("a等于c");
-		}		
-		System.out.println("结束");
-	}
+  public static void main(String[] args) {
+    System.out.println("开始"); 
+    //定义两个变量
+    int a = 10;
+    int b = 20; 
+    //需求：判断a和b的值是否相等，如果相等，就在控制台输出：a等于b
+    if(a == b) {
+      System.out.println("a等于b");
+    }   
+    //需求：判断a和c的值是否相等，如果相等，就在控制台输出：a等于c
+    int c = 10;
+    if(a == c) {
+      System.out.println("a等于c");
+    }   
+    System.out.println("结束");
+  }
 }
 ```
 
@@ -72,7 +72,7 @@ public class IfDemo {
 
 代码示例：
 
-```java
+```
 //分析：
 //1.键盘录入女婿的酒量
 Scanner sc = new Scanner(System.in);
@@ -92,7 +92,7 @@ if(wine > 2) {
 
 代码示例：
 
-```java
+```
 //分析：
 //1.键盘录入一个整数，表示小明的考试名次
 Scanner sc = new Scanner(System.in);
@@ -116,12 +116,12 @@ if(rank == 1){
 
 ### 2.2 if语句格式2
 
-```java
+```
 格式：
 if (关系表达式) {
-    语句体1;	
+    语句体1; 
 } else {
-    语句体2;	
+    语句体2; 
 }
 ```
 
@@ -135,25 +135,25 @@ if (关系表达式) {
 
 ④继续执行后面的语句内容
 
-![1545616221283](../../../Java基础-资料/day04-判断和循环/笔记/img\1545616221283.png)
+![1545616221283](file:///Users/zyf/Desktop/Java%E5%9F%BA%E7%A1%80-%E8%B5%84%E6%96%99/day04-%E5%88%A4%E6%96%AD%E5%92%8C%E5%BE%AA%E7%8E%AF/%E7%AC%94%E8%AE%B0/img\1545616221283.png?lastModify=1684204967)
 
 示例：
 
-```java
+```
 public class IfDemo02 {
-	public static void main(String[] args) {
-		System.out.println("开始");		
-		//定义两个变量
-		int a = 10;
-		int b = 20;
-		//需求：判断a是否大于b，如果是，在控制台输出：a的值大于b，否则，在控制台输出：a的值不大于b
-		if(a > b) {
-			System.out.println("a的值大于b");
-		} else {
-			System.out.println("a的值不大于b");
-		}		
-		System.out.println("结束");
-	}
+  public static void main(String[] args) {
+    System.out.println("开始");   
+    //定义两个变量
+    int a = 10;
+    int b = 20;
+    //需求：判断a是否大于b，如果是，在控制台输出：a的值大于b，否则，在控制台输出：a的值不大于b
+    if(a > b) {
+      System.out.println("a的值大于b");
+    } else {
+      System.out.println("a的值不大于b");
+    }   
+    System.out.println("结束");
+  }
 }
 ```
 
@@ -169,7 +169,7 @@ public class IfDemo02 {
 
 代码示例：
 
-```java
+```
 //分析：
 //1.键盘录入一个整数。表示身上的钱。
 Scanner sc = new Scanner(System.in);
@@ -203,7 +203,7 @@ if(money >= 100){
 
 代码示例：
 
-```java
+```
 //分析：
 //1.键盘录入票号
 Scanner sc = new Scanner(System.in);
@@ -252,7 +252,7 @@ else {
 
 ⑤如果没有任何关系表达式为true，就执行语句体n+1。
 
-![1545616667104](../../../Java基础-资料/day04-判断和循环/笔记/img\1545616667104.png)
+![1545616667104](file:///Users/zyf/Desktop/Java%E5%9F%BA%E7%A1%80-%E8%B5%84%E6%96%99/day04-%E5%88%A4%E6%96%AD%E5%92%8C%E5%BE%AA%E7%8E%AF/%E7%AC%94%E8%AE%B0/img\1545616667104.png?lastModify=1684204967)
 
 #### 练习1：考试奖励
 
