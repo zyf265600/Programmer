@@ -1,5 +1,5 @@
 import java.util.Scanner;
-public class a5_ForLoop {
+public class a05_ForLoop {
     public static void main(String[] args) {
         int left = 0, right = 0, count = 0;
         Scanner sc = new Scanner(System.in);
