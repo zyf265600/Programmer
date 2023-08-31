@@ -3971,6 +3971,8 @@ a=9767
 
 ### 7.7 指针和函数
 
+#### 7.7.1 形参与实惨
+
 **作用： 利用指针作函数参数，可以修改实参的值**
 
 **示例：**
@@ -4009,6 +4011,116 @@ int main() {
 ```
 
 > **总结：如果不想修改实参，就用值传递，如果想修改实参，就用地址传递**
+
+
+
+#### 7.7.2 函数指针
+
+函数存放在内存的代码区域内，它们同样有地址.如果我们有一个 **int test(int a)** 的函数，那么，它的地址就是函数的名字，这一点如同数组一样，**==数组的名字就是数组的起始地址。==**
+
+**1 函数指针的定义方式**
+
+```
+data_types (*func_pointer)( data_types arg1, data_types arg2, ...,data_types argn);
+```
+
+例如：
+
+```
+int (*fp)(int a); // 这里就定义了一个指向函数(这个函数参数仅仅为一个 int 类型，函数返回值是 int 类型)的指针 fp。
+```
+
+实例：
+
+```c++
+int test(int a)
+{
+    return a;
+}
+int main(int argc, const char * argv[])
+{
+    int (*fp)(int a);
+    fp = test;
+    cout<<fp(2)<<endl;
+    return 0;
+}
+```
+
+**注意：**函数指针所指向的函数一定要保持函数的返回值类型，函数参数个数，类型一致。
+
+
+
+**2 typedef 定义可以简化函数指针的定义**
+
+实例：
+
+```C++
+int test(int a)
+{
+    return a;
+}
+ 
+int main(int argc, const char * argv[])
+{
+    typedef int (*fp)(int a);
+    fp f = test;
+    cout<<f(2)<<endl;
+    return 0;
+}
+```
+
+
+
+**3 函数指针同样是可以作为参数传递给函数的**
+
+实例：
+
+```c++
+int test(int a)
+{
+    return a-1;
+}
+int test2(int (*fun)(int),int b)
+{    
+    int c = fun(10)+b;
+    return c;
+}
+ 
+int main(int argc, const char * argv[])
+{    
+    typedef int (*fp)(int a);
+    fp f = test;
+    cout<<test2(f, 1)<<endl; // 调用 test2 的时候，把test函数的地址作为参数传递给了 test2
+    return 0;
+}
+```
+
+执行以上代码，输出结果为：
+
+```
+10
+```
+
+
+
+**4 利用函数指针，我们可以构成函数指针数组，更明确点的说法是构成指向函数的指针数组。**
+
+实例：
+
+```c++
+void t1(){cout<<"test1"<<endl;}
+void t2(){cout<<"test2"<<endl;}
+void t3(){cout<<"test3"<<endl;}
+ 
+int main(int argc, const char * argv[])
+{
+    typedef void (*fp)(void);
+    fp b[] = {t1,t2,t3}; // b[] 为一个指向函数的指针数组
+    b[0](); // 利用指向函数的指针数组进行下标操作就可以进行函数的间接调用了
+    
+    return 0;
+}
+```
 
 
 

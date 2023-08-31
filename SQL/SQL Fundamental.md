@@ -265,7 +265,7 @@ The `AND` and `OR` operators are used to filter records based on more than one c
 
    The following SQL statement selects all fields from "Customers" where country is NOT "Germany" and NOT "USA":
 
-   ```sq
+   ```sql
    SELECT * FROM Customers
    WHERE NOT Country ='Germany' AND NOT Country ='USA';
    ```
