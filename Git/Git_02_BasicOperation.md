@@ -707,53 +707,7 @@ d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 远程操作
+# Git 远程操作
 
 ### git remote (远程仓库常用命令):
 

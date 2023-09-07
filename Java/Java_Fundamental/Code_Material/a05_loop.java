@@ -1,5 +1,6 @@
 import java.util.Scanner;
-public class a05_ForLoop {
+
+public class a05_loop {
     public static void main(String[] args) {
         int left = 0, right = 0, count = 0;
         Scanner sc = new Scanner(System.in);
@@ -10,8 +11,8 @@ public class a05_ForLoop {
         System.out.println("Please enter right bond:");
         right = sc.nextInt();
 
-        for (; left <= right; ++left){
-            if (left % 3 == 0 & left % 5 == 0){
+        for (; left <= right; ++left) {
+            if (left % 3 == 0 & left % 5 == 0) {
                 ++count;
             }
         }

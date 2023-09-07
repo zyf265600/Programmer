@@ -1,5 +1,5 @@
-public class a02_DataType {
-    public static void main(String[] args){
+public class a02_data_type {
+    public static void main(String[] args) {
         //1.定义byte类型的变量
         //数据类型 变量名 = 数据值;
         byte a = 10;

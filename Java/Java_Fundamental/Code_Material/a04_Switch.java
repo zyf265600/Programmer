@@ -1,5 +1,6 @@
 import java.util.Scanner;
-public class a04_Switch {
+
+public class a04_switch {
     public static void main(String[] args) {
         //1.键盘录入一个整数表示星期
         Scanner sc = new Scanner(System.in);
@@ -7,7 +8,7 @@ public class a04_Switch {
         int week = sc.nextInt();
 
         //2.书写一个switch语句去跟week进行匹配
-        switch (week){
+        switch (week) {
             case 1:
                 System.out.println("跑步");
                 break;
