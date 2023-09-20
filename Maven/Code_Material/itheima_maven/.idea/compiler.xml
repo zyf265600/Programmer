@@ -12,5 +12,8 @@
         <module name="HelloWorld" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="maven-project02" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
