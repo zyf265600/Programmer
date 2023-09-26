@@ -825,14 +825,14 @@ Spring官方生成的SpringBoot项目，怎么使用呢？
 
 spring-boot-starter-web和spring-boot-starter-test，在SpringBoot中又称为：起步依赖
 
-而在SpringBoot的项目中，有很多的起步依赖，他们有一个共同的特征：就是以`spring-boot-starter-`作为开头。在以后大家遇到spring-boot-starter-xxx这类的依赖，都为起步依赖。
+==而在SpringBoot的项目中，有很多的起步依赖，他们有一个共同的特征：就是以`spring-boot-starter-`作为开头。==在以后大家遇到spring-boot-starter-xxx这类的依赖，都为起步依赖。
 
 起步依赖有什么特殊之处呢，这里我们以入门案例中引入的起步依赖做为讲解：
 
-- spring-boot-starter-web：包含了web应用开发所需要的常见依赖
-- spring-boot-starter-test：包含了单元测试所需要的常见依赖
+- ==spring-boot-starter-web：包含了web应用开发所需要的常见依赖==
+- ==spring-boot-starter-test：包含了单元测试所需要的常见依赖==
 
-> **spring-boot-starter-web**内部把关于Web开发所有的依赖都已经导入并且指定了版本，只需引入 `spring-boot-starter-web` 依赖就可以实现Web开发的需要的功能
+> **spring-boot-starter-web** 内部把关于Web开发所有的依赖都已经导入并且指定了版本，只需引入 `spring-boot-starter-web` 依赖就可以实现Web开发的需要的功能
 >
 > ![image-20221202204013113](SpringBootWeb_Tomcat.assets/image-20221202204013113.png)
 
@@ -842,11 +842,9 @@ Spring的官方提供了很多现成的starter(起步依赖)，我们在开发�
 
 ![image-20221202204536647](SpringBootWeb_Tomcat.assets/image-20221202204536647.png)
 
-每一个起步依赖，都用于开发一个特定的功能。
+==每一个起步依赖，都用于开发一个特定的功能。==
 
 > 举例：当我们开发中需要使用redis数据库时，只需要在SpringBoot项目中，引入：spring-boot-starter-redis ，即可导入redis开发所需要的依赖。
-
-
 
 
 
