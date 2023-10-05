@@ -1,0 +1,15 @@
+<p>form works!</p>
+
+<form #f="ngForm" (submit)="onSubmit(f)">
+    <div ngModelGroup="user">
+        <input #username="ngModel" type="text" name="username" ngModel required minlength="2" maxlength="6" />
+        <div *ngIf="username.touched && !username.valid && username.errors">
+            <div *ngIf="username.errors.re">请填写用户名</div>
+            <div *ngIf="username.errors">不符合正则规则</div>
+        </div>
+    </div>
+    <div ngModelGroup="contact">
+        <input type="text" name="phone" ngModel />
+    </div>
+    <button [disabled]="f.invalid">submit</button>
+</form>

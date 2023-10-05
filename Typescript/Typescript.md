@@ -1,4 +1,4 @@
-### 变量和类型 (Variables and Types)
+### 变量和类型 (Variables and Types) 
 
 1. **声明变量（Variable Declaration）**
 
@@ -10,10 +10,50 @@ let isStudent: boolean = false;
 
 2. **数组（Arrays）**
 
-```typescript
-let numbers: number[] = [1, 2, 3];
-// 或
-let numbers: Array<number> = [1, 2, 3];
+**类型注解方式**：在变量名后添加冒号和类型，使用 `[]` 表示这是一个数组。
+
+```
+let names: string[] = ['Alice', 'Bob', 'Charlie'];
+```
+
+**泛型（Generic）方式**：使用 `Array<类型>` 来定义。
+
+```
+let names: Array<string> = ['Alice', 'Bob', 'Charlie'];
+```
+
+**推断（Inference）方式**：TypeScript 也会自动推断数组类型。
+
+```
+let names = ['Alice', 'Bob', 'Charlie'];  // 类型推断为 string[]
+```
+
+**混合类型（Union Type）数组**：使用 `|` 来定义多种类型。
+
+```
+let arr: (string | number)[] = ['Alice', 42];
+```
+
+**多维数组**：在类型后面添加多个 `[]`。
+
+```
+let matrix: number[][] = [[1, 2, 3], [4, 5, 6]];
+```
+
+**数组对象（Array Object）**：使用 `new Array()` 语法。
+
+```
+let names = new Array('Alice', 'Bob', 'Charlie');
+```
+
+**接口（Interfaces）**：如果你需要，还可以通过接口来定义一个特定结构的数组。
+
+```
+interface NameArray {
+  [index: number]: string;
+}
+
+let names: NameArray = ['Alice', 'Bob'];
 ```
 
 3. **枚举（Enums）**

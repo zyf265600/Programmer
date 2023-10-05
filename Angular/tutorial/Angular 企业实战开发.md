@@ -420,9 +420,43 @@ export class AppComponent {}
 
 #### 4.2 属性绑定
 
+属性绑定是Angular中的一个核心特性，允许你将模板中的一个元素属性绑定到组件类中的一个属性。通过属性绑定，你可以实时地更新视图中的数据。
+
+**语法：** 属性绑定使用方括号 `[]` 语法。例如：
+
+```html
+<img [src]="imageUrl">
+```
+
+在上面的例子中，`[src]` 是属性绑定的目标，而 `imageUrl` 是组件类中的一个属性。
+
+**常见用途：**
+
+1. ==**绑定到HTML属性**：==如上面的例子所示，你可以将图片的 `src` 属性绑定到组件类中的一个属性。
+2. ==**绑定到指令**：==你也可以使用属性绑定来传递值给指令。例如，你可以传递一个值给一个自定义指令，该值决定了某种行为。
+3. ==**绑定到组件属性**：==你还可以使用属性绑定将值从一个组件传递到另一个组件。
+
+**与插值的区别：**
+
+插值 `{{ value }}` 用于将组件类中的值插入模板中。而属性绑定是将组件类中的值绑定到模板中的元素属性上。
+
+例如，以下两种写法都可以设置一个图片的 `src` 属性：
+
+```html
+<!-- 插值 -->
+<img src="{{ imageUrl }}">
+
+<!-- 属性绑定 -->
+<img [src]="imageUrl">
+```
+
+但在某些情况下，插值可能不适用，例如当你需要绑定一个元素的属性，而不仅仅是设置其内容时。这时，属性绑定是更合适的选择。
+
+
+
 ##### 4.2.1 普通属性
 
-属性绑定分为两种情况，绑定 DOM 对象属性和绑定HTML标记属性。
+属性绑定分为两种情况，绑定 DOM 对象属性和绑定HTML标记属性。==允许将模板中的一个元素属性绑定到组件类中的一个属性。通过属性绑定，可以实时地更新视图中的数据。==
 
 1.  使用 [属性名称] 为元素绑定 DOM 对象属性。
 
@@ -560,7 +594,7 @@ export class AppComponent {
 
 这行代码使用 `@ViewChild` 装饰器（decorator）来查询 DOM 元素。这里，它查询的是一个局部模板变量名为 `paragraph` 的元素。该元素被强制转型为 `HTMLParagraphElement` 类型的 `ElementRef`。
 
-==`ElementRef` 是一个 Angular 类，用于包装对 DOM 元素的引用。通过使用 `ElementRef`，能够更方便地与 Angular 的其他部分（如依赖注入）进行交互。==`HTMLParagraphElement` 是指该 DOM 元素应该是一个段落（`<p>`）元素。我们也给它一个 `undefined` 类型作为备选，以表示该元素可能不存在。
+==`ElementRef` 是一个 Angular 类，**用于包装对 DOM 元素的引用**。它不仅仅包含了原生 DOM 元素（在 `nativeElement` 属性中），还提供了其他 Angular 相关的信息和方法。通过使用 `ElementRef`，能够更方便地与 Angular 的其他部分（如依赖注入）进行交互。不用ElementRef的话就无法获得 Angular 封装==`HTMLParagraphElement` 是指该 DOM 元素应该是一个段落（`<p>`）元素。我们也给它一个 `undefined` 类型作为备选，以表示该元素可能不存在。
 
 在 `ngAfterViewInit()` 方法中，我们输出了这个 DOM 元素的引用。由于 `paragraph` 可能是 `undefined`（特别是在模板中如果没有找到这个局部变量的话），==所以这里使用了可选链（Optional Chaining）`?.` 来安全地访问 `nativeElement` 属性。==
 
@@ -639,44 +673,194 @@ export class AppComponent {
 
 内容投影（Content Projection）是 Angular 中一种用于组合组件的技术。==这允许你在父组件中定义内容，并将其传递到子组件的模板中。==内容投影主要使用 `<ng-content>` 标签来实现。
 
-```html
-<!-- app.component.html -->
-<bootstrap-panel>
-	<div class="heading">
-        Heading
-  </div>
-  <div class="body">
-        Body
-  </div>
-</bootstrap-panel>
+
+
+##### 4.6.1 ng-content
+
+`ng-content` 元素是一个用来插入外部或者动态内容的占位符。父组件将外部内容传递给子组件，当 Angular 解析模板时，就会在子组件模板中 `ng-content` 出现的地方插入外部内容。
+
+我们可以使用内容投影来创建可重用的组件。这些组件有相似的逻辑和布局，并且可以在许多地方使用。一般我们在封装一些公共组件的时候经常会用到。
+
+
+
+##### 4.6.2 不使用内容投影
+
+为了理解为什么要使用 `ng-content` 进行内容投影，首先让我们来创建一个很常见的 button 组件。
+
+btn.component.ts
+
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-btn',
+  templateUrl: './btn.component.html',
+  styleUrls: ['./btn.component.scss'],
+})
+export class BtnComponent {
+  constructor() {}
+
+  onClick($event: any) {
+    console.log($event);
+  }
+}
 ```
 
+btn.component.html
+
 ```html
-<!-- panel.component.html -->
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <ng-content select=".heading"></ng-content>
+<button (click)=onClick($event)>
+  Click Me
+</button>
+```
+
+在这个组件中，button 的文本始终是 `Click Me`，如果我们想传递不同的文本进来呢？可能你会想到最常使用的 `@Input` 装饰器，但是如果我们不只是想传文本进来，而是传一段 html 进来呢？这个时候就需要用到这篇文章的主角：`ng-content`。
+
+
+
+##### 4.6.3 单插槽内容投影
+
+内容投影的最基本形式是**单插槽内容投影**。单插槽内容投影是指创建一个组件，我们可以在其中投影一个组件。
+
+要创建使用单插槽内容投影的组件，我们只需要对上面的组件进行一些简单的修改：把 `Click Me` 替换为 `<ng-content></ng-content>`。
+
+btn.component.html
+
+```html
+<button (click)=onClick($event)>
+  <ng-content></ng-content>
+</button>
+```
+
+在使用 btn 组件的地方：
+
+```xml
+<app-btn>Cancel</app-btn>
+<app-btn><b>Submit</b></app-btn>
+```
+
+在 `<app-btn></app-btn>` 中的内容会传递给 btn 组件，并且显示在 `ng-contnet` 中。
+
+如果只有一个ng-content，即需要投射的内容只有一个元素且没有class指定，不需要select属性。直接`<ng-content></ng-content>`就可以
+
+
+
+##### 4.6.4 多插槽内容投影
+
+上面的 btn 组件非常简单，但实际上`ng-content` 要比这个更强大。一个组件可以具有多个插槽，每个插槽可以指定一个 CSS 选择器，该选择器会决定将哪些内容放入该插槽。该模式称为**多插槽内容投影**。使用此模式，我们必须指定希望投影内容出现在的位置。可以通过使用 `ng-content` 的 `select` 属性来完成此任务。
+
+要创建使用多插槽内容投影的组件，需要执行以下操作：
+
+1. 创建一个组件。
+2. 在组件模板中，添加 `ng-content` 元素，让你希望投影的内容出现在其中。
+3. 将 `select` 属性添加到 `ng-content` 元素。 Angular 使用的选择器支持标签名、属性、CSS 类和 `:not` 伪类的任意组合。
+
+下面我们来创建一个复杂一些的 card 组件。
+
+card.component.html
+
+```html
+<div class="card">
+  <div class="header">
+    <ng-content select="header"></ng-content>
   </div>
-  <div class="panel-body">
-    <ng-content select=".body"></ng-content>
+  <div class="content">
+    <ng-content select="content"></ng-content>
+  </div>
+  <div class="footer">
+    <ng-content select="footer"></ng-content>
   </div>
 </div>
 ```
 
-如果只有一个ng-content，即需要投射的内容只有一个元素且没有class指定，不需要select属性。直接<ng-content></ng-content>就可以
+在使用 card 组件的地方：
 
-ng-content在浏览器中会被 \<div class="heading">\</div> 替代，如果不想要这个额外的div，可以使用ng-container替代这个div。
+app.component.html
 
 ```html
-<!-- app.component.html -->
-<bootstrap-panel>
-	<ng-container class="heading">
-        Heading
+<app-card>
+  <header>
+    <h1>Angular</h1>
+  </header>
+  <content>One framework. Mobile & desktop.</content>
+  <footer><b>Super-powered by Google </b></footer>
+</app-card>
+
+<app-card>
+  <header>
+    <h1 style="color:red;">React</h1>
+  </header>
+  <content>A JavaScript library for building user interfaces</content>
+  <footer><b>Facebook Open Source </b></footer>
+</app-card>
+```
+
+如果在 `app-card` 中有不属于 header, content, footer 之外的内容呢？比如按照下面的写法使用 `app-card` 组件：
+
+app.component.html
+
+```html
+<app-card>
+  <header>
+    <h1>Angular</h1>
+  </header>
+  <div>Not match any selector</div>
+  <content>One framework. Mobile & desktop.</content>
+  <footer><b>Super-powered by Google </b></footer>
+  <div>This text will not not be shown</div>
+</app-card>
+```
+
+会发现两个 `div` 都没有渲染在页面中，==为了解决这个问题，我们可以在组件中添加一个没有任何 `selector` 的 `ng-content` 标签。所有没办法匹配到任何其他插槽的内容都会被渲染在这个里面。==如果只有一个ng-content，即需要投射的内容只有一个元素且没有class指定，不需要select属性。直接`<ng-content></ng-content>`就可以
+
+card.component.html
+
+```html
+<div class="card">
+  <div class="header">
+    <ng-content select="header"></ng-content>
+  </div>
+  <div class="content">
+    <ng-content select="content"></ng-content>
+  </div>
+  <div class="footer">
+    <ng-content select="footer"></ng-content>
+  </div>
+  <ng-content></ng-content>
+</div>
+```
+
+
+
+##### 4.6.5 ngProjectAs
+
+在某些情况下，我们需要使用 `ng-container` 把一些内容包裹起来传递到组件中。大多数情况是因为我们需要使用结构型指令像 `ngIf` 或者 `ngSwitch` ，或者我们不需要 `div`标签，想用ng-container替代这个div。比如只有在某些情况下才向 card 组件传递 header。
+
+在下面的例子中，我们将 header 包裹在了 `ng-container` 中。
+
+```html
+<app-card>
+  <ng-container>
+    <header>
+      <h1>Angular</h1>
+    </header>
   </ng-container>
-  <ng-container class="body">
-        Body
-  </ng-container>
-</bootstrap-panel>
+  <content>One framework. Mobile & desktop.</content>
+  <footer><b>Super-powered by Google </b></footer>
+</app-card>
+```
+
+由于 `ng-container` 的存在，header 部分并没有被渲染到我们想要渲染的插槽中，而是渲染到了没有提供任何 selector 的 `ng-content` 中。
+
+在这种情况下，我们可以使用 `ngProjectAs` 属性。
+
+在上面的 `ng-container` 加上这个属性，就可以按照我们的期望来渲染了。
+
+```html
+<app-card>
+  <ng-container ngProjectAs='header'>
+    ...
+</app-card>
 ```
 
 
@@ -771,17 +955,34 @@ export class AppComponent {
 
 ### 5. 指令 Directive
 
-指令是 Angular 提供的操作 DOM 的途径。指令分为属性指令和结构指令。
+指令（Directive）是Angular的一个核心特性，用于扩展HTML的功能。==它们允许你创建新的HTML属性或行为，或修改现有的DOM元素和其行为。==在Angular中，指令主要分为三种类型：
 
-属性指令：修改现有元素的外观或行为，使用 [] 包裹。
+1. **组件指令（Components）**：
+   - 它们是Angular中的最常见的指令类型。
+   - 组件在其本质上也是指令，但它们与模板结合，定义了一个独立的视图区域。
+   - 组件用于构建UI的块，并支持数据绑定、生命周期事件等。
+2. **结构指令（Structural Directives）**：
+   - ==它们改变DOM结构，例如增加、移除或替换元素。==
+   - 常见的结构指令包括`*ngIf`（用于条件性渲染）、`*ngFor`（用于列表渲染）。
+   - 注意，结构指令通常前面带有`*`前缀。
+3. **属性指令（Attribute Directives）**：
+   - ==它们会改变元素、组件或其他指令的外观或行为。==
+   - 例如，你可以创建一个属性指令来改变元素的背景颜色、设置元素的尺寸或执行其他DOM操作。
+   - 例子：`ngStyle`、`ngClass`等。
 
-结构指令：增加、删除 DOM 节点以修改布局，使用*作为指令前缀
+创建自定义指令：
+
+- 使用`@Directive`装饰器定义一个指令。
+- 使用`selector`属性指定该指令的名称或选择器。
+- 在Angular模块的`declarations`数组中注册该指令。
+
+
 
 #### 5.1 内置指令
 
 ##### 5.1.1 *ngIf 
 
-根据条件渲染 DOM 节点或移除 DOM 节点。
+根据条件渲染 DOM 节点或移除 DOM 节点。True渲染，False移除。
 
 ```html
 <div *ngIf="data.length == 0">没有更多数据</div>
@@ -793,9 +994,11 @@ export class AppComponent {
 <ng-template #noData>没有更多数据</ng-template>
 ```
 
+`<ng-template>` 是一个Angular指令（Directive），用于动态地渲染HTML结构。==这个标签在DOM中不会直接呈现，只有当它被Angular的某个结构指令（如 `*ngIf`、`*ngFor` 等）激活时，它里面的内容才会被渲染到DOM中。==
+
 ##### 5.1.2 [hidden]
 
-根据条件显示 DOM 节点或隐藏 DOM 节点 (display)。 
+根据条件显示 DOM 节点或隐藏 DOM 节点 (display)。 True渲染，False隐藏（但也会渲染）。
 
 ```html
 <div [hidden]="data.length == 0">课程列表</div>
@@ -803,6 +1006,38 @@ export class AppComponent {
 ```
 
 ##### 5.1.3 *ngFor
+
+`ngFor` 是 Angular 中用于列表渲染的一个内置指令（built-in directive）。==可以使用 `ngFor` 来遍历数组、对象或其他集合，并为集合中的每个元素生成 DOM 元素。==
+
+基本用法如下：
+
+```html
+<ul>
+  <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+```
+
+在这个例子中，`items` 是一个数组，而 `*ngFor` 将遍历这个数组，为数组中的每个元素创建一个 `<li>` 元素。
+
+在 TypeScript 文件中：
+
+```ts
+items = ['Item 1', 'Item 2', 'Item 3'];
+```
+
+更高级的用法可能包括获取当前索引，或者获取数组的第一个或最后一个元素等：
+
+```html
+<ul>
+  <li *ngFor="let item of items; let i = index; let first = first; let last = last">
+    {{ i }}: {{ item }} {{ first ? '(first)' : '' }} {{ last ? '(last)' : '' }}
+  </li>
+</ul>
+```
+
+这里，`index` 是当前元素的索引，`first` 是一个布尔值，表示当前元素是否是数组中的第一个元素，`last` 也是一个布尔值，表示当前元素是否是数组中的最后一个元素。
+
+
 
 遍历数据生成HTML结构
 
@@ -843,9 +1078,99 @@ identify(index, item){
 }
 ```
 
+ `trackBy` 是一个用于优化 Angular 列表渲染性能的选项。当你使用 `*ngFor` 指令去遍历并创建列表项时，如果列表中的某一项发生了变化（比如添加、移除、重新排序等），Angular 默认会重新渲染整个列表。这在列表项很多的时候可能会导致性能问题。
+
+使用 `trackBy` 可以让 Angular 知道如何唯一地标识每一个列表项。这样，==当数据发生变化时，Angular 只会重新渲染那些真正发生变化的列表项，而不是整个列表。==
+
+
+
 #### 5.2 自定义指令
 
-需求：为元素设置默认背景颜色，鼠标移入时的背景颜色以及移出时的背景颜色。
+自定义指令（Custom Directives）是 Angular 中一个强大的特性，==它允许你创建可重用的、自定义的 DOM 操作代码。==自定义指令通常用于封装和抽象 DOM 操作和行为，使得模板（Template）更加简洁和易于维护。
+
+**创建自定义指令**
+
+1. 使用 Angular CLI 创建一个新的指令：
+
+   ```bash
+   ng generate directive my-custom-directive
+   ```
+
+   这将生成一个新的指令文件，通常位于 `src/app` 目录下。
+
+2. 打开生成的指令文件（通常是 `.ts` 文件），你会看到类似下面的代码：
+
+   ```ts
+   import { Directive, ElementRef, Renderer2 } from '@angular/core';
+   
+   @Directive({
+     selector: '[appMyCustomDirective]'
+   })
+   export class MyCustomDirective {
+     constructor(private el: ElementRef, private renderer: Renderer2) {
+       // 初始化代码
+     }
+   }
+   ```
+
+**使用自定义指令**
+
+1. 确保自定义指令已经添加到了某个模块（Module）的 `declarations` 数组中。
+
+   ```ts
+   @NgModule({
+     declarations: [
+       MyCustomDirective,
+       // 其他组件、指令和管道
+     ],
+     // ...
+   })
+   export class AppModule { }
+   ```
+
+2. 在模板中使用这个自定义指令：不绑定动态数据不需要加中括号`[]`
+
+   ```html
+   <div appMyCustomDirective>
+     <!-- 其他内容 -->
+   </div>
+   ```
+
+**自定义指令示例**
+
+以下是一个简单的自定义指令示例，用于改变元素的背景颜色：
+
+```ts
+import { Directive, ElementRef, Input } from '@angular/core';
+
+@Directive({
+  selector: '[appBackgroundColor]'
+})
+export class BackgroundColorDirective {
+
+  @Input('appBackgroundColor') color: string;
+
+  constructor(private el: ElementRef) { }
+
+  ngOnInit() {
+    this.el.nativeElement.style.backgroundColor = this.color;
+  }
+}
+```
+
+使用方法：
+
+```html
+<div [appBackgroundColor]="'red'">
+  This has a red background.
+</div>
+```
+
+这样，你就成功创建了一个自定义指令，它能够通过 `appBackgroundColor` 属性来设置元素的背景颜色。
+
+
+
+**练习：**为元素设置默认背景颜色，鼠标移入时的背景颜色以及移出时的背景颜色。
 
  ```html
 <div [appHover]="{ bgColor: 'skyblue' }">Hello Angular</div>
@@ -887,25 +1212,103 @@ export class HoverDirective implements AfterViewInit {
 
 ```
 
+`@HostListener`是Angular中的一个装饰器，用于为宿主元素添加事件监听器。当你在指令或组件中使用这个装饰器，你可以为该指令或组件所关联的DOM元素（也就是“宿主”）添加一个或多个事件监听器。
+
+以下是它的基本用法：
+
+```ts
+@HostListener('事件名称', ['可选的事件对象参数'])
+函数名() {
+  // 事件触发时的操作
+}
+```
+
+
+
 ### 6. 管道 Pipe
 
-管道的作用是格式化组件模板数据。
+在Angular中，管道（Pipe）是一种特殊的函数，可以接受一个输入值（及一些可选参数）并返回一个转换后的值。管道用于在模板中转换、格式化或处理数据。
 
 #### 6.1 内置管道
 
-1. date 日期格式化
-3. currency 货币格式化
-4. uppercase 转大写
-5. lowercase 转小写
-5. json 格式化json 数据
+1. **DatePipe**: 格式化日期。
 
-```html
-{{ date | date: "yyyy-MM-dd" }}
-```
+   ```html
+   {{ today | date:'short' }}
+   {{ date | data: "yyyy-MM-dd"}}
+   ```
+
+2. **UpperCasePipe** 和 **LowerCasePipe**: 转换文本为大写或小写。
+
+   ```html
+   {{ 'hello' | uppercase }}  <!-- 输出：HELLO -->
+   ```
+
+3. **CurrencyPipe**: 格式化数字为货币格式。
+
+   ```html
+   {{ 12345.6789 | currency:'USD' }}  <!-- 输出：$12,345.68 -->
+   ```
+
+4. **DecimalPipe**: 格式化数字为字符串。
+
+   ```html
+   {{ 12345.6789 | number:'3.1-5' }}  <!-- 输出：012,345.67890 -->
+   ```
+
+5. **PercentPipe**: 转换数字为百分比。
+
+   ```html
+   {{ 0.1234 | percent }}  <!-- 输出：12.34% -->
+   ```
+
+6. **Object**: 转化对象参数
+
+   ````html
+   <div>
+       <pre>{{task | json}}</pre>
+   </div>
+   ````
+
+
 
 #### 6.2 自定义管道
 
-需求：指定字符串不能超过规定的长度
+除了内置管道，你还可以创建自定义管道。自定义管道是一个带有`@Pipe`装饰器的类，该装饰器提供一个名称，这样你就可以在模板中引用它。这个类需要实现`PipeTransform`接口的`transform`方法。
+
+1. 使用Angular CLI创建一个新的管道：
+
+```
+ng generate pipe my-custom-pipe
+```
+
+2. 修改新生成的`my-custom-pipe.pipe.ts`文件：
+
+```ts
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'myCustomPipe'
+})
+export class MyCustomPipePipe implements PipeTransform {
+
+  transform(value: any, ...args: any[]): any {
+    // 这里处理你的逻辑
+    return newValue;
+  }
+
+}
+```
+
+3. 现在，你可以在组件模板中使用这个自定义管道：
+
+```html
+<p>{{ someValue | myCustomPipe }}</p>
+```
+
+
+
+**需求：**指定字符串不能超过规定的长度
 
 ```javascript
 // summary.pipe.ts
@@ -933,9 +1336,36 @@ import { SummaryPipe } from './summary.pipe'
 });
 ```
 
+
+
+
+
 ### 7. 组件通讯
 
+在Angular中，组件是构建应用的基础块。它们的嵌套和组合形成了应用的UI结构。当一个组件被另一个组件内部使用时，它们之间形成了父子关系。具体来说：
+
+1. **父组件 (Parent Component)**:
+   - 是包含子组件的组件。
+   - 可以通过属性绑定将数据传递给子组件。
+   - 可以监听子组件通过`@Output()`发射的事件。
+   - 通常控制和协调子组件的行为，或者在多个子组件之间进行数据的协调和传递。
+2. **子组件 (Child Component)**:
+   - 是被其他组件内部使用的组件。
+   - 通过`@Input()`装饰器接收来自父组件的数据。
+   - 可以使用`@Output()`装饰器和`EventEmitter`来发射事件给父组件。
+   - 通常更专注于特定的功能或UI片段，对于它如何被使用或它在哪里被使用一无所知。
+
+这种关系的关键点：
+
+- **封装性**：子组件封装了特定的功能或UI逻辑，并暴露了一个清晰的API（通过`@Input()`和`@Output()`）供父组件使用。
+- **可重用性**：由于子组件的封装性，它可以在多个地方重复使用，不仅限于某一个父组件。
+- **单向数据流**：Angular推荐的数据流是从父组件流向子组件。这使得数据流更容易跟踪和理解，也减少了意外的数据变化和副作用的可能性。
+
+
+
 #### 7.1 向组件内部传递数据
+
+传输数据的格式：直接在标签后面加入想要传递的变量
 
 ```html
 <app-favorite [isFavorite]="true"></app-favorite>
@@ -949,7 +1379,7 @@ export class FavoriteComponent {
 }
 ```
 
-注意：在属性的外面加 [] 表示绑定动态值，在组件内接收后是布尔类型，不加 [] 表示绑定普通值，在组件内接收后是字符串类型。
+==注意：在属性的外面加 [] 表示绑定动态值，在组件内接收后是布尔类型，不加 [] 表示绑定普通值，在组件内接收后是字符串类型。==
 
 ```html
 <app-favorite [is-Favorite]="true"></app-favorite>
@@ -963,40 +1393,65 @@ export class FavoriteComponent {
 }
 ```
 
+ 
+
 #### 7.2 组件向外部传递数据
 
-需求：在子组件中通过点击按钮将数据传递给父组件
+在Angular中，组件向外部（通常是父组件）传递数据的常见方法是使用事件发射器（`@Output()`）。下面是如何使用`@Output()`和`EventEmitter`进行组件之间的通信的步骤：
 
-```html
-<!-- 子组件模板 -->
-<button (click)="onClick()">click</button>
-```
 
-```javascript
-// 子组件类
-import { EventEmitter, Output } from "@angular/core"
 
-export class FavoriteComponent {
-  @Output() change = new EventEmitter()
-  onClick() {
-    this.change.emit({ name: "张三" })
+##### 7.2.1 在子组件中定义事件发射器：
+
+首先，需要在子组件的类中使用`@Output()`装饰器来定义一个事件发射器。
+
+```ts
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+    <button (click)="sendData()">Send Data</button>
+  `
+})
+export class ChildComponent {
+  @Output() dataEmitter = new EventEmitter<string>();  // 定义一个事件发射器
+
+  sendData() {
+    this.dataEmitter.emit('Data from child component');  // 发送数据
   }
 }
 ```
 
-```html
-<!-- 父组件模板 -->
-<app-favorite (change)="onChange($event)"></app-favorite>
-```
 
-```javascript
-// 父组件类
-export class AppComponent {
-  onChange(event: { name: string }) {
-    console.log(event)
+
+##### 7.2.2 在父组件的模板中绑定事件监听器：
+
+现在，你可以在父组件的模板中使用子组件，并绑定一个事件监听器来捕获从子组件发送的数据。
+
+```ts
+@Component({
+  selector: 'app-parent',
+  template: `
+    <app-child (dataEmitter)="receiveData($event)"></app-child>
+  `
+})
+export class ParentComponent {
+  receiveData(data: string) {
+    console.log(data);  // 打印从子组件接收到的数据
   }
 }
 ```
+
+在上面的代码中，我们使用了事件绑定`(dataEmitter)`来监听子组件的`dataEmitter`事件。当子组件通过其事件发射器发送数据时，`receiveData`方法会被调用，并收到从子组件传递的数据。==在Angular中，`$event` 是一个特殊的关键字，它代表从事件绑定传递过来的数据。当你监听某个事件（如点击事件、自定义事件等）并绑定一个处理函数时，Angular允许你直接访问与该事件关联的数据。==
+
+
+
+##### 7.2.3 使用发送的数据：
+
+现在，父组件可以在其类中使用从子组件发送的数据。在上面的例子中，父组件简单地在控制台中打印了从子组件接收到的数据。
+
+
 
 ### 8. 组件生命周期
 
@@ -1004,11 +1459,15 @@ export class AppComponent {
 
 #### 8.1 挂载阶段
 
-挂载阶段的生命周期函数只在挂载阶段执行一次，数据更新时不再执行。
+挂载阶段的生命周期函数只在挂载阶段执行一次，==数据更新时不再执行。==
 
-1. constructor
+1. **构造函数 (Constructor)**:
 
-   Angular 在实例化组件类时执行,  可以用来接收 Angular 注入的服务实例对象。
+   - 这是组件或指令的实例首次创建时调用的地方。
+   - 此时，依赖注入已经完成，但组件的输入属性尚未初始化，所以还不能在构造函数中访问输入属性值。
+   - 通常用于简单的初始化，如成员变量的默认值设置，但应避免执行复杂的逻辑或引发副作用。
+
+   ==Angular 在实例化组件类时执行,  可以用来接收 Angular 注入的服务实例对象。==
 
    ```javascript
    export class ChildComponent {
@@ -1018,9 +1477,14 @@ export class AppComponent {
    }
    ```
 
-2. ngOnInit
+2. **ngOnInit**
 
-   在首次接收到输入属性值后执行，在此处可以执行请求操作。
+   ==在首次接收到输入属性值后执行，在此处可以执行请求操作。==
+
+   - 组件的初始化方法。
+   - 在组件生命周期中仅执行一次。
+   - 此时，组件的输入属性已经被初始化。
+   - 通常用于组件的启动逻辑，如数据获取、初始化等。
 
    ```html
    <app-child name="张三"></app-child>
@@ -1035,9 +1499,9 @@ export class AppComponent {
    }
    ```
 
-3. ngAfterContentInit
+3. **ngAfterContentInit**
 
-   当内容投影初始渲染完成后调用。
+   ==当内容投影初始渲染完成后调用。==
 
    ```html
    <app-child>
@@ -1055,9 +1519,13 @@ export class AppComponent {
    }
    ```
 
-4. ngAfterViewInit
+4. **ngAfterViewInit**
 
-   当组件视图渲染完成后调用。
+   - 当组件的视图（及其子视图）初始化完成后调用。
+   - 在这个阶段，组件的视图及其子视图/子组件都已经被初始化。
+   - 在组件生命周期中仅执行一次。
+
+   ==当组件视图渲染完成后调用。==
 
    ```html
    <!-- app-child 组件模板 -->
@@ -1073,15 +1541,17 @@ export class AppComponent {
    }
    ```
 
+
+
 #### 8.2 更新阶段
 
 1. ngOnChanges
 
-   1. 当输入属性值发生变化时执行，初始设置时也会执行一次，顺序优于 ngOnInit
-   2. 不论多少输入属性同时变化，钩子函数只会执行一次，变化的值会同时存储在参数中
+   1. ==当输入属性值发生变化时执行，初始设置时也会执行一次，顺序优于 ngOnInit==
+   2. ==不论多少输入属性同时变化，钩子函数只会执行一次，变化的值会同时存储在参数中 (SimpleChanges里)==
    3. 参数类型为 SimpleChanges，子属性类型为 SimpleChange
    4. 对于基本数据类型来说, 只要值发生变化就可以被检测到
-   5. 对于引用数据类型来说, 可以检测从一个对象变成另一个对象, 但是检测不到同一个对象中属性值的变化，但是不影响组件模板更新数据。
+   5. ==对于引用数据类型（数组，对象）来说, 可以检测从一个对象变成另一个对象, 但是检测不到同一个对象中属性值的变化，但是不影响组件模板更新数据。==
 
    **基本数据类型值变化**
 
@@ -1114,6 +1584,8 @@ export class AppComponent {
 
    **引用数据类型变化**
 
+   只能检测到引用地址发生变化，即重新创建对象可以检测到，更改对象属性值检测不到。
+
    ```html
    <app-child [person]="person"></app-child>
    <button (click)="change()">change</button>
@@ -1138,17 +1610,19 @@ export class AppComponent {
    }
    ```
 
-2. ngDoCheck：主要用于调试，只要输入属性发生变化，不论是基本数据类型还是引用数据类型还是引用数据类型中的属性变化，都会执行。
+2. ==ngDoCheck：主要用于调试，只要输入属性发生变化，不论是基本数据类型还是引用数据类型还是引用数据类型中的属性变化，都会执行。==
 
-3. ngAfterContentChecked：内容投影更新完成后执行。
+3. ==ngAfterContentChecked：内容投影更新完成后执行。==
 
-4. ngAfterViewChecked：组件视图更新完成后执行。
+4. ==ngAfterViewChecked：组件视图更新完成后执行。==
+
+
 
 #### 8.3 卸载阶段
 
 1. ngOnDestroy
 
-   当组件被销毁之前调用, 用于清理操作。
+   `ngOnDestroy` 是 Angular 组件和指令的生命周期钩子。它在 Angular 销毁组件或指令之前被调用。当组件或指令不再需要时，这个钩子方法就会执行，为开发者提供一个执行清理工作的机会。
 
    ```javascript
    export class HomeComponent implements OnDestroy {
@@ -1158,11 +1632,23 @@ export class AppComponent {
    }
    ```
 
+
+
+
+
 ### 9. 依赖注入
 
 #### 9.1 概述
 
 依赖注入 ( Dependency Injection ) 简称DI，是面向对象编程中的一种设计原则，用来减少代码之间的**耦合度**。
+
+在传统的编程中，当一个类需要某些其他服务或对象时，它通常会自行创建这些服务或对象，或通过全局变量获取。但这种做法使得类与其所依赖的服务或对象紧密耦合，这使得测试和维护变得困难。
+
+依赖注入通过将依赖关系（服务或对象）传递（注入）给类，而不是由类自己创建，从而解决了这个问题。这样做的好处是：
+
+- **解耦**：组件和服务之间的耦合度降低。
+- **可维护性**：更容易替换、升级和配置应用程序的各个部分。
+- **可测试性**：可以轻松地为组件提供模拟服务，使得单元测试变得更加简单。
 
 ```javascript
 class MailService {
@@ -1199,22 +1685,24 @@ const mailService = new MailService("APIKEY1234567890")
 const emailSender = new EmailSender(mailService)
 ```
 
-在实例化 EmailSender 类时将它的依赖项通过 constructor 构造函数参数的形式注入到类的内部，这种写法就是依赖注入。
+==在实例化 EmailSender 类时将它的依赖项通过 constructor 构造函数参数的形式注入到类的内部，这种写法就是依赖注入。==
 
 通过依赖注入降了代码之间的耦合度，增加了代码的可维护性。MailService 类中代码的更改再也不会影响 EmailSender 类。
 
+
+
 #### 9.2 DI 框架
 
-Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，对于开发者来说只需使用很简单的代码就可以使用复杂的依赖注入功能。
+Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，对于开发者来说只需使用很简单的代码就可以使用复杂的依赖注入功能。类的实例化不需要手动操作。
 
 在 Angular 的 DI 框架中有四个核心概念：
 
-1. Dependency：组件要依赖的实例对象，服务实例对象
-2. Token：获取服务实例对象的标识
-3. Injector：注入器，负责创建维护服务类的实例对象并向组件中注入服务实例对象。
-4. Provider：配置注入器的对象，指定创建服务实例对象的服务类和获取实例对象的标识。
+1. ==Dependency：组件要依赖的实例对象，服务实例对象==
+2. ==Token：获取服务实例对象的标识（大部分情况都是类的名字）==
+3. ==Injector：注入器，负责创建维护服务类的实例对象并向组件中注入服务实例对象。==
+4. ==Provider：配置注入器的对象，指定创建服务实例对象的服务类和获取实例对象的标识。==
 
-##### 9.2.1 注入器 Injectors
+##### 9.2.1  注入器 Injectors
 
 注入器负责创建服务类实例对象，并将服务类实例对象注入到需要的组件中。
 
@@ -1252,10 +1740,10 @@ Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，�
    const mailService1 = injector.get(MailService)
    const mailService2 = childInjector.get(MailService)
    
-   console.log(mailService1 === mailService2)
+   console.log(mailService1 === mailService2) //false
    ```
 
-5. 服务实例的查找类似函数作用域链，当前级别可以找到就使用当前级别，当前级别找不到去父级中查找
+5. 服务实例的查找类似函数作用域链，==当前级别可以找到就使用当前级别，当前级别找不到去父级中查找==
 
    ```javascript
    const injector = ReflectiveInjector.resolveAndCreate([MailService])
@@ -1264,7 +1752,7 @@ Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，�
    const mailService1 = injector.get(MailService)
    const mailService2 = childInjector.get(MailService)
    
-   console.log(mailService1 === mailService2)
+   console.log(mailService1 === mailService2) //true
    ```
 
 
@@ -1278,7 +1766,7 @@ Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，�
    ])
    ```
 
-2. 访问依赖对象的标识也可以是字符串类型
+2. 访问依赖对象的标识也可以是字符串类型，即通过mail字符串获取MailServic实例对象
 
    ```javascript
    const injector = ReflectiveInjector.resolveAndCreate([
@@ -1304,9 +1792,21 @@ Angular 有自己的 DI 框架，它将实现依赖注入的过程隐藏了，�
 
 将实例对象和外部的引用建立了松耦合关系，外部通过标识获取实例对象，只要标识保持不变，内部代码怎么变都不会影响到外部。
 
+
+
+
+
 ### 10. 服务 Service
 
+在Angular中，服务是一个广泛用于任何值、函数或特性的类，该类的主要目标是让代码在应用的不同部分之间共享。服务是一个独立的、可重用的代码块，可以被注入到任何组件或其他服务中，这样就不需要重复编写相同的代码。通常，服务用于数据共享、逻辑实现或与后端的数据交互。
+
 #### 10.1 创建服务
+
+使用Angular CLI，可以轻松生成一个新的服务：
+
+```
+ng generate service logger
+```
 
 ```javascript
 import { Injectable } from '@angular/core';
@@ -1323,11 +1823,15 @@ export class AppComponent {
 }
 ```
 
+在上面的`@Injectable`装饰器中，我们使用`providedIn: 'root'`来告诉Angular，这个服务应该作为一个单例在应用的根级别提供。这意味着Angular将为整个应用创建一个服务的实例，并且所有需要这个服务的组件或服务都会使用同一个实例。
+
+
+
 #### 10.2 服务的作用域
 
 使用服务可以轻松实现跨模块跨组件共享数据，这取决于服务的作用域。
 
-1. 在根注入器中注册服务，所有模块使用同一个服务实例对象。
+1. ==在根注入器中注册服务，所有模块使用同一个服务实例对象。==
 
    ```javascript
    import { Injectable } from '@angular/core';
@@ -1340,7 +1844,7 @@ export class AppComponent {
    }
    ```
 
-2. 在模块级别注册服务，该模块中的所有组件使用同一个服务实例对象。
+2. ==在模块级别注册服务，该模块中的所有组件使用同一个服务实例对象。==下面两个都可以，一个是新语法一个是老语法。
 
    ```javascript
    import { Injectable } from '@angular/core';
@@ -1364,7 +1868,7 @@ export class AppComponent {
    }
    ```
 
-3. 在组件级别注册服务，该组件及其子组件使用同一个服务实例对象。
+3. ==在组件级别注册服务，该组件及其子组件使用同一个服务实例对象。==
 
    ```javascript
    import { Component } from '@angular/core';
@@ -1378,9 +1882,30 @@ export class AppComponent {
    ```
    
 
+
+
+
+
 ### 11. 表单
 
-在 Angular 中，表单有两种类型，分别为模板驱动和模型驱动。
+在 Angular 中，表单有两种类型，分别为==模板驱动和模型驱动（写在组件类里的驱动）==。
+
+**使用Angular表单对象（Reactive Forms或Template-Driven Forms）和不使用Angular表单对象对比，具有以下的主要区别：**
+
+1. **可维护性与可扩展性**：
+   - 使用Angular表单对象提供了更好的可维护性和可扩展性。你可以更方便地将验证、数据绑定、状态跟踪等与表单控件相关的逻辑整合到一起。
+2. **验证**：
+   - 使用Angular表单对象，可以利用Angular内置的验证功能，还可以自定义验证器。而不使用Angular表单对象可能需要手动实现验证逻辑或依赖第三方库。
+3. **响应式编程**：
+   - Reactive Forms允许你利用RxJS库进行响应式编程，这使得对复杂表单的处理变得更简单、更直观。
+4. **数据绑定**：
+   - 使用Angular表单对象，你可以轻松实现双向数据绑定。而不使用Angular表单对象可能需要手动同步DOM与数据模型之间的状态。
+5. **状态跟踪**：
+   - Angular表单提供了关于表单控件状态（如：是否被触摸、是否有效、是否被修改）的详细信息，这对于UI反馈和逻辑处理非常有用。
+6. **模块化和重用**：
+   - 使用Angular表单对象，你可以创建可重用的表单组、控件或整个表单，而不使用Angular表单可能需要每次都重新创建。
+
+
 
 #### 11.1 模板驱动
 
@@ -1390,7 +1915,7 @@ export class AppComponent {
 
 ##### 11.1.2 快速上手
 
-1. 引入依赖模块 FormsModule 
+1. **引入依赖模块 FormsModule** 
 
    ```javascript
    import { FormsModule } from "@angular/forms"
@@ -1401,11 +1926,13 @@ export class AppComponent {
    export class AppModule {}
    ```
 
-2. 将 DOM 表单转换为 ngForm
+2. **将 DOM 表单转换为 ngForm**
 
    ```html
    <form #f="ngForm" (submit)="onSubmit(f)"></form>
    ```
+
+   `NgForm` 是 Angular 中的一个指令，它自动附加到 `<form>` 标签上，创建并管理一个 `FormGroup` 实例，将它和表单的 HTML 元素关联起来。它是 Angular 的模板驱动表单 (Template-driven forms) 的核心部分。
 
 3. 声明表单字段为 ngModel
 
@@ -1416,7 +1943,9 @@ export class AppComponent {
    </form>
    ```
 
-4. 获取表单字段值
+   name的作用是声明表单项内部属性值。使用 `ngModel`，Angular 会自动将输入元素注册为表单控件。这使得Angular能跟踪这些控件的值、验证状态等。
+
+4. **获取表单字段值**
 
    ```javascript
    import { NgForm } from "@angular/forms"
@@ -1428,7 +1957,7 @@ export class AppComponent {
    }
    ```
 
-5. 表单分组
+5. **表单分组**
 
    ```html
    <form #f="ngForm" (submit)="onSubmit(f)">
@@ -1441,6 +1970,12 @@ export class AppComponent {
      <button>提交</button>
    </form>
    ```
+
+`submit` 事件是原生的 HTML 事件，它在以下情况下被触发：
+
+1. 当用户点击表单内的 `<button>` 或 `<input type="submit">` 元素时。
+2. 当表单内的一个 `<input>` 元素有焦点，并且用户按下 Enter 键时。
+   
 
 ##### 11.1.3 表单验证
 
@@ -1470,7 +2005,7 @@ export class AppComponent {
 <button type="submit" [disabled]="f.invalid">提交</button>
 ```
 
-在组件模板中显示表单项未通过时的错误信息。
+**在组件模板中显示表单项未通过时的错误信息。**
 
 ```html
 <form #f="ngForm" (submit)="onSubmit(f)">
@@ -1482,13 +2017,31 @@ export class AppComponent {
 </form>
 ```
 
-指定表单项未通过验证时的样式。
+这里的 `ngModel` 指令为输入框启用了双向数据绑定。这意味着输入元素的值和组件类中的某个属性将会同步。当你在输入框中输入或更改内容时，该属性也会更新，反之亦然。
+
+`#username="ngModel"` 是Angular中的模板引用变量（Template Reference Variable）的一个示例。
+
+让我们详细地解释这部分内容：
+
+1. **模板引用变量**：
+   - 在Angular模板中，可以使用井号 (`#`) 创建模板引用变量。这些变量为你提供了一种方法，可以从模板中引用页面上的元素。例如：`#myVar` 创建了一个名为 `myVar` 的模板引用变量。
+2. **赋值操作**：
+   - `#username="ngModel"` 不仅创建了一个模板引用变量，还执行了一个赋值操作。它将该输入元素上的 `ngModel` 指令实例赋值给了 `username` 变量。这意味着，你现在可以在模板内部使用 `username` 访问该输入元素的 `ngModel` 属性和方法。
+
+- `usernameModel.errors`: 这表示 `usernameModel` 控制项的 `errors` 属性。`errors` 属性是一个包含了所有验证错误的对象。如果没有验证错误，那么它的值是 `null`；如果存在任何验证错误，那么它是一个对象，其中的每个键都表示一个特定的验证错误。
+- `['minlength']`: 这是数组的索引访问语法，用于访问对象的属性。在这里，它试图访问 `errors` 对象中的 `minlength` 属性，该属性存在时表示该控制项未通过最小长度验证。
+
+
+
+**指定表单项未通过验证时的样式。**
 
 ```css
 input.ng-touched.ng-invalid {
   border: 2px solid red;
 }
 ```
+
+
 
 #### 11.2 模型驱动
 
