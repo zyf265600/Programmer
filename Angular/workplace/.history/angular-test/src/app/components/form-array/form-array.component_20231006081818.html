@@ -1,0 +1,19 @@
+<p>form-array works!</p>
+
+<form [formGroup]="contactForm" (submit)="onSubmit()">
+    <div formArrayName="contacts">
+        <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i">
+            <label for="address">Address: </label>
+            <input type="text" formControlName="address" id="address">
+        </div>
+        <div>
+            <label for="phoneNum">Phone Number: </label>
+            <input type="text" formControlName="phone" id="phoneNum">
+        </div>
+        <div>
+            <label for=""></label>
+        </div>
+    </div>
+
+    <button>提交</button>
+</form>

@@ -1,0 +1,14 @@
+<p>form-array works!</p>
+
+<form [formGroup]="contactForm" (submit)="onSubmit()">
+    <div>
+        <label for="address">Address: </label>
+        <input type="text" formControlName="firstName" id="address">
+    </div>
+    <div>
+        <label for="phoneNum">Phone Number: </label>
+        <input type="text" formControlName="lastName" id="lastName">
+    </div>
+    <input type="text" formControlName="phone" />
+    <button>提交</button>
+</form>

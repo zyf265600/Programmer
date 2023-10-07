@@ -1,0 +1,5 @@
+<p>form-checkbox works!</p>
+
+<label *ngFor="let item of Data">
+    <input type="checkbox" [value]="item.value" [(ngModel)]="item.checked" /> {{item.name}}
+</label>

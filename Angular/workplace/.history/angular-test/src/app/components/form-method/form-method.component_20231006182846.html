@@ -1,0 +1,7 @@
+<p>form-method works!</p>
+
+<form [formGroup]="form" (submit)="onSubmit()">
+    <input type="text" formControlName="firstName" id="firstName">
+    <input type="text" formControlName="lastName" id="lastName">
+    <button>提交</button>
+</form>

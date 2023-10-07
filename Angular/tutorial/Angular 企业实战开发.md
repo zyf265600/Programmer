@@ -2041,25 +2041,33 @@ input.ng-touched.ng-invalid {
 }
 ```
 
+1. `input`: 这是一个基本的元素选择器，用于选择所有`<input>`元素。
+2. `.ng-touched`: 这是一个类选择器，它选择了具有`ng-touched`类的元素。在Angular中，当表单控件被用户触摸过（即获得焦点并失去焦点）但尚未修改时，Angular会自动为该控件添加`ng-touched`类。
+3. `.ng-invalid`: 这也是一个类选择器，它选择了具有`ng-invalid`类的元素。当Angular表单控件的值不满足验证要求时，Angular会自动为该控件添加`ng-invalid`类。
+
 
 
 #### 11.2 模型驱动
 
 ##### 11.2.1 概述
 
+在 Angular 中，"模型驱动表单" 通常指的是**响应式表单**，与**模板驱动表单**相对。响应式表单提供了一种更具声明性、更有弹性的方式来创建和处理表单。==响应式表单的核心思想是在组件类中定义表单的模型，而不是在模板中。==
+
 表单的控制逻辑写在组件类中，对验证逻辑拥有更多的控制权，适合复杂的表单的类型。
 
-在模型驱动表单中，表单字段需要是 FormControl 类的实例，实例对象可以验证表单字段中的值，值是否被修改过等等
+==在模型驱动表单中，表单字段需要是 FormControl 类的实例，实例对象可以验证表单字段中的值，值是否被修改过等等==
 
 <img src="./images/6.jpg" />
 
-一组表单字段构成整个表单，整个表单需要是 FormGroup 类的实例，它可以对表单进行整体验证。
+==一组表单字段构成整个表单，整个表单需要是 FormGroup 类的实例，它可以对表单进行整体验证。==
 
 <img src="./images/7.jpg" />
 
 1. FormControl：表单组中的一个表单项
 2. FormGroup：表单组，表单至少是一个 FormGroup
 3. FormArray：用于复杂表单，可以动态添加表单项或表单组，在表单验证时，FormArray 中有一项没通过，整体没通过。
+
+
 
 ##### 11.2.2 快速上手
 
@@ -2096,6 +2104,14 @@ input.ng-touched.ng-invalid {
      <button>提交</button>
    </form>
    ```
+
+   **formControlName="name"为什么不加中括号**
+
+   在Angular中，`formControlName`是一个指令，用于将`<input>`元素绑定到`FormGroup`中的`FormControl`实例。它不需要使用中括号(`[]`)，因为你不是绑定一个值到这个指令，而是告诉Angular将该`<input>`元素与指定名称的`FormControl`实例关联。
+
+   当你使用中括号(`[]`)，你告诉Angular进行属性绑定。这意味着你要绑定一个组件类中的属性到模板中的一个元素或指令的属性。例如，`[attr.value]="someProperty"`或`[ngClass]="{'active': isActive}"`。
+
+   而当你使用不带中括号的形式，例如`formControlName="name"`，你实际上是提供了一个静态的字符串值"name"给`formControlName`指令。
 
 4. 获取表单值
 
@@ -2140,13 +2156,81 @@ input.ng-touched.ng-invalid {
    ```
 
    ```javascript
-   onSubmit() {
-     console.log(this.contactForm.value.name.username)
-     console.log(this.contactForm.get(["name", "username"])?.value)
+     onSubmit() {
+       console.log(this.contactForm.value);
+       console.log(this.contactForm.value.fullName?.firstName);
+       console.log(this.contactForm.value.fullName?.lastName);
+       console.log(this.contactForm.get(["fullName", "firstName"])?.value);
+     }
+   ```
+
+**.get()**: 这是`FormGroup`类的一个方法，用于通过路径来检索表单中的某个formcontrol对象。路径可以是一个字符串数组，表示嵌套的控件路径，或者是一个单独的字符串，表示表单中的一个控件名称。
+
+**["fullName", "firstName"]**: 这是一个路径，表示你想要从`fullName` `FormGroup`中获取名为`firstName`的`FormControl`。
+
+
+
+##### 11.2.3 FormArray
+
+`FormArray` 是 Angular 响应式表单的一部分，它用于管理一个动态的表单控件数组。与 `FormControl` 用于管理单个值和 `FormGroup` 用于管理固定键的对象不同，==也就是说这个数组可以装 `FormControl` 或者 `FormGroup`。`FormArray` 是为了管理长度可变的数组设计的。==
+
+**使用场景：**
+
+当你的表单需要一个可以动态添加或删除的字段集合时，`FormArray` 是一个很好的选择。例如，当用户需要动态添加多个电话号码字段或多个地址字段时。 
+
+**如何使用 `FormArray`：**
+
+1. **定义 FormArray**:
+
+   使用 `FormBuilder` 或直接使用 `FormArray` 构造函数创建。
+
+   ```ts
+   import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+   
+   constructor(private fb: FormBuilder) {
+     this.myForm = this.fb.group({
+       phoneNumbers: this.fb.array([])
+     });
    }
    ```
 
-##### 11.2.3 FormArray
+2. **添加控件到 FormArray**:
+
+   你可以使用 `push` 方法添加新的控件。
+
+   ```ts
+   get phoneNumbers() {
+     return this.myForm.get('phoneNumbers') as FormArray;
+   }
+   
+   addPhoneNumber() {
+     this.phoneNumbers.push(this.fb.control(''));
+   }
+   ```
+
+3. **在模板中遍历 FormArray**:
+
+   使用 `*ngFor` 指令在模板中遍历 `FormArray` 的控件。
+
+   ```html
+   <div formArrayName="phoneNumbers">
+     <div *ngFor="let phone of phoneNumbers.controls; let i = index">
+       <input [formControlName]="i">
+     </div>
+   </div>
+   ```
+
+4. **从 FormArray 中删除控件**:
+
+   使用 `removeAt` 方法。
+
+   ```ts
+   removePhoneNumber(index: number) {
+     this.phoneNumbers.removeAt(index);
+   }
+   ```
+
+
 
 需求：在页面中默认显示一组联系方式，通过点击按钮可以添加更多联系方式组。
 
@@ -2167,6 +2251,9 @@ export class AppComponent implements OnInit {
   get contacts() {
     return this.contactForm.get("contacts") as FormArray
   }
+  //get contacts(): 这是TypeScript中的一个 getter。它定义了一个名为 contacts 的属性，当你在组件的其他部分或模板中访问这个属性时，它将执行并返回该 getter 的内容。
+  //this.contactForm.get("contacts"): 这使用了 FormGroup 的 get 方法来检索名为 "contacts" 的控件。contactForm 是一个 FormGroup 实例。 
+  //as FormArray: 这是TypeScript的类型断言，用于将获取到的控件强制转换为 FormArray 类型。这是必要的，因为 .get() 方法返回的是 AbstractControl 类型，这是所有控件（如 FormControl、FormGroup 和 FormArray）的基类。但在这种情况下，我们知道 "contacts" 是一个 FormArray，所以我们可以安全地进行类型断言。
 
   // 添加联系方式
   addContact() {
@@ -2213,6 +2300,8 @@ export class AppComponent implements OnInit {
   <button>提交</button>
 </form>
 ```
+
+
 
 ##### 11.2.4 内置表单验证器
 
@@ -2264,14 +2353,16 @@ export class AppComponent implements OnInit {
    </form>
    ```
 
+
+
 ##### 11.2.5 自定义同步表单验证器
 
 1. 自定义验证器的类型是 TypeScript 类
-2. 类中包含具体的验证方法，验证方法必须为静态方法
-3. 验证方法有一个参数 control，类型为 AbstractControl。其实就是 FormControl 类的实例对象的类型
-4. 如果验证成功，返回 null
-5. 如果验证失败，返回对象，对象中的属性即为验证标识，值为 true，标识该项验证失败
-6. 验证方法的返回值为 ValidationErrors | null
+2. ==类中包含具体的验证方法，验证方法必须为静态方法==
+3. ==验证方法有一个参数 control，类型为 AbstractControl。其实就是 FormControl 类的实例对象的类型==
+4. ==如果验证成功，返回 null==
+5. ==如果验证失败，返回对象，对象中的属性即为验证标识，值为 true，标识该项验证失败==
+6. ==验证方法的返回值为 ValidationErrors | null==
 
 ```javascript
 import { AbstractControl, ValidationErrors } from "@angular/forms"
@@ -2303,6 +2394,8 @@ contactForm: FormGroup = new FormGroup({
 	<div *ngIf="name.errors.cannotContainSpace">姓名中不能包含空格</div>
 </div>
 ```
+
+
 
 ##### 11.2.6 自定义异步表单验证器
 
@@ -2342,9 +2435,11 @@ contactForm: FormGroup = new FormGroup({
 <div *ngIf="name.pending">正在检测姓名是否重复</div>
 ```
 
+
+
 ##### 11.2.7 FormBuilder
 
-创建表单的快捷方式。
+`FormBuilder` 是Angular响应式表单模块的一个部分，它提供了一个更简洁、更直观的方式来创建表单控件。使用 `FormBuilder`，你可以更容易地构建复杂的表单模型，而不需要手动实例化 `FormControl`、`FormGroup` 和 `FormArray`。
 
 1. `this.fb.control`：表单项
 2. `this.fb.group`：表单组，表单至少是一个 FormGroup
@@ -2366,6 +2461,8 @@ export class AppComponent {
   }
 }
 ```
+
+
 
 ##### 11.2.8 练习
 
@@ -2432,6 +2529,58 @@ export class AppComponent {
    
    ```
 
+   **onChange:**
+
+   1. **参数**:
+      - `event: Event`: 这是从DOM传入的事件对象，它包含了有关触发事件的详细信息。
+   2. **获取事件目标**:
+      - `const target = event.target as HTMLInputElement`: 这里，我们获取了触发事件的元素（在这种情况下是`<input type="checkbox">`元素）并将其强制转换为`HTMLInputElement`类型，以便我们可以访问复选框特有的属性，如`checked`和`value`。
+   3. **获取复选框的状态和值**:
+      - `const checked = target.checked`: 确定复选框是否被选中。
+      - `const value = target.value`: 获取复选框的值。
+   4. **获取表单数组**:
+      - `const checkArray = this.form.get("checkArray") as FormArray`: 这里，我们从表单中获取名为"checkArray"的`FormArray`。`FormArray`是响应式表单中用于管理动态数量的表单控件的工具。
+   5. **根据复选框的状态更新表单数组**:
+      - 如果复选框被选中（`checked`为`true`），我们将其值添加到`checkArray`中。
+      - 如果复选框被取消选中，我们找到对应值在`checkArray`中的索引，并将其从数组中移除。
+
+   **if:**
+
+   1. **当复选框被选中 (`checked` 为 `true`) **:
+
+      ```ts
+      if (checked) {
+         checkArray.push(this.fb.control(value));
+      }
+      ```
+
+      ==如果复选框被选中，代码会创建一个新的`FormControl`==，其值为复选框的`value`，并将这个新创建的`FormControl`添加到`checkArray`中。
+
+   2. **当复选框被取消选中**:
+
+      ```ts
+      else {
+         const index = checkArray.controls.findIndex(control => control.value === value);
+         checkArray.removeAt(index);
+      }
+      ```
+
+      如果复选框被取消选中，代码会在`checkArray`中查找一个已存在的`FormControl`，其值与复选框的`value`相同。`(control => control.value === value)`这是传给`findIndex`的函数。对于`checkArray.controls`中的每一个`control`，它检查`control`的`value`是否等于给定的`value`。
+
+      如果找到了一个`control`其`value`等于`value`，那么`findIndex`会返回那个`control`的索引。
+
+      找到这样的控件后，它会从`checkArray`中被移除。
+
+   3. **输出 `checkArray` 的内容**:
+
+      ```ts
+      console.log(checkArray.controls);
+      ```
+
+      最后，代码输出`checkArray`的所有控件，以供调试。这对于验证`checkArray`的内容是否如预期更新是非常有用的。
+
+   
+
 2. 获取单选框中选中的值
 
    ```javascript
@@ -2456,6 +2605,10 @@ export class AppComponent {
    </form>
    ```
 
+==一组单选框要有一样的 `formControlName`==
+
+
+
 ##### 11.2.9 其他
 
 1. patchValue：设置表单控件的值（可以设置全部，也可以设置其中某一个，其他不受影响）
@@ -2463,11 +2616,61 @@ export class AppComponent {
 3. valueChanges：当表单控件的值发生变化时被触发的事件
 4. reset：表单内容置空
 
+````html
+<form [formGroup]="form" (submit)="onSubmit()">
+    <input type="text" formControlName="firstName" id="firstName">
+    <input type="text" formControlName="lastName" id="lastName">
+    <button (click)="onPatchValue()">patchValue</button>
+    <button (click)="onSetValue()">setValue</button>
+    <button (click)="onReset()">reset</button>
+    <button>提交</button> 
+</form>
+````
+
+````ts
+export class FormMethodComponent implements OnInit{
+  form: FormGroup = new FormGroup({
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+  });
+
+  ngOnInit(): void {
+    this.form.get('lastName')?.valueChanges.subscribe((value) => {console.log(value)})
+  }
+
+  onSubmit() {
+  }
+
+  onPatchValue() {
+    this.form.patchValue({
+      firstName: "😝"
+    })
+  }
+
+  onSetValue() {
+    this.form.setValue({
+      firstName: "😝",
+      lastName: "😝"
+    })
+  }
+
+  onReset(){
+    this.form.reset();
+  }
+}
+````
+
+
+
+
+
 ### 12. 路由
 
 #### 12.1 概述
 
-在 Angular 中，路由是以模块为单位的，每个模块都可以有自己的路由。
+在 Angular 中，==路由是以模块为单位的，每个模块都可以有自己的路由。==路由是一个非常强大的功能，==允许你在不重新加载整个应用的情况下导航到不同的视图或组件。==它使得创建单页面应用程序（SPA）变得简单而直观。
+
+
 
 #### 12.2 快速上手
 
@@ -2521,6 +2724,8 @@ export class AppComponent {
    <a routerLink="/home">首页</a>
    <a routerLink="/about">关于我们</a>
    ```
+
+
 
 #### 12.3 匹配规则
 
@@ -3012,6 +3217,10 @@ export class HomeComponent {
   }
 }
 ```
+
+
+
+
 
 ### 13. [RxJS](https://rxjs.dev/)
 

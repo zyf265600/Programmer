@@ -1,0 +1,7 @@
+<p>form-checkbox works!</p>
+
+<form [formGroup]="form" (submit)="onSubmit()">
+    <label *ngFor="let item of Data">
+        <input type="checkbox"  (change)="onChange($event)" /> {{item.name}}
+    </label>
+</form>
