@@ -3243,11 +3243,15 @@ export class HomeComponent {
 
 RxJS 是一个用于处理异步编程的  JavaScript 库，目标是使编写异步和基于回调的代码更容易。
 
+
+
 ##### 13.1.2 为什么要学习 RxJS ?
 
 就像 Angular 深度集成 TypeScript 一样，Angular 也深度集成了 RxJS。
 
 服务、表单、事件、全局状态管理、异步请求 ...
+
+
 
 ##### 13.1.3 快速入门
 
@@ -3273,11 +3277,13 @@ RxJS 是一个用于处理异步编程的  JavaScript 库，目标是使编写�
    const observer = {
      next: function (value) {
        console.log(value)
-     }
+     } 
    }
    
    observable.subscribe(observer)
    ```
+
+
 
 #### 13.2 可观察对象
 
@@ -3356,7 +3362,7 @@ RxJS 是一个用于处理异步编程的  JavaScript 库，目标是使编写�
    observable.subscribe(observer)
    ```
 
-4. 可观察对象是惰性的，只有被订阅后才会执行
+4. 可观察对象是惰性的，==只有被订阅后才会执行==
 
    ```javascript
    const observable = new Observable(function () {
@@ -3365,7 +3371,7 @@ RxJS 是一个用于处理异步编程的  JavaScript 库，目标是使编写�
    // observable.subscribe()
    ```
 
-5. 可观察对象可以有 n 多订阅者，每次被订阅时都会得到执行
+5. 可观察对象可以有 n 多订阅者，==每次被订阅时都会得到执行==
 
    <img src="./images/64.png" align="left"/>
 
@@ -3394,6 +3400,8 @@ RxJS 是一个用于处理异步编程的  JavaScript 库，目标是使编写�
    }, 2000)
    ```
 
+
+
 ##### 13.2.2 Subject
 
 1. 用于创建空的可观察对象，在订阅后不会立即执行，next 方法可以在可观察对象外部调用
@@ -3412,6 +3420,7 @@ RxJS 是一个用于处理异步编程的  JavaScript 库，目标是使编写�
    ```
 
 
+
 ##### 13.2.3 BehaviorSubject
 
 拥有 Subject 全部功能，但是在创建 Obervable 对象时可以传入默认值，观察者订阅后可以直接拿到默认值。
@@ -3423,6 +3432,8 @@ const demoBehavior = new BehaviorSubject("默认值")
 demoBehavior.subscribe({next: function (value) {console.log(value)}})
 demoBehavior.next("Hello")
 ```
+
+
 
 ##### 13.2.3 ReplaySubject
 
@@ -3444,6 +3455,8 @@ setTimeout(function () {
   rSubject.subscribe({next: function (value) {console.log(value)}})
 }, 3000)
 ```
+
+
 
 #### 13.3 辅助方法
 
