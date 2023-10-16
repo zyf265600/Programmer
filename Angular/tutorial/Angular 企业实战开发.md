@@ -2713,10 +2713,19 @@ export class FormMethodComponent implements OnInit{
 
 4. 添加路由插座
 
-    ```html
+   ```html
    <!-- 路由插座即占位组件 匹配到的路由组件将会显示在这个地方 -->
    <router-outlet></router-outlet>
    ```
+
+   1. **使用 `<router-outlet>`**：在你的主应用模板（例如 `app.component.html`）中，你会包含 `<router-outlet></router-outlet>` 指令。这告诉 Angular，当路由发生变化时，应该在这里加载匹配的组件。
+
+      ```html
+      <nav>...导航链接...</nav>
+      <router-outlet></router-outlet>
+      ```
+
+   2. **导航和内容加载**：当用户点击一个路由链接或当你通过代码进行导航时，Angular 会查找与当前URL匹配的路由。找到匹配的路由后，Angular 会加载与该路由关联的组件，并将其内容插入到 `<router-outlet></router-outlet>` 指令的位置。
 
 5. 在导航组件中定义链接
 
@@ -2769,6 +2778,8 @@ const routes: Routes = [
   }
 ]
 ```
+
+
 
 #### 12.4 路由传参
 
