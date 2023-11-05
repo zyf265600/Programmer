@@ -478,10 +478,10 @@ colspan 是一个HTML属性（HTML Attribute），用于定义一个表格单元
 
 ```html
 <button class="btn btn-primary" [class.active]="isActive">按钮</button>
-<div [ngClass]="{'active': true, 'error': true}"></div>
+<div [ngClass]="{active: true, error: true}"></div>
 ```
 
-在HTML模板中，`[class.active]="isActive"` 是一个条件类（conditional class）。这里的 `[class.active]` 是一个属性绑定，它将按钮元素的 `active` 类设置为由 `isActive` 变量的值决定的。它会根据表达式的值来决定是否添加或移除一个或多个类。
+在HTML模板中，`[class.active]="isActive"` 是一个条件类（conditional class）。这里的 `[class.active]` 是一个属性绑定，==它将按钮元素的 `active` 类设置为由 `isActive` 变量的值决定的。==它会根据表达式的值来决定是否添加或移除一个或多个类。这里的大括号意味着里面包含着一个对象。
 
 ##### 4.2.3 style 属性
 
@@ -2428,6 +2428,8 @@ contactForm: FormGroup = new FormGroup({
   })
 ```
 
+
+
 ```html
 <div *ngIf="name.touched && name.invalid && name.errors">
   <div *ngIf="name.errors.shouldBeUnique">用户名重复</div>
@@ -2711,6 +2713,8 @@ export class FormMethodComponent implements OnInit{
    export class AppModule {}
    ```
 
+   **useHash:** 在Angular中使用哈希（hash）风格的URL意味着路由会在URL中使用`#`字符。这种风格的URL常用于前端单页应用程序，可以确保浏览器不会发送新的HTTP请求来获取页面，因为浏览器知道哈希部分（`#`后面的部分）只是用于客户端。由于浏览器不会为哈希变化发出新的请求，所以可以实现纯前端的导航。
+
 4. 添加路由插座
 
    ```html
@@ -2760,6 +2764,8 @@ const routes: Routes = [
 ]
 ```
 
+**pathMatch:** 在Angular的路由配置中，`pathMatch` 是一个重要的选项，用于指定如何匹配路由的路径。这个选项有两个常见的值：`'full'` 和 `'prefix'`。**`'full'`**：这意味着整个URL路径需要完全匹配路由的路径。只有当URL的路径完全等于路由的路径时，才会激活该路由。**`prefix'`**：这意味着URL路径只需要以路由的路径作为前缀即可匹配。如果该路由的路径是URL路径的开始部分，则该路由会被激活。
+
 ##### 12.3.2 404 页面
 
 ```javascript
@@ -2778,6 +2784,8 @@ const routes: Routes = [
   }
 ]
 ```
+
+**path: "\**"** `**` 是一个通配符，它会匹配任何没有被其他路由规则匹配到的URL。也就是说，当用户访问一个不存在的路由时，这个规则会被触发。
 
 
 
@@ -2837,6 +2845,8 @@ export class AboutComponent implements OnInit {
 
 ```
 
+
+
 #### 12.5 路由嵌套
 
 路由嵌套指的是如何定义子级路由。
@@ -2860,6 +2870,8 @@ const routes: Routes = [
 ]
 ```
 
+==子级路由的内容要显示在父级路由的路由插座里：==
+
 ```html
 <!-- about.component.html -->
 <app-layout>
@@ -2872,9 +2884,11 @@ const routes: Routes = [
 </app-layout>
 ```
 
+
+
 #### 12.6 命名插座
 
-将子级路由组件显示到不同的路由插座中。
+将子级路由组件显示到==不同的==路由插座中。
 
 ```javascript
 {
@@ -2919,6 +2933,8 @@ const routes: Routes = [
 </a>
 ```
 
+
+
 #### 12.7 导航路由
 
 ```html
@@ -2941,6 +2957,8 @@ export class HomeComponent {
   }
 }
 ```
+
+
 
 #### 12.8 路由模块
 
@@ -2989,9 +3007,11 @@ import { NotFoundComponent } from "./pages/not-found/not-found.component"
 export class AppModule {}
 ```
 
+
+
 #### 12.9 路由懒加载
 
-路由懒加载是以模块为单位的。
+路由懒加载（Lazy Loading）是Angular中的一个优化技术，**允许应用在首次加载时只加载必要的模块，而不是加载所有模块。**当用户导航到相关功能的路由时，其他模块会按需加载。这可以大大提高应用的初始加载速度。
 
 1. 创建用户模块 `ng g m user --routing=true` 一并创建该模块的路由模块
 
@@ -3037,6 +3057,9 @@ export class AppModule {}
    ]
    ```
 
+   - `import("./user/user.module")`: 这是动态`import()`语法，它会告诉Webpack (或其他打包工具) 把`user.module`作为一个单独的块（chunk）。
+   - `then(m => m.UserModule)`: 当模块加载完成后，`then`方法会被调用。`m`是一个模块对象集合。然后我们从加载的模块中获取`UserModule`并返回。
+
 6. 在导航组件中添加访问链接
 
    ```html
@@ -3044,9 +3067,11 @@ export class AppModule {}
    <a routerLink="/user/register">注册</a>
    ```
 
+
+
 #### 12.10 路由守卫
 
-路由守卫会告诉路由是否允许导航到请求的路由。
+==路由守卫会告诉路由是否允许导航到请求的路由。==
 
 路由守方法可以返回 boolean 或 Observable \<boolean\> 或 Promise \<boolean\>，它们在将来的某个时间点解析为布尔值。
 
@@ -3056,9 +3081,9 @@ export class AppModule {}
 
 CanActivate 为接口，路由守卫类要实现该接口，该接口规定类中需要有 canActivate 方法，方法决定是否允许访问目标路由。
 
-路由可以应用多个守卫，所有守卫方法都允许，路由才被允许访问，有一个守卫方法不允许，则路由不允许被访问。
+==路由可以应用多个守卫，所有守卫方法都允许，路由才被允许访问，有一个守卫方法不允许，则路由不允许被访问。==
 
-创建路由守卫：`ng g guard guards/auth`
+创建路由守卫：`ng g guard guards/authGard`
 
 ```javascript
 import { Injectable } from "@angular/core"
@@ -3089,6 +3114,8 @@ export class AuthGuard implements CanActivate {
   canActivate: [AuthGuard]
 }
 ```
+
+
 
 ##### 12.10.2 CanActivateChild
 
@@ -3125,6 +3152,8 @@ export class AdminGuard implements CanActivateChild {
 }
 ```
 
+
+
 ##### 12.10.3 CanDeactivate
 
 检查用户是否可以退出路由。比如用户在表单中输入的内容没有保存，用户又要离开路由，此时可以调用该守卫提示用户。
@@ -3139,22 +3168,48 @@ import {
 } from "@angular/router"
 import { Observable } from "rxjs"
 
-export interface CanComponentLeave {
+export interface CanLeave {
   canLeave: () => boolean
 }
 
 @Injectable({
   providedIn: "root"
 })
-export class UnsaveGuard implements CanDeactivate<CanComponentLeave> {
-  canDeactivate(component: CanComponentLeave): boolean {
+export class UnsaveGuard implements CanDeactivate<CanLeave> {
+  canDeactivate(
+    component: CanLeave,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     if (component.canLeave()) {
       return true
+    } else {
+      if (confirm("确定要离开吗？")) {
+        return true
+      }
+      else {
+        return false
+      }
     }
-    return false
   }
 }
+
 ```
+
+让我们分析一下代码：
+
+1. `CanLeave` 接口定义了一个 `canLeave` 方法，该方法返回一个布尔值。这个布尔值决定了是否可以离开当前组件。
+2. `UnsaveGuard` 类实现了 `CanDeactivate` 接口。因此，它必须提供一个 `canDeactivate` 方法。
+3. 在 `canDeactivate` 方法中，你可以访问当前的组件实例（在此例中为 `component` 参数），并根据组件的 `canLeave` 方法的返回值决定是否可以离开。如果 `canLeave` 返回 `true`，则允许导航；如果返回 `false`，则不允许。
+
+==`CanDeactivate<CanLeave>` 的含义是：这个 `CanDeactivate` 守卫期望处理的组件应该有一个遵循 `CanLeave` 接口的 `canLeave` 方法。当你在路由配置中为一个路由添加了这个守卫时，该路由关联的组件必须实现 `CanLeave` 接口。==
+
+例如，如果你有一个 `EditProfileComponent`，并且你想使用 `UnsaveGuard` 来防止用户在未保存更改的情况下离开，那么 `EditProfileComponent` 需要实现 `CanLeave` 接口，这样 `UnsaveGuard` 就可以调用它的 `canLeave` 方法来决定是否允许导航离开。
 
 ```javascript
 {
@@ -3184,9 +3239,13 @@ export class HomeComponent implements CanComponentLeave {
 
 ```
 
+
+
 ##### 12.10.4 Resolve
 
-允许在进入路由之前先获取数据，待数据获取完成之后再进入路由。
+在Angular中，`Resolve` 是一种特殊的路由守卫，它允许你在路由激活之前预先获取路由所需的数据。这对于确保组件在获取所需数据之前不被实例化特别有用。这样，你可以在路由到一个组件之前先获取和准备所有必要的数据。
+
+使用 `Resolve` 守卫的优点是可以确保在组件被实例化之前，其所需的所有数据都已经可用，这为用户提供了更好的体验，因为他们不会看到部分加载的或不完整的页面。不过，需要注意的是，使用这种方法可能会导致页面加载延迟，因为路由会等待数据获取完成后才进行导航。如果数据获取失败，可能需要处理这种情况，以确保应用程序的鲁棒性。
 
 `ng g resolver <name>`
 
@@ -4296,6 +4355,10 @@ fromEvent(button, "click")
   .subscribe(console.log)
 ```
 
+
+
+
+
 ### 14. HttpClientModule
 
 该模块用于发送 Http 请求，用于发送请求的方法都返回 Observable 对象。
@@ -4339,6 +4402,8 @@ fromEvent(button, "click")
    }
    ```
 
+
+
 #### 14.2  请求方法
 
 ```javascript
@@ -4352,6 +4417,8 @@ this.http.put(url, data [, options]);
 this.http.get<Post[]>('/getAllPosts')
   .subscribe(response => console.log(response))
 ```
+
+
 
 #### 14.3 请求参数
 
@@ -4393,6 +4460,9 @@ this.http.get<Post[]>('/getAllPosts')
    let params = new HttpParams({ fromString: "name=zhangsan&age=20"})
    ```
 
+**==注意！append params 后需要重新赋值！==**
+
+
 
 #### 14.4 请求头
 
@@ -4417,6 +4487,8 @@ export declare class HttpHeaders {
 let headers = new HttpHeaders({ test: "Hello" })
 ```
 
+
+
 #### 14.5 响应内容
 
 ```javascript
@@ -4431,6 +4503,8 @@ this.http.get(
   { observe: "body" }
 ).subscribe(console.log)
 ```
+
+
 
 #### 14.6 拦截器
 

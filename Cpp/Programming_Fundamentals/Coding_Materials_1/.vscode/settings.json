@@ -5,6 +5,7 @@
         "__bit_reference": "cpp",
         "ostream": "cpp",
         "iosfwd": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "__assert": "cpp"
     }
 }

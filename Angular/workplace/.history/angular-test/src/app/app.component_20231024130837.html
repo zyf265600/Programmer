@@ -1,0 +1,116 @@
+<!-- <div>App works!</div>
+<app-data-bond></app-data-bond>
+
+<app-content-projection>
+    <div class="a text-center text-primary">a</div>
+    <div class="b">b</div>
+    <ng-container class="c">c</ng-container>
+</app-content-projection>
+
+<h1>{{title}}</h1>
+<h2>{{message}}</h2>
+<h2>{{getInfo()}}</h2>
+<h2>{{a == b ? '相等': '不等'}}</h2>
+<h2>{{'Hello Angular'}}</h2>
+<p [innerHTML]="htmlSnippet"></p> 
+
+<img [src]="img" style="width:20px; height:20px" />
+
+<div [class.active]="isActive">Class.active</div>
+<div [ngClass]="{'active': isActive1, 'error': isActive2}"></div>
+
+<button [style.backgroundColor]="isActive3 ? 'blue': 'red'">按钮</button>
+<button [ngStyle]="{'backgroundColor':color}">按钮</button>
+
+<button (click)="onSave($event)">Button</button>
+
+<input type="text" (keyup.enter)="onKeyUp()" />
+
+<button #btn (click)="onClick(btn,paragraph)">Button</button>
+
+<p #paragraph>home works!</p>
+
+<ul>
+    <li #items>a</li>
+    <li #items>b</li>
+    <li #items>c</li>
+</ul>
+
+<div>{{task.person?.name}}</div>
+<div *ngIf="task.person">{{task.person.name}}</div>
+
+<div *ngIf="true; else elseTemplate">我是一个可见的元素</div>
+<ng-template #elseTemplate>我是一个不可见的元素</ng-template>
+
+<button class="btn btn-primary">Button</button>
+
+<div *ngIf="list.length==0">没有更多数据</div>
+<ng-template #dataList>课程列表</ng-template>
+
+<div [hidden]="list.length == 0">课程列表</div>
+<div [hidden]="list.length > 0">没有更多数据</div>
+
+<ul>
+    <li *ngFor="let item of item_s">{{ item }}</li>
+</ul>
+<ul>
+    <li *ngFor="
+        let item of item_s; 
+        let i = index; 
+        let isFirst = first; 
+        let isLast = last;
+        let isEven = even;
+        let isOdd = odd;
+        trackBy: identify
+        " [ngClass]="{even: isEven, odd: isOdd}">
+        {{ i }}: {{ item }}
+        {{ isFirst ? '(first)' : '' }}
+        {{ isLast ? '(last)' : '' }}
+    </li>
+</ul>
+
+<div [appHover]="{bgColor:'red'}">good</div>
+
+<div>{{date | date: "yyyy-MM-dd"}}</div>
+<div>{{money | currency: "CNY"}}</div>
+{{ 'hello' | uppercase }} 
+<div>
+    <pre>{{task | json}}</pre>
+</div>
+<div>{{namechunk | stringchunck: 5: 10}}</div>
+
+<app-person name="zhangsan" [age]=20></app-person>
+
+<app-person (sendData)="getData($event)"></app-person>
+
+<app-child [name]="name"></app-child>
+<button (click)="change()">Change Name</button>
+
+<app-demo></app-demo>
+
+<app-form></app-form>
+
+<app-form-array></app-form-array>
+
+<app-form-builder></app-form-builder>
+
+<app-form-checkbox></app-form-checkbox>
+
+<app-form-method></app-form-method> -->
+
+<!-- <router-outlet></router-outlet> -->
+
+<!-- <app-http></app-http> -->
+
+<nav>
+    <a routerLink="/navigator">首页</a>
+    <br><br>
+</nav>
+
+<router-outlet></router-outlet>
+
+
+
+
+
+

@@ -159,3 +159,71 @@ interface SquareConfig {
   width?: number;
 }
 ```
+
+
+
+### 泛型 
+
+#### 1. 泛型函数
+
+泛型函数是能够处理任何数据类型的函数，不仅限于单一的数据类型。例如：
+
+```ts
+function identity<T>(arg: T): T {
+    return arg;
+}
+```
+
+在上述代码中，`<T>` 是泛型类型变量，代表用户提供的任何类型。
+
+#### 2. 泛型类型
+
+与泛型函数相似，我们还可以定义泛型类型。例如：
+
+```ts
+interface GenericIdentityFn<T> {
+    (arg: T): T;
+}
+
+let myIdentity: GenericIdentityFn<number> = identity;
+```
+
+#### 3. 泛型类
+
+泛型类和泛型接口差不多。泛型类使用（`<>`）与类名一起定义。
+
+```ts
+class GenericNumber<T> {
+    zeroValue: T;
+    add: (x: T, y: T) => T;
+}
+```
+
+#### 4. 泛型约束
+
+你可能会想在泛型中使用某些特定的方法或属性，但因为泛型是任意类型，所以不能确保这些方法或属性存在。这时，我们可以使用“泛型约束”来限制泛型的类型。
+
+```ts
+interface Lengthwise {
+    length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+    console.log(arg.length);  // Now we know .length exists on arg
+    return arg;
+}
+```
+
+#### 5. 在泛型约束中使用类型参数
+
+你可以声明一个类型参数，它被另一个类型参数所约束。
+
+```ts
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
+}
+```
+
+#### 6. 泛型工具类型
+
+TypeScript 内置了一些有用的工具类型，使得类型操作变得更加容易。例如，`Partial<T>`、`Readonly<T>`、`Pick<T, K>` 等。

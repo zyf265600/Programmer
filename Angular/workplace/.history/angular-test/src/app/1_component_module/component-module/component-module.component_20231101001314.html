@@ -1,0 +1,25 @@
+<div>1.1 数据绑定</div>
+
+<h1>{{title}}</h1>
+<h2>{{message}}</h2>
+<h2>{{getInfo()}}</h2>
+<h2>{{a == b ? '相等': '不等'}}</h2>
+<h2>{{'Hello Angular'}}</h2>
+<p [innerHTML]="htmlSnippet"></p> 
+
+<div>1.2 属性绑定</div>
+<!-- 属性绑定 -->
+<img [src]="img" style="width:120px; height:120px"/>
+
+<!-- 插值 -->
+<img src="{{img}}" style="width:120px; height:120px">
+
+<br><br>
+<div>1.3 class/style 属性</div>
+<div [class.active]="isActive">Class.active</div>
+<div [ngClass]="{active: isActive1, error: isActive2}">Class.active Class.error</div>
+<button [style.backgroundColor]="isActive3 ? 'blue': 'red'">按钮</button>
+<button [ngStyle]="{'backgroundColor':color}">按钮</button>
+
+<br><br>
+<div>1.4 shi jian bang ding</div>

@@ -1,0 +1,24 @@
+class Subsets {
+        List<List<Integer>> result = new ArrayList<>();
+        LinkedList<Integer> path = new LinkedList<>();
+        public List<List<Integer>> subsets(int[] nums) {
+            if (nums.length == 0){
+                result.add(new ArrayList<>());
+                return result;
+            }
+            subsetsHelper(nums, 0);
+            return result;
+        }
+     
+        private void subsetsHelper(int[] nums, int startIndex){
+            result.add(new ArrayList<>(path));
+            if (startIndex >= nums.length){ 
+                return;
+            }
+            for (int i = startIndex; i < nums.length; i++){
+                path.add(nums[i]);
+                subsetsHelper(nums, i + 1);
+                path.removeLast();
+            }
+        }
+    }
