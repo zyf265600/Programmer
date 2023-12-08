@@ -1,0 +1,32 @@
+function determineTimezone(dateString: string): string {
+  // 正则表达式来检查字符串是否以GMT-4或GMT-5结尾
+  const edtPattern = /GMT-4$/;
+  const estPattern = /GMT-5$/;
+
+  if (edtPattern.test(dateString)) {
+    return "EDT";
+  } else if (estPattern.test(dateString)) {
+    return "EST";
+  } else {
+    // 解析日期字符串（忽略时区部分）
+    const dateParts = dateString.split(' ');
+    const dateWithoutTimeZone = dateParts.slice(0, -1).join(' ');
+    const date = new Date(dateWithoutTimeZone);
+
+    // 确定日期是否在夏令时期间
+    const year = date.getFullYear();
+    const dstStartDate = new Date(`March 14, ${year} 02:00:00`); // 三月第二个星期天
+    const dstEndDate = new Date(`November 07, ${year} 02:00:00`); // 十一月第一个星期天
+
+    // 调整到星期天
+    dstStartDate.setDate(dstStartDate.getDate() + (7 - dstStartDate.getDay()));
+    dstEndDate.setDate(dstEndDate.getDate() + (7 - dstEndDate.getDay()));
+
+    // 检查当前日期是否在夏令时范围内
+    if (date >= dstStartDate && date < dstEndDate) {
+      return "EDT";
+    } else {
+      return "EST";
+    }
+  }
+}

@@ -671,6 +671,8 @@ export class HoverDirective implements AfterViewInit {
 
 ```
 
+
+
 ### 6. 管道 Pipe
 
 管道的作用是格式化组件模板数据。
@@ -716,6 +718,8 @@ import { SummaryPipe } from './summary.pipe'
     ] 
 });
 ```
+
+
 
 ### 7. 组件通讯
 
