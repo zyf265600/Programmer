@@ -1,0 +1,15 @@
+<li>
+  <form id="search-form">
+    <input type="text" id="search-query-<%- context %>" class="search-query st-default-search-input" aria-label="搜索">
+  </form>
+</li>
+<%- partial('partials/learn_dropdown') %>
+<%- partial('partials/ecosystem_dropdown') %>
+<%- partial('partials/resources_dropdown') %>
+<li>
+  <a href="/eol/" class="badge-parent">终止支持 (EOL)<sup class="badge">新</sup></a>
+</li>
+<%- partial('partials/language_dropdown') %>
+<!-- start: special logic for cn -->
+<li><a href="https://github.com/vuejs/v2.cn.vuejs.org/" target="_blank" class="nav-link contribute">参与翻译</a></li>
+<!-- end: special logic for cn -->

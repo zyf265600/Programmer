@@ -113,9 +113,9 @@
 
 
 
-## 1.3 虚拟DOM(vitural dom)
+## 1.3 虚拟DOM
 
-虚拟DOM是内存中的数据，然后将虚拟DOM变成真实DOM。
+虚拟DOM (vitural dom) 是内存中的数据，然后将虚拟DOM变成真实DOM。
 
 **原生js（不使用虚拟DOM）:**
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/4ce18587e582458dbf3962995364e651.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
@@ -129,10 +129,9 @@ Vue使用虚拟DOM方式：
 
 只有004的虚拟DOM是不重复的，需要重新渲染。这就提高了展示效率。
 
-<p id=jump4>
 
 
-### 虚拟DOM 和 v-for 中的key
+### 1.3.1 虚拟DOM 和 v-for 中的key
 
 v-for 中的 key，下文有提到。
 
@@ -142,13 +141,13 @@ v-for 中的 key，下文有提到。
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/895c108726ac4580943390055d6f3223.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
 
-**在进行渲染时，会将内存中的老虚拟DOM和新虚拟DOM根据key做比较，一旦发现虚拟DOM之间有变化，那么只重新渲染变化部分，复用未变化部分。所以 key 这个属性很重要。**
+==**在进行渲染时，会将内存中的老虚拟DOM和新虚拟DOM根据key做比较，一旦发现虚拟DOM之间有变化，那么只重新渲染变化部分，复用未变化部分。所以 key 这个属性很重要。**==
 
-一旦你的结构中包含输入类DOM，会产生错误DOM更新，导致界面渲染有问题。
+==一旦你的结构中包含输入类DOM，会产生错误DOM更新，导致界面渲染有问题。==
 
 
 
-### 总结key和虚拟DOM（react也有这概念）
+### 1.3.2 总结key和虚拟DOM（react也有这概念）
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/46f819cc8c004508a70516f3e6d44f60.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
 
@@ -170,15 +169,7 @@ https://cn.vuejs.org/
 
 
 
-## 1.5 双向绑定概念
-
-https://blog.csdn.net/weixin_44757863/article/details/109110132
-
-
-
-
-
-## 1.6 常用工具和资源，网站等
+## 1.5 常用工具和资源，网站等
 
 ### bootcdn.cn （收集无数三方库、工具类）
 
@@ -186,6 +177,7 @@ https://blog.csdn.net/weixin_44757863/article/details/109110132
 ![在这里插入图片描述](assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16-20240514181032664.png)
 
 ![](https://img-blog.csdnimg.cn/e50f424a91f84e80b03872bfe5205b22.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
+
 
 
 ### Vs Code 插件：Live Server
@@ -204,7 +196,10 @@ https://blog.csdn.net/weixin_44757863/article/details/109110132
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/4e95fa3e60a0468ba7b21c2568e83812.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
 
 
+
 ### Vs Code 插件：Auto Close Tag
+
+
 
 ### Vs Code 插件：Auto Rename Tag
 
@@ -233,10 +228,6 @@ JS Quick Console是真神器，快速生成console.log() 它不香吗？
 
 
 
-
-
-
-
 ### Vue Devtools
 
 在使用 Vue 时，我们推荐在你的浏览器上安装 Vue Devtools。它允许你在一个更友好的界面中审查和调试 Vue 应用。
@@ -244,36 +235,39 @@ JS Quick Console是真神器，快速生成console.log() 它不香吗？
 
 如何安装：
 
-
-
 <font color=red size=5px>**在我的Gitee上的代码，已经上传该插件：[https://gitee.com/da-ji/full-stack-developer](https://gitee.com/da-ji/full-stack-developer)，大家需要可自取**</font>
 
 
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/b9429b8356af4b31b3fac50a3a40a97c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
+<img src="assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16-20240515103203100.png" alt="在这里插入图片描述" style="zoom:50%;" />
 
 固定该程序（谷歌浏览器）：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/d84b13f25ca64d2aa5710e4450acda2e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
+<img src="assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16-20240515103200875.png" alt="在这里插入图片描述" style="zoom:50%;" />
+
 
 
 
 
 # 二、Vue  基础笔记
 
-## 1、安装（引入）Vue.js
+## Vue.js 是什么
+
+Vue (读音 /vjuː/，类似于 **view**) 是一套用于构建用户界面的**渐进式框架**。与其它大型框架不同的是，Vue 被设计为可以自底向上逐层应用。Vue 的核心库只关注视图层，不仅易于上手，还便于与第三方库或既有项目整合。另一方面，当与[现代化的工具链](https://v2.cn.vuejs.org/v2/guide/single-file-components.html)以及各种[支持类库](https://github.com/vuejs/awesome-vue#libraries--plugins)结合使用时，Vue 也完全能够为复杂的单页应用提供驱动。
+
+
+
+## 1、安装 Vue.js
 
 官网链接：https://cn.vuejs.org/v2/guide/installation.html
 
 **[引入Vue之后，Vue就作为一个运行在全局的构造函数。我们可以使用这种方式直接创建一个Vue实例（点击直接跳转到本文2、创建对象）](#jump1)**
 
-
-
 * **1.1 原生安装方式：在HTML中使用JS标签引入**
   可以使用绝对路径和相对路径的方式。如果是绝对路径，就是https://这种直接引入互联网，如果是../static 这种方式，就可以引入自己下载好的vue.js文件。
   **举例：**
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/27c6d4ecdb914007a6a4f935b2c8cad2.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/de628c197d2e496d9a10ce58ee9ec07d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
+  ![在这里插入图片描述](assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16-20240515103159107.png)
+  ![在这里插入图片描述](assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16-20240515103156684.png)
 
 
 
@@ -284,16 +278,17 @@ JS Quick Console是真神器，快速生成console.log() 它不香吗？
 
 ## 2、创建Vue对象，和Vue插值语法{{ xxx }}
 
-<p id="jump1"></p>
-
 **下图一图便知：**
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/9d02f827f4854ee496b8ec3a56b5ead8.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
+![在这里插入图片描述](assets/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16-20240515103155982.png)
 **关于上图的补充细节：**
 
 * 1、一个vue实例，只能绑定一个对应实例。这是一对一关系。多了就解析不了。
 * <font color=red>**2、{{}} 插值语法，可以写JS表达式。（这点和thymeleaf有点类似）看下图例子：**</font>
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/9f260fb8da114f6681b7c291716f5194.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAQOWkp-WQiQ==,size_20,color_FFFFFF,t_70,g_se,x_16)
+
+
+
 
 
 ## 【补充】el与data的两种写法（Vue实例管理）

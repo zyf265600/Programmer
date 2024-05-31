@@ -1,0 +1,2 @@
+现在我们将元素的 attribute / property 响应式地绑定到状态上。
+这个 :title 语法是 v-bind:title 的简写。

@@ -851,7 +851,7 @@ placeholder 属性适用于以下的 <input> 类型：text, search, url, telepho
 
 ### 2.4.9 \<template> 标签
 
-使用 <template> 标签在页面加载时该标签中的内容不会显示，加载后可以使用 JavaScript 来显示它：
+使用 <template> 标签在页面加载时该标签中的内容不会显示，==加载后可以使用 JavaScript 来显示它：==
 
 ````html
 <button onclick="showContent()">显示隐藏内容</button>
@@ -881,9 +881,7 @@ function showContent() {
 
 如果您有一些需要重复使用的 HTML 代码，则可以使用 \<template> 设置为公用的模板。
 
-
-
-查看浏览器是否支持 template 标签：
+**查看浏览器是否支持 template 标签：**
 
 ````js
 if (document.createElement("template").content) {

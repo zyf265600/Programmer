@@ -1,0 +1,2 @@
+通过内建的 <TransitionGroup> 实现“FLIP”列表过渡效果。
+https://aerotwist.com/blog/flip-your-animations/
