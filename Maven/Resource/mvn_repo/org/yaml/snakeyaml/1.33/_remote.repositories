@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
+#Mon Jul 22 11:21:52 PDT 2024
+snakeyaml-1.33-javadoc.jar>central=
+snakeyaml-1.33-sources.jar>central=
 snakeyaml-1.33.jar>central=
 snakeyaml-1.33.pom>central=

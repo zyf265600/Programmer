@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:14:13 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672053709
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact io.fabric8\:kubernetes-client-bom\:pom\:5.12.4 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672053755

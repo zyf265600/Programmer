@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Aug 08 11:19:50 PDT 2024
+commons-collections4-4.4.jar>iapro-nexus=
+commons-collections4-4.4.jar>central=
+commons-collections4-4.4.pom>iapro-nexus=
+commons-collections4-4.4.pom>central=

@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
+#Mon Jul 22 11:21:54 PDT 2024
+junit-platform-commons-1.9.3-javadoc.jar>central=
+junit-platform-commons-1.9.3-sources.jar>central=
 junit-platform-commons-1.9.3.jar>central=
 junit-platform-commons-1.9.3.pom>central=

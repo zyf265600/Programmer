@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:23:07 PDT 2024
+log4jdbc-spring-boot-starter-2.0.0-javadoc.jar>central=
+log4jdbc-spring-boot-starter-2.0.0-sources.jar>central=
+log4jdbc-spring-boot-starter-2.0.0.pom>central=

@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:42 EDT 2023
-failureaccess-1.0.1.pom>central=
+#Mon Jul 22 11:22:59 PDT 2024
+failureaccess-1.0.1-javadoc.jar>central=
+failureaccess-1.0.1-sources.jar>central=
 failureaccess-1.0.1.jar>central=
+failureaccess-1.0.1.pom>central=

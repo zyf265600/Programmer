@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:22:35 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672555530
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact org.junit.platform\:junit-platform-commons\:jar\:javadoc\:1.10.2 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672555583

@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
-junit-jupiter-engine-5.9.3.pom>central=
+#Mon Jul 22 11:21:11 PDT 2024
+junit-jupiter-engine-5.9.3-javadoc.jar>central=
+junit-jupiter-engine-5.9.3-sources.jar>central=
 junit-jupiter-engine-5.9.3.jar>central=
+junit-jupiter-engine-5.9.3.pom>central=

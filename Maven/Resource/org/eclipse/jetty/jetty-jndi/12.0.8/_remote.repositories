@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Aug 08 11:19:21 PDT 2024
+jetty-jndi-12.0.8.jar>iapro-nexus=
+jetty-jndi-12.0.8.pom>iapro-nexus=

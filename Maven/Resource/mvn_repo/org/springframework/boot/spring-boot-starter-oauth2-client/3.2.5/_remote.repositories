@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:22:41 PDT 2024
+spring-boot-starter-oauth2-client-3.2.5-javadoc.jar>central=
+spring-boot-starter-oauth2-client-3.2.5-sources.jar>central=
+spring-boot-starter-oauth2-client-3.2.5.pom>central=

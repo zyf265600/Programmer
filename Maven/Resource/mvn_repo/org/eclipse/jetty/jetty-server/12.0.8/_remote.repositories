@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:22:56 PDT 2024
+jetty-server-12.0.8-javadoc.jar>central=
+jetty-server-12.0.8-sources.jar>central=
+jetty-server-12.0.8.pom>central=

@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:21:02 PDT 2024
+asm-tree-9.6-javadoc.jar>central=
+asm-tree-9.6-sources.jar>central=
+asm-tree-9.6.jar>central=
+asm-tree-9.6.pom>central=

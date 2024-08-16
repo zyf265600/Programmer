@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
-apiguardian-api-1.1.2.pom>central=
+#Mon Jul 22 11:21:43 PDT 2024
+apiguardian-api-1.1.2-javadoc.jar>central=
+apiguardian-api-1.1.2-sources.jar>central=
 apiguardian-api-1.1.2.jar>central=
+apiguardian-api-1.1.2.pom>central=

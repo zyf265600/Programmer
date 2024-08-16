@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:20:44 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672444156
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact com.nimbusds\:oauth2-oidc-sdk\:jar\:javadoc\:9.43.3 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721672444280
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672444478

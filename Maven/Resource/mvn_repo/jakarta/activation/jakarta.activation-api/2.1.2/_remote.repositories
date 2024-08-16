@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
+#Mon Jul 22 11:20:42 PDT 2024
+jakarta.activation-api-2.1.2-javadoc.jar>central=
+jakarta.activation-api-2.1.2-sources.jar>central=
 jakarta.activation-api-2.1.2.jar>central=
 jakarta.activation-api-2.1.2.pom>central=

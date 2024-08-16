@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:15:22 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672122000
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact org.bgee.log4jdbc-log4j2\:log4jdbc-log4j2\:pom\:1.16 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672122170

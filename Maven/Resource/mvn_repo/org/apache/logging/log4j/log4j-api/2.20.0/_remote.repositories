@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
-log4j-api-2.20.0.pom>central=
+#Mon Jul 22 11:21:42 PDT 2024
+log4j-api-2.20.0-javadoc.jar>central=
+log4j-api-2.20.0-sources.jar>central=
 log4j-api-2.20.0.jar>central=
+log4j-api-2.20.0.pom>central=

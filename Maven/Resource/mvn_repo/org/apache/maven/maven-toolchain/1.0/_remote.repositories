@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Wed Sep 20 16:23:12 EDT 2023
-maven-toolchain-1.0.pom>central=
+#Mon Jul 22 11:22:11 PDT 2024
+maven-toolchain-1.0-javadoc.jar>central=
+maven-toolchain-1.0-sources.jar>central=
 maven-toolchain-1.0.jar>central=
+maven-toolchain-1.0.pom>central=

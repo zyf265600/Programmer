@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
-json-path-2.8.0.pom>central=
+#Mon Jul 22 11:21:09 PDT 2024
+json-path-2.8.0-javadoc.jar>central=
+json-path-2.8.0-sources.jar>central=
 json-path-2.8.0.jar>central=
+json-path-2.8.0.pom>central=

@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:15:12 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672112613
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact org.brotli\:parent\:pom\:0.1.2 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672112743

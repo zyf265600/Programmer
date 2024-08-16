@@ -1,0 +1,236 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.bgee.log4jdbc-log4j2</groupId>
+	<artifactId>log4jdbc-log4j2</artifactId>
+	<packaging>pom</packaging>
+	<version>1.16</version>
+	<name>log4jdbc-log4j2</name>
+	
+	<parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+	
+	<modules>
+		<module>log4jdbc-log4j2-jdbc4.1</module>
+		<module>log4jdbc-log4j2-jdbc4</module>
+        <module>log4jdbc-log4j2-jdbc3</module>
+	</modules>
+	
+	<url>http://code.google.com/p/log4jdbc-log4j2/</url>
+	<description>A modification of log4jdbc to natively use Log4j 2 (or SLF4J as usual), that supports from JDBC 4.1 to JDBC 3, includes all the improvements of log4jdbc-remix, and provides new improvements on its own.</description>
+	<licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:svn:http://log4jdbc-log4j2.googlecode.com/svn/tags/log4jdbc-log4j2-1.16</connection>
+        <developerConnection>scm:svn:https://log4jdbc-log4j2.googlecode.com/svn/tags/log4jdbc-log4j2-1.16</developerConnection>
+        <url>http://code.google.com/p/log4jdbc-log4j2/source/browse/tags/log4jdbc-log4j2-1.16</url>
+    </scm>
+	<organization>
+        <name>Bgee - Swiss Institute of Bioinformatics</name>
+        <url>http://www.bgee.org</url>
+    </organization>
+	<developers>
+		<developer>
+			<name>Frederic Bastian</name>
+			<email>frederic.bastian@unil.ch</email>
+		</developer>
+	</developers>
+	<contributors>
+	    <contributor>
+			<name>Mathieu Seppey</name>
+	    </contributor>
+	</contributors>
+	<mailingLists>
+		<mailingList>
+			<name />
+		</mailingList>
+	</mailingLists>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
+	<!-- Dependencies needed for *all* sub-projects -->
+	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.0-beta8</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.0-beta8</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<!-- Dependencies needed for some sub-projects -->
+	<dependencyManagement>
+		<dependencies>
+
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+        <plugins>
+            <!-- In order to have each test class run into its own JVM 
+                 (many properties are initialized only at class loading, 
+                 so we need a different ClassLoader for each test class) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                        <forkCount>1</forkCount>
+                        <reuseForks>false</reuseForks>
+                </configuration>
+                
+                  <executions>
+                   
+                    <!-- Regular execution, where all libraries are available -->
+                    <execution>
+                      <id>default-test</id>
+                      <phase>test</phase>
+                      <goals>
+                        <goal>test</goal>
+                      </goals>
+                      <configuration>
+                        <excludes>
+                          <exclude>**/NoLog4j2LoggerIT.java</exclude>
+                        </excludes>
+                      </configuration>
+                    </execution>
+                    
+                    <!-- Test when a logging library is missing (more like an integration test, 
+                         but simple enough to be handled here) -->
+                    <execution>
+                      <id>it-test</id>
+                      <phase>test</phase>
+                      <goals>
+                        <goal>test</goal>
+                      </goals>
+                      <configuration>
+                        <includes>
+                          <include>**/No*LoggerIT.java</include>
+                        </includes>
+                        <classpathDependencyExcludes>
+                          <classpathDependencyExcludes>org.apache.logging.log4j:log4j-core</classpathDependencyExcludes>
+                          <classpathDependencyExcludes>org.apache.logging.log4j:log4j-api</classpathDependencyExcludes>
+                          <classpathDependencyExcludes>org.slf4j:slf4j-api</classpathDependencyExcludes>
+                          <classpathDependencyExcludes>org.slf4j:slf4j-log4j12</classpathDependencyExcludes>
+                        </classpathDependencyExcludes>
+                      </configuration>
+                    </execution>
+                    
+                </executions>
+          </plugin>
+      </plugins>
+  </build> 
+  
+  <!-- Actions to perform only for official releases, 
+       profile for performRelease=true (e.g., when running: mvn release:perform) -->
+  <profiles>
+      <profile>
+          <id>release</id>
+          <activation>
+              <property>
+                  <name>performRelease</name>
+                  <value>true</value>
+              </property>
+          </activation>
+          <build>
+              <plugins>
+                  <!-- PGP signature to release to the central repository -->
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-gpg-plugin</artifactId>
+                      <version>1.4</version>
+                      <executions>
+                          <execution>
+                              <id>sign-artifacts</id>
+                              <phase>verify</phase>
+                              <goals>
+                                  <goal>sign</goal>
+                              </goals>
+                               <configuration>
+                                   <keyname>828B80AB</keyname>
+                                   <useAgent>true</useAgent>
+                               </configuration>
+                          </execution>
+                      </executions>
+                  </plugin>
+                  <!-- attach the source code -->
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-source-plugin</artifactId>
+                      <version>2.2.1</version>
+                      <executions>
+                           <execution>
+                               <id>attach-sources</id>
+                               <goals>
+                                   <goal>jar</goal>
+                               </goals>
+                           </execution>
+                      </executions>
+                  </plugin>
+                  <!-- attach the javadoc -->
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-javadoc-plugin</artifactId>
+                      <version>2.9.1</version>
+                      <executions>
+                           <execution>
+                               <id>attach-javadocs</id>
+                               <goals>
+                                   <goal>jar</goal>
+                               </goals>
+                           </execution>
+                      </executions>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+  </profiles>
+
+</project>

@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
-jsonassert-1.5.1.pom>central=
+#Mon Jul 22 11:20:58 PDT 2024
+jsonassert-1.5.1-javadoc.jar>central=
+jsonassert-1.5.1-sources.jar>central=
 jsonassert-1.5.1.jar>central=
+jsonassert-1.5.1.pom>central=

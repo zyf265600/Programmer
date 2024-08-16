@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:24:30 EDT 2023
+#Mon Jul 22 11:21:23 PDT 2024
+jakarta.annotation-api-2.1.1-javadoc.jar>central=
+jakarta.annotation-api-2.1.1-sources.jar>central=
 jakarta.annotation-api-2.1.1.jar>central=
 jakarta.annotation-api-2.1.1.pom>central=

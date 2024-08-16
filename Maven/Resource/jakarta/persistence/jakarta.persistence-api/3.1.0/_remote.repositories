@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 13:36:10 PDT 2024
+jakarta.persistence-api-3.1.0.jar>iapro-nexus=
+jakarta.persistence-api-3.1.0.pom>iapro-nexus=
+jakarta.persistence-api-3.1.0.jar>central=
+jakarta.persistence-api-3.1.0.pom>central=

@@ -1,0 +1,6 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 13:36:07 PDT 2024
+jakarta.transaction-api-2.0.1.jar>central=
+jakarta.transaction-api-2.0.1.pom>iapro-nexus=
+jakarta.transaction-api-2.0.1.pom>central=
+jakarta.transaction-api-2.0.1.jar>iapro-nexus=

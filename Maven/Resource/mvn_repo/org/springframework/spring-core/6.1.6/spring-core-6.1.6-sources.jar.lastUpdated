@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:22:37 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672557241
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact org.springframework\:spring-core\:jar\:sources\:6.1.6 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672557369

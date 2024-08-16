@@ -1,0 +1,8 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:21:34 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672494475
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact com.iapro\:iapro-jpa\:jar\:sources\:2.0.48 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721672494628
+https\://repo.maven.apache.org/maven2/.error=
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672494784

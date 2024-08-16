@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 10:03:09 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721667789779
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact com.opencsv\:opencsv\:pom\:5.7.1 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721667789910
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721667789963

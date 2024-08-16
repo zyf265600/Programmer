@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mapbox.mapboxsdk</groupId>
+  <artifactId>mapbox-sdk-directions-refresh-models</artifactId>
+  <version>5.8.0</version>
+  <dependencies>
+    <dependency>
+      <groupId>com.mapbox.mapboxsdk</groupId>
+      <artifactId>mapbox-sdk-directions-models</artifactId>
+      <version>5.8.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>androidx.annotation</groupId>
+      <artifactId>annotation</artifactId>
+      <version>1.0.0</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+  <name>Mapbox Java SDK</name>
+  <description>Mapbox Java SDK</description>
+  <url>https://github.com/mapbox/mapbox-java</url>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>mapbox</id>
+      <name>Mapbox</name>
+      <email>apps@mapbox.com</email>
+      <organization>Mapbox</organization>
+      <organizationUrl>http://www.mapbox.com</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git@github.com:mapbox/mapbox-java.git</connection>
+    <developerConnection>scm:git@github.com:mapbox/mapbox-java.git</developerConnection>
+    <url>https://github.com/mapbox/mapbox-java</url>
+  </scm>
+</project>

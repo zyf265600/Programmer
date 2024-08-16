@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:21:21 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672480901
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact jakarta.transaction\:jakarta.transaction-api\:jar\:sources\:2.0.1 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721672481032
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672481086

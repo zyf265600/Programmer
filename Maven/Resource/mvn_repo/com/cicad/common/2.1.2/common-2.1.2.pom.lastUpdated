@@ -1,0 +1,8 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 12:08:36 PDT 2024
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721675316198
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721675315841
+https\://maven.google.com/.error=
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact com.cicad\:common\:pom\:2.1.2 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://repo.maven.apache.org/maven2/.error=
+https\://maven.google.com/.lastUpdated=1721675316097

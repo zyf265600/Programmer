@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Wed Sep 20 16:21:59 EDT 2023
+#Mon Jul 22 11:21:15 PDT 2024
+commons-lang3-3.12.0-javadoc.jar>central=
+commons-lang3-3.12.0-sources.jar>central=
 commons-lang3-3.12.0.jar>central=
 commons-lang3-3.12.0.pom>central=

@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Aug 08 11:19:34 PDT 2024
+micrometer-commons-1.12.5.jar>iapro-nexus=
+micrometer-commons-1.12.5.pom>iapro-nexus=

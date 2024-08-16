@@ -1,0 +1,4 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 12:18:54 PDT 2024
+byte-buddy-agent-1.14.9.jar>iapro-nexus=
+byte-buddy-agent-1.14.9.pom>iapro-nexus=

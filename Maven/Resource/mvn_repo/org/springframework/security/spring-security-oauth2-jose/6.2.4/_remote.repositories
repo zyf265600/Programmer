@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:23:08 PDT 2024
+spring-security-oauth2-jose-6.2.4-javadoc.jar>central=
+spring-security-oauth2-jose-6.2.4-sources.jar>central=
+spring-security-oauth2-jose-6.2.4.pom>central=

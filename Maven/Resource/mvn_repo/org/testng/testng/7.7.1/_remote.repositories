@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:21:46 PDT 2024
+testng-7.7.1-javadoc.jar>central=
+testng-7.7.1-sources.jar>central=
+testng-7.7.1.pom>central=

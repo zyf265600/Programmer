@@ -1,0 +1,5 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Thu Aug 08 11:19:44 PDT 2024
+commons-lang3-3.12.0.pom>central=
+commons-lang3-3.12.0.jar>iapro-nexus=
+commons-lang3-3.12.0.pom>iapro-nexus=

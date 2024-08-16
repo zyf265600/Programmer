@@ -1,4 +1,6 @@
 #NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
-#Thu Sep 21 08:37:16 EDT 2023
+#Mon Jul 22 11:22:16 PDT 2024
+maven-monitor-2.2.1-javadoc.jar>central=
+maven-monitor-2.2.1-sources.jar>central=
 maven-monitor-2.2.1.jar>central=
 maven-monitor-2.2.1.pom>central=

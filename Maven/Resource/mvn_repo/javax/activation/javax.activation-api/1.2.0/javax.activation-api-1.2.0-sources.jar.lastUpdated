@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:21:59 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672518873
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact javax.activation\:javax.activation-api\:jar\:sources\:1.2.0 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721672519010
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672519064

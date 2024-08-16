@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 11:21:05 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721672465284
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact com.fasterxml.jackson.datatype\:jackson-datatype-jsr310\:jar\:javadoc\:2.11.4 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721672465424
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721672465486

@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 10:03:17 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721667796960
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact org.aspectj\:aspectjweaver\:pom\:1.9.20 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721667797156
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721667797246

@@ -1,0 +1,11 @@
+# 忽略某个大文件
+# path/to/your/largefile.zip
+
+# 忽略整个文件夹
+
+
+# 忽略所有的 `.log` 文件
+# *.log
+
+# 忽略所有的 `.tmp` 文件
+# *.tmp

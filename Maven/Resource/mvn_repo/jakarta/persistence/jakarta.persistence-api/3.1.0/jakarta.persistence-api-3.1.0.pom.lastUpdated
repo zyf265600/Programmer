@@ -1,0 +1,7 @@
+#NOTE: This is a Maven Resolver internal implementation file, its format can be changed without prior notice.
+#Mon Jul 22 10:03:19 PDT 2024
+@default-iapro-nexus-https\://ci.iapro.com/nexus/repository/maven-group/.lastUpdated=1721667799278
+https\://ci.iapro.com/nexus/repository/maven-group/.error=Could not transfer artifact jakarta.persistence\:jakarta.persistence-api\:pom\:3.1.0 from/to iapro-nexus (https\://ci.iapro.com/nexus/repository/maven-group)\: Not authorized
+https\://maven.google.com/.error=
+https\://maven.google.com/.lastUpdated=1721667799450
+https\://repo.maven.apache.org/maven2/.lastUpdated=1721667799561
