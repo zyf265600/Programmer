@@ -330,7 +330,7 @@ ORDER BY also supports ordering specified by **relative column position**
 2. ==**WHERE: 对于 FROM 子句返回的行，应用任何条件筛选器以排除不需要的行。**==
 3. ==**SELECT: 对符合条件的数据进行选择。**==
 4. ==**GROUP BY: 对结果进行分组。**==
-5. ==**HAVING: 对每个分组应用筛选器。**==
+5. ==**h: 对每个分组应用筛选器。**==
 6. ==**ORDER BY: 对结果集进行排序。**==
 
 这个顺序通常被称为查询处理的逻辑顺序。查询处理器首先执行FROM语句，它会找到表，并将它们连接起来。WHERE语句使用逻辑运算符和比较运算符对数据进行筛选，筛选出需要的行。然后，SELECT语句根据给定的列名生成一个结果集，GROUP BY子句将结果集分组，HAVING子句筛选出不需要的组，最后按照ORDER BY子句的要求对结果集进行排序并返回结果。
@@ -719,6 +719,28 @@ HAVING COUNT(*) >= 2;
 - ==**Use WHERE for standard row-level filtering**==
 
 
+
+### 1.12 CASE
+
+**`CASE`** 语句在 SQL 中是一种条件表达式，类似于编程语言中的 `if-else`，用于根据条件返回不同的结果。它在 `SELECT`、`UPDATE`、`INSERT` 和 `DELETE` 语句中都可以使用，用来处理复杂的条件判断。
+
+````sql
+SELECT column_name,
+       CASE
+           WHEN condition1 THEN result1
+           WHEN condition2 THEN result2
+           ELSE resultN
+       END AS alias_name
+FROM table_name;
+````
+
+**语法说明：**
+
+- **`CASE`**：表示开始条件判断。
+- **`WHEN condition THEN result`**：如果 `condition` 为真，则返回 `result`。你可以写多个 `WHEN` 条件。
+- **`ELSE`**：当所有的 `WHEN` 条件都不成立时，返回 `ELSE` 后的值。`ELSE` 是可选的。
+- **`END`**：表示 `CASE` 语句的结束。
+- **`AS alias_name`**：为返回的结果列指定一个别名。
 
 
 
