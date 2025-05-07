@@ -33,8 +33,6 @@ Python 中的控制语句包括条件判断和循环，下面简单介绍一下�
 
 ### 条件判断 `if`, `elif`, `else`
 
-
-
 ```python
 a = 10
 
@@ -407,7 +405,7 @@ else:
 
 
 
-### 双端队列 `deque`
+## Python 双端队列 Deque
 
 `deque` 是 `collections` 模块提供的双端队列，可以高效地在两端插入和删除元素。
 
@@ -633,7 +631,7 @@ print(s[-1])
 
 
 
-### 集合 `set`（哈希集合）
+## Python 集合 Set
 
 `set` 是 Python 的哈希集合，用于存储不重复元素，常用于去重和快速查询元素是否存在。
 
@@ -675,6 +673,113 @@ else:
 for element in hashset:
     print(element)
 ```
+
+
+
+## Python Counter 库
+
+### **1. 什么是 `Counter`**
+
+- `Counter` 是 `collections` 模块下的一个内置类。
+- 用于**统计每个元素出现的次数**。
+- 本质上是一个==**特殊的字典（dict）**：==
+  - 键（key）是元素
+  - 值（value）是出现的次数
+
+### **2. 如何导入**
+
+```python
+from collections import Counter
+```
+
+### **3. 基本用法**
+
+3.1 统计字符串中每个字符出现次数
+
+```python
+s = "abbccc"
+count = Counter(s)
+print(count)  # 输出 Counter({'c': 3, 'b': 2, 'a': 1})
+```
+
+3.2 统计列表中元素出现次数
+
+```python
+nums = [1, 2, 2, 3, 3, 3]
+count = Counter(nums)
+print(count)  # 输出 Counter({3: 3, 2: 2, 1: 1})
+```
+
+3.3 访问元素的次数
+
+```python
+c = Counter("aabc")
+print(c['a'])  # 输出 2
+print(c['b'])  # 输出 1
+print(c['z'])  # 输出 0，不会报错
+```
+
+### **4. 常用方法总结**
+
+| 方法               | 作用                            | 示例 |
+| ------------------ | ------------------------------- | ---- |
+| `c.keys()`         | 返回所有出现过的元素            |      |
+| `c.values()`       | 返回所有元素出现的次数          |      |
+| `c.items()`        | 返回 (元素, 次数) 键值对列表    |      |
+| `c.most_common(n)` | 返回出现次数最多的前 `n` 个元素 |      |
+| `c.elements()`     | 返回重复元素的迭代器            |      |
+
+示例：
+
+```python
+c = Counter('aabcccd')
+
+print(c.keys())         # dict_keys(['a', 'b', 'c', 'd'])
+print(c.values())       # dict_values([2, 1, 3, 1])
+print(c.items())        # dict_items([('a', 2), ('b', 1), ('c', 3), ('d', 1)])
+print(c.most_common(2)) # [('c', 3), ('a', 2)]
+print(list(c.elements())) # ['a', 'a', 'b', 'c', 'c', 'c', 'd']
+```
+
+### 5. Counter 支持数学运算
+
+5.1 加法（合并出现次数）
+
+```python
+c1 = Counter('aab')
+c2 = Counter('bcc')
+print(c1 + c2)  # Counter({'c': 2, 'a': 2, 'b': 2})
+```
+
+5.2 减法（出现负数时舍弃）
+
+```python
+c1 = Counter('aab')
+c2 = Counter('bcc')
+print(c1 - c2)  # Counter({'a': 2})
+```
+
+说明：
+
+- 只保留出现次数为正的元素
+- 出现负数或零的元素不保留
+
+### ==6. Counter 与普通字典的区别==
+
+| 项目             | Counter                     | dict               |
+| ---------------- | --------------------------- | ------------------ |
+| 访问不存在的元素 | 返回 0                      | 抛出 KeyError 错误 |
+| 用途             | 快速计数，频率分析          | 任意键值存储       |
+| 支持数学运算     | 支持 (+, -, &, \|) 集合运算 | 不支持             |
+
+### 7. 时间复杂度分析
+
+- 构造 `Counter`：遍历一遍输入，时间复杂度 O(n)
+- 查询、插入、更新元素：单次操作时间复杂度 O(1)
+
+### 8. 一句话总结
+
+`Counter` 是 Python 中用于**快速统计频率表**的工具，支持常规查询、高效合并、交并补等集合运算，适合处理子串、子数组、频率统计等问题。
 
 
 
@@ -808,6 +913,21 @@ def append_item(item, lst=None):
 | `frozenset` | 不可变 | 不可变集合                       |
 | `bytearray` | 可变   | 可修改的字节序列                 |
 | `bytes`     | 不可变 | 不可修改的字节序列               |
+
+
+
+## Python 常见的 Falsy 值
+
+| 值      | 类型   | 说明                     |
+| ------- | ------ | ------------------------ |
+| `None`  | 空值   | 表示没有对象             |
+| `False` | 布尔值 | 就是 False               |
+| `0`     | 数值   | 包括`0`, `0.0`0.0`，`0j` |
+| `''`    | 吉他   | 空氣                     |
+| `[]`    | 列     | 空列表                   |
+| `{}`    | 字典   | 空字典                   |
+| `set()` | 集合   | 空集合                   |
+| `()`    | 元组   | 空元组                   |
 
 
 
@@ -1554,7 +1674,7 @@ www.runoob.com
 
 
 
-## Python泛型
+## Python 泛型
 
 Python 的 **泛型（Generics）** 是用来编写可以接受**多种类型**的函数或类，而不牺牲类型检查的能力。它主要用于**类型提示（type hint）系统**，比如 `List[int]`、`Optional[str]`、`Dict[str, float]`，底层其实都用到了泛型。
 
