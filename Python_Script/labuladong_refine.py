@@ -11,6 +11,7 @@ def process_md_file(filepath):
 
     # ============ 0. 删除所有的 java 🟢cpp 🤖python 🤖go 🤖javascript 🤖 ============
     content = content.replace("java 🟢cpp 🤖python 🤖go 🤖javascript 🤖", "")
+    content = content.replace("javacpppythongojavascript", "")
 
     # ============ 1. 删除 <details ... </details> 之间所有内容（包含标签本身） ============
     #   - 使用 DOTALL 模式，让 '.' 能匹配换行
@@ -53,7 +54,7 @@ def process_md_file(filepath):
 
 # ============ 使用示例 ============
 if __name__ == "__main__":
-    file_path = "../Leetcode/Data_Structure/21一个视角+两种思维模式搞定递归.md"
+    file_path = "../Leetcode/Data_Structure/25二叉树拓展：最近公共祖先系列解题框架.md"
     if not os.path.isfile(file_path):
         print(f"❌ 文件不存在: {file_path}")
     else:

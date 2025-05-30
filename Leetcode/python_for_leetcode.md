@@ -201,6 +201,101 @@ else:
 
 
 
+## Python 元祖 tuple
+
+在 Python 中，**元组（tuple）是一种内置的数据结构，用于存储多个元素的有序、不可变集合**。它与列表（list）类似，但最大区别是 ==**元组一旦创建就不能修改**。==
+
+### 一、基本语法
+
+```python
+t = (1, 2, 3)
+```
+
+- 用小括号 `()` 包起来
+- 元素之间用逗号分隔
+- 元组中的元素可以是任意类型（数字、字符串、列表、元组等）
+
+### 二、创建元组的方式
+
+```python
+# 普通元组
+t1 = (1, 2, 3)
+
+# 单个元素的元组（注意要加逗号）
+t2 = (1,)        # 正确
+t3 = (1)         # 错误，这只是整数 1
+
+# 空元组
+t4 = ()
+```
+
+### 三、访问元组元素
+
+```python
+t = ('a', 'b', 'c')
+print(t[0])  # 'a'
+print(t[-1]) # 'c'
+```
+
+元组支持下标、切片操作，与列表完全相同：
+
+```python
+print(t[0:2])  # ('a', 'b')
+```
+
+### 四、元组不可变性
+
+元组一旦创建，**不允许修改、添加或删除元素**：
+
+```python
+t = (1, 2, 3)
+t[0] = 5      # 报错：TypeError
+t.append(4)   # 报错：AttributeError
+```
+
+### 五、元组可以嵌套
+
+```python
+t = (1, [2, 3], (4, 5))
+```
+
+==注意：虽然元组本身不可变，但如果它内部包含**可变对象（如列表）**，这些对象是可以变的：==
+
+```python
+t[1][0] = 99
+print(t)  # (1, [99, 3], (4, 5))
+```
+
+### 六、元组的常用操作
+
+| 操作     | 示例            | 说明                 |
+| -------- | --------------- | -------------------- |
+| 长度     | `len(t)`        | 返回元组元素个数     |
+| 成员判断 | `3 in t`        | 判断元素是否在元组中 |
+| 拼接     | `t1 + t2`       | 合并两个元组         |
+| 重复     | `t * 3`         | 重复多次形成新元组   |
+| 解包     | `a, b = (1, 2)` | 同时赋值多个变量     |
+
+### 七、元组常用于：
+
+1. 函数的多值返回
+
+```python
+	def f():
+       return 1, 2
+   x, y = f()
+```
+
+2. 字典的键（tuple 可哈希，list 不行）
+
+```python
+d = {(1, 2): "value"}  # OK
+```
+
+3. 不希望数据被修改的场景（元组更安全）
+
+
+
 ## Python 列表 List
 
 ### **1. 列表基础**
@@ -230,8 +325,6 @@ else:
 | 生成器（`generator`） | `(x for x in range(3))` | 惰性计算，一次遍历后耗尽 |
 | 集合（`set`）         | `{1, 2, 3}`             | 无序、去重               |
 | `range` 对象          | `range(5)`              | 内存高效，表示整数序列   |
-
-
 
 ### **2. 核心操作**
 
@@ -263,8 +356,6 @@ else:
   repeated = lst * 3     # 重复列表元素
 ```
 
-------
-
 ### **3. 常用方法**
 
 - **查找与统计**：
@@ -291,8 +382,6 @@ else:
   lst.copy()             # 浅拷贝（等效于 lst[:]）
 ```
 
-------
-
 ### **4. 特性与注意事项**
 
 - **可变性**：
@@ -304,8 +393,6 @@ else:
 - **==与元组的区别：==**
   - **==列表可变，元组不可变；列表用 `[]`，元组用 `()`。==**
   - **==元组适用于固定数据（如字典键），列表适用于动态数据。==**
-
-------
 
 ### **5. 高级用法**
 
@@ -330,8 +417,6 @@ else:
   a, *rest, b = [1, 2, 3, 4]      # 解包（a=1, rest=[2,3], b=4）
   merged = [*lst1, *lst2]         # 合并列表（Python 3.5+）
 ```
-
-------
 
 ### **6. 应用场景**
 
@@ -360,8 +445,6 @@ else:
   numbers = list(map(int, ["1", "2"]))  # 映射转换
 ```
 
-------
-
 ### **7. 性能优化技巧**
 
 - **预分配空间**（减少动态扩容）：
@@ -377,8 +460,6 @@ else:
 ```python
   gen = (x**2 for x in range(10**6))  # 节省内存
 ```
-
-
 
 ### 8. 二维数组
 
@@ -526,6 +607,8 @@ print(s[-1])
   d2 = dict(name='Alice', age=25)             # dict构造函数
   d3 = dict([('name', 'Alice'), ('age', 25)]) # 键值对列表
   d4 = {x: x**2 for x in range(5)}            # 字典推导式
+  
+  d = defaultdict(default_factory) #其中 default_factory 是一个可调用对象（如 int, list, set, 自定义函数等），当访问不存在的键时，defaultdict 会自动调用它来生成该键的默认值。
   ```
 
 ### **2. 核心操作**
@@ -673,113 +756,6 @@ else:
 for element in hashset:
     print(element)
 ```
-
-
-
-## Python Counter 库
-
-### **1. 什么是 `Counter`**
-
-- `Counter` 是 `collections` 模块下的一个内置类。
-- 用于**统计每个元素出现的次数**。
-- 本质上是一个==**特殊的字典（dict）**：==
-  - 键（key）是元素
-  - 值（value）是出现的次数
-
-### **2. 如何导入**
-
-```python
-from collections import Counter
-```
-
-### **3. 基本用法**
-
-3.1 统计字符串中每个字符出现次数
-
-```python
-s = "abbccc"
-count = Counter(s)
-print(count)  # 输出 Counter({'c': 3, 'b': 2, 'a': 1})
-```
-
-3.2 统计列表中元素出现次数
-
-```python
-nums = [1, 2, 2, 3, 3, 3]
-count = Counter(nums)
-print(count)  # 输出 Counter({3: 3, 2: 2, 1: 1})
-```
-
-3.3 访问元素的次数
-
-```python
-c = Counter("aabc")
-print(c['a'])  # 输出 2
-print(c['b'])  # 输出 1
-print(c['z'])  # 输出 0，不会报错
-```
-
-### **4. 常用方法总结**
-
-| 方法               | 作用                            | 示例 |
-| ------------------ | ------------------------------- | ---- |
-| `c.keys()`         | 返回所有出现过的元素            |      |
-| `c.values()`       | 返回所有元素出现的次数          |      |
-| `c.items()`        | 返回 (元素, 次数) 键值对列表    |      |
-| `c.most_common(n)` | 返回出现次数最多的前 `n` 个元素 |      |
-| `c.elements()`     | 返回重复元素的迭代器            |      |
-
-示例：
-
-```python
-c = Counter('aabcccd')
-
-print(c.keys())         # dict_keys(['a', 'b', 'c', 'd'])
-print(c.values())       # dict_values([2, 1, 3, 1])
-print(c.items())        # dict_items([('a', 2), ('b', 1), ('c', 3), ('d', 1)])
-print(c.most_common(2)) # [('c', 3), ('a', 2)]
-print(list(c.elements())) # ['a', 'a', 'b', 'c', 'c', 'c', 'd']
-```
-
-### 5. Counter 支持数学运算
-
-5.1 加法（合并出现次数）
-
-```python
-c1 = Counter('aab')
-c2 = Counter('bcc')
-print(c1 + c2)  # Counter({'c': 2, 'a': 2, 'b': 2})
-```
-
-5.2 减法（出现负数时舍弃）
-
-```python
-c1 = Counter('aab')
-c2 = Counter('bcc')
-print(c1 - c2)  # Counter({'a': 2})
-```
-
-说明：
-
-- 只保留出现次数为正的元素
-- 出现负数或零的元素不保留
-
-### ==6. Counter 与普通字典的区别==
-
-| 项目             | Counter                     | dict               |
-| ---------------- | --------------------------- | ------------------ |
-| 访问不存在的元素 | 返回 0                      | 抛出 KeyError 错误 |
-| 用途             | 快速计数，频率分析          | 任意键值存储       |
-| 支持数学运算     | 支持 (+, -, &, \|) 集合运算 | 不支持             |
-
-### 7. 时间复杂度分析
-
-- 构造 `Counter`：遍历一遍输入，时间复杂度 O(n)
-- 查询、插入、更新元素：单次操作时间复杂度 O(1)
-
-### 8. 一句话总结
-
-`Counter` 是 Python 中用于**快速统计频率表**的工具，支持常规查询、高效合并、交并补等集合运算，适合处理子串、子数组、频率统计等问题。
 
 
 
@@ -1097,13 +1073,177 @@ print("函数外 my_list:", my_list)  # 输出：函数外 my_list: [1, 2, 3, 4]
 
 
 
+## Python 解包
+
+### 一、什么是解包（Unpacking）
+
+在 Python 中，==**解包是指将一个序列或可迭代对象的多个元素，一次性赋值给多个变量**==。常见于元组、列表、字符串、range 甚至字典中。
+
+### 二、基本解包（序列解包）
+
+#### 示例 1：列表或元组的解包
+
+```python
+person = ["Alice", 25, "Developer"]
+name, age, role = person
+
+print(name)  # Alice
+print(age)   # 25
+print(role)  # Developer
+```
+
+#### 示例 2：字符串解包
+
+```python
+a, b, c = "cat"
+print(a)  # 'c'
+print(b)  # 'a'
+print(c)  # 't'
+```
+
+#### 注意：元素数量必须一致，否则会抛出 `ValueError`。
+
+```python
+x, y = [1, 2, 3]  # ❌ 报错：too many values to unpack
+```
+
+### 三、带星号的解包（Extended Unpacking）
+
+从 Python 3 开始，支持使用 `*` 操作符收集多个值。
+
+#### 示例 1：前面变量固定，剩余归入一个列表
+
+```python
+a, b, *rest = [1, 2, 3, 4, 5]
+print(a)    # 1
+print(b)    # 2
+print(rest) # [3, 4, 5]
+```
+
+#### 示例 2：星号在中间
+
+```python
+a, *middle, z = [1, 2, 3, 4, 5]
+print(a)      # 1
+print(middle) # [2, 3, 4]
+print(z)      # 5
+```
+
+#### 示例 3：只有一个元素匹配星号变量
+
+```python
+*a, = [10]
+print(a)  # [10]
+```
+
+### 四、循环中的解包
+
+可以在 `for` 循环中直接对元素进行解包，特别适用于处理由元组或列表组成的列表。
+
+```python
+people = [("Alice", 25), ("Bob", 30), ("Carol", 22)]
+for name, age in people:
+    print(f"{name} is {age} years old")
+```
+
+### 五、函数参数解包
+
+#### 1. 传入多个位置参数：`*args`
+
+```python
+def add(*args):
+    return sum(args)
+
+print(add(1, 2, 3))  # 6
+```
+
+**`*args` 将所有的位置参数收集为一个元组。**
+
+#### 2. 传入多个关键字参数：`**kwargs`
+
+```python
+def describe(**kwargs):
+    for k, v in kwargs.items():
+        print(f"{k} = {v}")
+
+describe(name="Alice", age=25)
+```
+
+`**kwargs` 将所有的关键字参数收集为一个字典。
+
+#### 3. 解包调用函数参数
+
+```python
+def greet(name, age):
+    print(f"Hello {name}, you are {age} years old")
+
+data = ("Bob", 30)
+greet(*data)  # 等同于 greet("Bob", 30)
+
+data_dict = {"name": "Alice", "age": 25}
+greet(**data_dict)  # 等同于 greet(name="Alice", age=25)
+```
+
+### 六、字典的解包合并
+
+从 Python 3.5 起，可以使用 `**` 解包多个字典进行合并：
+
+```python
+a = {'x': 1, 'y': 2}
+b = {'y': 100, 'z': 3}
+merged = {**a, **b}
+print(merged)  # {'x': 1, 'y': 100, 'z': 3}
+```
+
+后面覆盖前面的键值。
+
+### 七、嵌套解包
+
+从 Python 3.10 起支持 **结构匹配（match-case）**，也可以嵌套解包（更高级话题）。
+
+普通嵌套解包：
+
+```python
+person = ("Alice", ("Developer", 25))
+name, (role, age) = person
+print(name)  # Alice
+print(role)  # Developer
+print(age)   # 25
+```
+
+### 八、解包的典型应用场景
+
+| 场景             | 示例                                        |
+| ---------------- | ------------------------------------------- |
+| 多变量赋值       | `x, y = 1, 2`                               |
+| 交换变量         | `a, b = b, a`                               |
+| 循环解包         | `for k, v in dict.items()`                  |
+| 函数收参/传参    | `def f(*args, **kwargs)`、`f(*l)`、`f(**d)` |
+| 拆分路径或版本号 | `major, minor, patch = "3.11.2".split(".")` |
+| 字典合并         | `{**dict1, **dict2}`                        |
+| 忽略某些值       | `_ , x = (0, 1)` 或 `a, *_ = [1, 2, 3, 4]`  |
+
+### 九、常见错误
+
+1. **元素数量不匹配**
+
+```
+   x, y = [1]  # ❌ ValueError: not enough values to unpack
+```
+
+2. **对不可迭代对象解包**
+
+```python
+   a, b = 5  # ❌ TypeError: cannot unpack non-iterable int object
+```
+
+
+
 ## Python 面向对象
 
 Python从设计之初就已经是一门面向对象的语言，正因为如此，在Python中创建一个类和对象是很容易的。本章节我们将详细介绍Python的面向对象编程。
 
 我们先来简单的了解下面向对象的一些基本特征。
-
-
 
 ### **面向对象技术简介**
 
@@ -1974,7 +2114,7 @@ big_gen = (x for x in range(10**6))   # 几乎不占内存
 
 
 
-## Python中的Import
+## Python中的 Import
 
 | 导入方式                  | 优点                           | 缺点                   |
 | ------------------------- | ------------------------------ | ---------------------- |
@@ -1985,5 +2125,583 @@ big_gen = (x for x in range(10**6))   # 几乎不占内存
 
 
 
+## Python中 List 的 index 的用法
+
+### 一、索引（Indexing）
+
+索引用于访问列表中的**单个元素**。
+
+#### 1. 正向索引（从前往后数）
+
+```python
+lst = ['a', 'b', 'c', 'd']
+print(lst[0])  # 'a'
+print(lst[2])  # 'c'
+```
+
+#### 2. 负向索引（从后往前数）
+
+```python
+print(lst[-1])  # 'd'
+print(lst[-2])  # 'c'
+```
+
+### 二、切片（Slicing）
+
+切片用于访问列表中的**一部分子序列**，格式如下：
+
+```python
+lst[start:stop:step]
+```
+
+- `start`：起始索引（包含）
+- `stop`：终止索引（不包含）
+- `step`：步长（默认为 1）
+
+#### 1. 基本切片
+
+```python
+lst = ['a', 'b', 'c', 'd', 'e']
+
+print(lst[1:4])   # ['b', 'c', 'd']
+print(lst[:3])    # ['a', 'b', 'c']
+print(lst[2:])    # ['c', 'd', 'e']
+```
+
+#### 2. 使用步长
+
+```python
+print(lst[::2])    # ['a', 'c', 'e']
+print(lst[1:5:2])  # ['b', 'd']
+```
+
+#### 3. 倒序切片
+
+```python
+print(lst[::-1])     # ['e', 'd', 'c', 'b', 'a']
+print(lst[3:0:-1])   # ['d', 'c', 'b']
+```
+
+### 三、切片不报错但索引会
+
+#### 索引越界会报错：
+
+```python
+lst[100]  # IndexError
+```
+
+#### 切片越界不会报错：
+
+```python
+print(lst[2:100])  # ['c', 'd', 'e']
+```
+
+### 四、切片返回的是新列表
+
+```python
+sublist = lst[1:4]
+sublist[0] = 'z'
+print(lst)  # 原始列表不变
+```
+
+### 五、支持切片赋值（修改原列表）
+
+```python
+lst[1:3] = ['x', 'y']
+print(lst)  # ['a', 'x', 'y', 'd', 'e']
+```
+
+### 六、总结对照表
+
+| 操作              | 说明                         | 示例        | 结果                    |
+| ----------------- | ---------------------------- | ----------- | ----------------------- |
+| `lst[i]`          | 访问第 i 个元素（从 0 开始） | `lst[2]`    | `'c'`                   |
+| `lst[-1]`         | 访问最后一个元素             | `lst[-1]`   | `'e'`                   |
+| `lst[start:stop]` | 从 start 到 stop（不含）     | `lst[1:4]`  | `['b', 'c', 'd']`       |
+| `lst[:n]`         | 从头到第 n 个元素（不含）    | `lst[:3]`   | `['a', 'b', 'c']`       |
+| `lst[n:]`         | 从第 n 个元素到结尾          | `lst[2:]`   | `['c', 'd', 'e']`       |
+| `lst[::step]`     | 指定步长取元素               | `lst[::2]`  | `['a', 'c', 'e']`       |
+| `lst[::-1]`       | 整体倒序                     | `lst[::-1]` | `['e','d','c','b','a']` |
 
 
+
+## Python中 max() 的用法
+
+#### 一、基本语法
+
+```python
+max(iterable, *[, key, default]) # *表示 后面必须用关键字传参
+max(arg1, arg2, *args[, key])  # *args 用过*了 所以之后的关键字传参不能再用*提示了
+
+# offical
+max(iterable, *, key=None)
+max(iterable, *, default, key=None)
+max(arg1, arg2, *args, key=None)
+```
+
+`*args` 表示可变数量的位置参数
+
+````py
+def func(a, b, *args):
+    print(args)
+
+func(1, 2, 3, 4)  # args = (3, 4)
+````
+
+`[]` 表示参数是可选的，不写也行
+
+
+
+#### 二、常见用法
+
+**1. 对列表求最大值**
+
+```python
+numbers = [3, 1, 5, 2]
+print(max(numbers))  # 输出 5
+```
+
+**2. 比较多个数**
+
+```python
+print(max(10, 25, 3))  # 输出 25
+```
+
+**3. 对字符串（按字典序）求最大值**
+
+```python
+s = "hello"
+print(max(s))  # 输出 'o'（因为 'o' 的 Unicode 编码最大）
+```
+
+**4. 自定义比较规则（使用 `key` 参数）**
+
+例如：找出字符串列表中长度最大的字符串
+
+```python
+words = ["apple", "banana", "cherry"]
+print(max(words, key=len))  # 输出 'banana'
+```
+
+#### 三、处理空序列（`default` 参数）
+
+对于空的可迭代对象，直接用 `max()` 会报错：
+
+```python
+empty = []
+print(max(empty))  # ❌ TypeError
+```
+
+可以使用 `default` 参数避免报错：
+
+```python
+print(max(empty, default=0))  # 输出 0
+```
+
+#### 四、配合 `dict` 使用
+
+**1. 找出字典中最大键：**
+
+```python
+d = {'a': 3, 'c': 5, 'b': 2}
+print(max(d))  # 输出 'c'，因为 'c' 是键中按字典序最大的
+```
+
+**2. 找出值最大的键：**
+
+```python
+print(max(d, key=d.get))  # 输出 'c'，因为对应值 5 最大
+```
+
+#### 五、总结
+
+| 用法类型           | 示例                               | 结果               |
+| ------------------ | ---------------------------------- | ------------------ |
+| 列表最大值         | `max([1, 4, 2])`                   | 4                  |
+| 多个参数最大值     | `max(1, 4, 2)`                     | 4                  |
+| 空序列使用 default | `max([], default=0)`               | 0                  |
+| 自定义比较（长度） | `max(["a", "bb", "ccc"], key=len)` | "ccc"              |
+| 找值最大对应的键   | `max(d, key=d.get)`                | 键名对应最大值的键 |
+
+
+
+## Python中 range() 的用法
+
+`range()` 是 Python 内置的序列生成器，常与 `for` 循环配合，用来按需产生整数序列，而不是一次性创建完整列表。在 CPython 实现中它返回一个惰性、不可变且仅保存 *start*、*stop*、*step* 三个参数的特殊对象，因此内存开销恒定，与区间长度无关。
+
+### 1. 语法形式
+
+```python
+range(stop)               # 仅给出终点
+range(start, stop)        # 给出起点和终点
+range(start, stop, step)  # 给出起点、终点和步长
+```
+
+- **start**：起始值（含），默认 0
+- **stop**：终止值（不含，左闭右开）
+- **step**：步长，可正可负，默认为 1，不能为 0
+
+### 2. 核心用法与示例
+
+| 目标          | 示例代码                        | 说明                 |
+| ------------- | ------------------------------- | -------------------- |
+| 基本递增      | `range(5)` → `0,1,2,3,4`        | 生成 0 到 4          |
+| 指定起点      | `range(2, 7)` → `2,3,4,5,6`     | 起点包含，终点不含   |
+| 自定义步长    | `range(1, 10, 2)` → `1,3,5,7,9` | 步长为 2             |
+| 递减序列      | `range(10, 3, -2)` → `10,8,6,4` | 步长为负             |
+| 与 `for` 循环 | `for i in range(len(arr)):`     | 经典索引遍历         |
+| 快速列表化    | `list(range(3))` → `[0,1,2]`    | 需要实际列表时再转换 |
+
+### 3. `range` 对象的特性
+
+1. **==惰性 – 仅在迭代时按需计算元素；无论终点多大，内存占用恒定。==**
+
+2. **不可变** – 不支持增加或修改元素。
+
+3. **支持成员测试** – `if x in range(1_000_000):` 比同等列表测试更快，因为内部以算术判定。
+
+4. **支持切片** – 返回新的 `range` 对象，而非列表：
+
+```python
+   r = range(0, 10)
+   r2 = r[2:8:2]   # range(2, 8, 2)
+```
+
+5. **哈希可用** – 可放入 `set` 或作字典键，只要参数相同则对象相等。
+
+### 4. 常见场景
+
+#### 4.1 与 `enumerate()` 搭配
+
+```python
+for idx, value in enumerate(my_list):
+    ...
+```
+
+多数场景下 `enumerate` 比手动 `range(len(...))` 更可读。
+
+#### 4.2 多维循环
+
+```python
+for i in range(rows):
+    for j in range(cols):
+        ...
+```
+
+#### 4.3 构造索引集合
+
+```python
+even_indices = set(range(0, len(arr), 2))
+```
+
+#### 4.4 生成逆序序列
+
+```python
+for i in range(len(arr) - 1, -1, -1):
+    ...
+```
+
+### 5. 注意事项与易错点
+
+| 误用             | 正确做法                          | 原因                              |
+| ---------------- | --------------------------------- | --------------------------------- |
+| `range(1, 5, 0)` | 步长不能为 0                      | 会抛 `ValueError`                 |
+| 期待包含 *stop*  | 使用 `range(1, n + 1)`            |                                   |
+| 改变现有 `range` | 创建新对象：`r = range(...)[...]` | 不可变                            |
+| 大范围转列表     | 尽量直接迭代                      | `list(range(10**8))` 占用大量内存 |
+
+
+
+## Python中 lambda 的用法
+
+### 一、什么是 `lambda`
+
+`lambda` 是 Python 中用来定义**匿名函数**的一种方式，适用于函数体非常简单、只需要一个表达式的情况。
+
+其本质与 `def` 定义的函数功能相同，但没有函数名，通常用于**临时使用一次的小函数**。
+
+### 二、基本语法
+
+```python
+lambda 参数1, 参数2, ... : 表达式
+```
+
+等价于：
+
+```python
+def 函数名(参数1, 参数2, ...):
+    return 表达式
+```
+
+`lambda` 函数返回值就是冒号 `:` 后面的表达式计算结果。
+
+### 三、常见用法示例
+
+#### 1. 最简单的加法函数
+
+```python
+add = lambda x, y: x + y
+print(add(2, 3))  # 输出 5
+```
+
+相当于：
+
+```python
+def add(x, y):
+    return x + y
+```
+
+#### 2. 配合 `sorted()` 使用
+
+```python
+data = [(1, 'b'), (3, 'a'), (2, 'c')]
+# 按元组第二个元素排序
+sorted_data = sorted(data, key=lambda x: x[1])
+print(sorted_data)  # [(3, 'a'), (1, 'b'), (2, 'c')]
+```
+
+#### 3. 与 `map()` 函数配合
+
+```python
+nums = [1, 2, 3]
+squares = list(map(lambda x: x ** 2, nums))
+print(squares)  # [1, 4, 9]
+```
+
+#### 4. 与 `filter()` 函数配合
+
+```python
+nums = [1, 2, 3, 4, 5]
+evens = list(filter(lambda x: x % 2 == 0, nums))
+print(evens)  # [2, 4]
+```
+
+#### 5. 与 `reduce()` 函数配合（需导入模块）
+
+```python
+from functools import reduce
+nums = [1, 2, 3, 4]
+product = reduce(lambda x, y: x * y, nums)
+print(product)  # 24
+```
+
+### 四、注意事项
+
+- `lambda` 只能写**一个表达式**，不能包含多行语句或复杂逻辑
+- 若函数逻辑较复杂或需要调试，建议使用 `def`
+- `lambda` 通常用于回调函数、排序规则、自定义处理逻辑中作为参数传入
+
+### 五、总结对比
+
+| 比较项           | `lambda` 匿名函数    | `def` 普通函数       |
+| ---------------- | -------------------- | -------------------- |
+| 是否有函数名     | 否                   | 是                   |
+| 是否能写多行     | 否（只能一个表达式） | 是                   |
+| 是否适合临时使用 | 是                   | 否（适合可复用逻辑） |
+| 调试友好性       | 差                   | 好                   |
+
+
+
+## Python中 sorted/sort 的用法
+
+### 一、`sorted()` 函数
+
+#### 基本语法：
+
+```python
+sorted(iterable, key=None, reverse=False)
+```
+
+#### 参数说明：
+
+- `iterable`：可迭代对象（如列表、元组、字符串、字典的 `.items()` 等）
+- `key`：一个函数，用于指定排序规则（默认为元素本身）
+- `reverse`：是否降序排序（默认为 `False`，即升序）
+
+#### 特点：
+
+- 返回一个新的 **列表**
+- 不改变原始对象
+- 适用于所有可迭代对象
+
+#### 示例：
+
+```python
+sorted_nums = sorted(nums)  # 升序
+print(sorted_nums)  # [1, 1, 3, 4, 5]
+
+# 降序排序
+print(sorted(nums, reverse=True))  # [5, 4, 3, 1, 1]
+
+# 自定义排序：按字符串长度排序
+words = ['banana', 'apple', 'cherry']
+print(sorted(words, key=len))  # ['apple', 'banana', 'cherry']
+```
+
+------
+
+### 二、`list.sort()` 方法
+
+#### 基本语法：
+
+```python
+list.sort(key=None, reverse=False)
+```
+
+#### 特点：
+
+- **==只适用于列表对象（list）==**
+- **就地修改**列表本身
+- 返回值为 `None`
+- 性能略优于 `sorted()`（因为不创建新列表）
+
+#### 示例：
+
+```python
+nums = [3, 1, 4, 1, 5]
+nums.sort()
+print(nums)  # [1, 1, 3, 4, 5]
+```
+
+------
+
+### 三、二者对比
+
+| 特性             | `sorted()`               | `list.sort()`      |
+| ---------------- | ------------------------ | ------------------ |
+| 是否返回新列表   | 是                       | 否（返回 None）    |
+| 是否修改原始列表 | 否                       | 是                 |
+| 适用对象         | 所有可迭代对象           | 仅限列表           |
+| 常用于           | 保留原对象，创建排序副本 | 原地排序，提高效率 |
+
+
+
+### 四、补充：常见 `key` 用法示例
+
+#### 1. 忽略大小写排序字符串
+
+```python
+names = ['Alice', 'bob', 'Charlie']
+sorted(names, key=str.lower)  # ['Alice', 'bob', 'Charlie']
+```
+
+#### 2. 排序元组列表（按第二个元素）
+
+```python
+data = [(1, 'b'), (3, 'a'), (2, 'c')]
+sorted(data, key=lambda x: x[1])  # [(3, 'a'), (1, 'b'), (2, 'c')]
+```
+
+#### 3. 排序字典项（按值排序）
+
+```python
+d = {'a': 3, 'b': 1, 'c': 2}
+sorted(d.items(), key=lambda x: x[1])  # [('b', 1), ('c', 2), ('a', 3)]
+```
+
+
+
+## Python中 Counter 的用法
+
+### **1. 什么是 `Counter`**
+
+- `Counter` 是 `collections` 模块下的一个**内置类。**
+- 用于**统计每个元素出现的次数**。
+- 本质上是一个==**特殊的字典（dict）**：==
+  - 键（key）是元素
+  - 值（value）是出现的次数
+
+### **2. 如何导入**
+
+```python
+from collections import Counter
+```
+
+### **3. 基本用法**
+
+3.1 统计字符串中每个字符出现次数
+
+```python
+s = "abbccc"
+count = Counter(s)
+print(count)  # 输出 Counter({'c': 3, 'b': 2, 'a': 1})
+```
+
+3.2 统计列表中元素出现次数
+
+```python
+nums = [1, 2, 2, 3, 3, 3]
+count = Counter(nums)
+print(count)  # 输出 Counter({3: 3, 2: 2, 1: 1})
+```
+
+3.3 访问元素的次数
+
+```python
+c = Counter("aabc")
+print(c['a'])  # 输出 2
+print(c['b'])  # 输出 1
+print(c['z'])  # 输出 0，不会报错
+```
+
+### **4. 常用方法总结**
+
+| 方法               | 作用                            | 示例 |
+| ------------------ | ------------------------------- | ---- |
+| `c.keys()`         | 返回所有出现过的元素            |      |
+| `c.values()`       | 返回所有元素出现的次数          |      |
+| `c.items()`        | 返回 (元素, 次数) 键值对列表    |      |
+| `c.most_common(n)` | 返回出现次数最多的前 `n` 个元素 |      |
+| `c.elements()`     | 返回重复元素的迭代器            |      |
+
+示例：
+
+```python
+c = Counter('aabcccd')
+
+print(c.keys())         # dict_keys(['a', 'b', 'c', 'd'])
+print(c.values())       # dict_values([2, 1, 3, 1])
+print(c.items())        # dict_items([('a', 2), ('b', 1), ('c', 3), ('d', 1)])
+print(c.most_common(2)) # [('c', 3), ('a', 2)]
+print(list(c.elements())) # ['a', 'a', 'b', 'c', 'c', 'c', 'd']
+```
+
+### 5. Counter 支持数学运算
+
+5.1 加法（合并出现次数）
+
+```python
+c1 = Counter('aab')
+c2 = Counter('bcc')
+print(c1 + c2)  # Counter({'c': 2, 'a': 2, 'b': 2})
+```
+
+5.2 减法（出现负数时舍弃）
+
+```python
+c1 = Counter('aab')
+c2 = Counter('bcc')
+print(c1 - c2)  # Counter({'a': 2})
+```
+
+说明：
+
+- 只保留出现次数为正的元素
+- 出现负数或零的元素不保留
+
+### ==6. Counter 与普通字典的区别==
+
+| 项目             | Counter                     | dict               |
+| ---------------- | --------------------------- | ------------------ |
+| 访问不存在的元素 | 返回 0                      | 抛出 KeyError 错误 |
+| 用途             | 快速计数，频率分析          | 任意键值存储       |
+| 支持数学运算     | 支持 (+, -, &, \|) 集合运算 | 不支持             |
+
+### 7. 时间复杂度分析
+
+- 构造 `Counter`：遍历一遍输入，时间复杂度 O(n)
+- 查询、插入、更新元素：单次操作时间复杂度 O(1)
+
+### 8. 一句话总结
+
+`Counter` 是 Python 中用于**快速统计频率表**的工具，支持常规查询、高效合并、交并补等集合运算，适合处理子串、子数组、频率统计等问题。
