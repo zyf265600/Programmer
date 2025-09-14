@@ -1,0 +1,4 @@
+If it’s already been sent out, I don’t think I’ve received the tracking info yet, so I just wanted to confirm.#!/usr/bin/env ruby
+APP_PATH = File.expand_path("../config/application", __dir__)
+require_relative "../config/boot"
+require "rails/commands"
