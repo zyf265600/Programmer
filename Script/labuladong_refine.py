@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 
 def process_md_file(filepath):
     try:
@@ -20,8 +21,11 @@ def process_md_file(filepath):
     # ============ 2. 保留中括号内文字，删除括号与链接部分 (只匹配以 https 开头的链接) ============
     #   - 之前脚本是替换为 [\1]，现在改为 \1，去掉外部方括号
     content = re.sub(r'\[([^\]]+)\]\(https[^\)]*\)', r'\1', content)
+    
+    # ============ 3. 删除 ¶ 符号 ============
+    content = content.replace("¶", "")
 
-    # ============ 3. 原有功能：将单独的 ``` 替换为 ```go ============
+    # ============ 4. 将单独的 ``` 替换为 ```go 并删除代码块外的空行 ============
     #   - 这里我们需要行级处理，因为要判断 code block 的开合
     lines = content.splitlines(keepends=True)
     new_lines = []
@@ -42,6 +46,9 @@ def process_md_file(filepath):
             new_lines.append(line)
             inside_code_block = False
         else:
+            # 如果在代码块外且是空行，跳过
+            if not inside_code_block and stripped == "":
+                continue
             new_lines.append(line)
 
     # 最终写回文件
@@ -54,8 +61,13 @@ def process_md_file(filepath):
 
 # ============ 使用示例 ============
 if __name__ == "__main__":
-    file_path = "../Leetcode/Data_Structure/25二叉树拓展：最近公共祖先系列解题框架.md"
+    if len(sys.argv) < 2:
+        print("❌ 用法: python labuladong_refine.py <文件路径>")
+        sys.exit(1)
+    
+    file_path = sys.argv[1]
     if not os.path.isfile(file_path):
         print(f"❌ 文件不存在: {file_path}")
-    else:
-        process_md_file(file_path)
+        sys.exit(1)
+    
+    process_md_file(file_path)

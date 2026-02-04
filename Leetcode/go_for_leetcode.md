@@ -1,14 +1,8 @@
 # Golang 语言基础
-
 本文针对初学者，介绍 Golang 的基本使用，包括控制语句、标准库的常用数据结构等，以便快速上手刷题。
-
-## [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#标准输出)标准输出
-
+## 标准输出
 Golang 的标准输出使用 `fmt` 包中的 `Println` 和 `Printf` 函数，用于在控制台打印内容并换行或格式化输出。
-
-
-
-```
+```go
 package main
 
 import (
@@ -34,14 +28,10 @@ func main() {
     fmt.Printf("%s %d\n", s, a)
 }
 ```
-
-## [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#控制语句)控制语句
-
+## 控制语句
 编程语言的控制语句一般都比较简单，最常见的无非就是条件判断和循环，下面简单介绍一下。
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#条件判断-if-else)条件判断 if else
-
-```
+### 条件判断 if else
+```go
 package main
 
 import (
@@ -61,14 +51,9 @@ func main() {
     // 输出：a > 5
 }
 ```
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#循环-for)循环 for
-
+### 循环 for
 很多其他语言中有 `for` 和 `while` 两个关键字，但 Golang 中只有 `for` 一个关键字，同时实现了其他语言中 `while` 的功能：
-
-
-
-```
+```go
 package main
 
 import (
@@ -91,20 +76,12 @@ func main() {
     fmt.Println()
 }
 ```
-
-## [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#基本数据结构)基本数据结构
-
+## 基本数据结构
 Golang 的标准库提供了多种常用数据结构，如切片（Slice）、链表（List）、映射（Map）等。以下是一些常用数据结构的介绍及其使用方法。
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#动态数组-slice)动态数组 `Slice`
-
+### 动态数组 `Slice`
 在 Golang 中，切片（Slice）是动态数组的实现。相比于固定大小的数组，切片可以根据需要动态调整大小。
-
 初始化方法：
-
-
-
-```
+```go
 package main
 
 import (
@@ -143,12 +120,8 @@ func main() {
 	fmt.Println(dp)
 }
 ```
-
 其他常用操作：
-
-
-
-```
+```go
 package main
 
 import (
@@ -204,20 +177,12 @@ func main() {
 	fmt.Println()
 }
 ```
-
 注意，用 `append` 方法向切片中插入元素时，需要将返回值重新赋值给原切片，因为添加元素的过程中可能触发扩容重新分配内存，所以需要用变量重新接收。
-
 以上就是 Golang 切片（Slice）的常用方法，主要包括通过索引访问元素以及添加、删除元素的方法。在算法题中，切片的这些方法已经足够使用。
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#双链表-containerlist)双链表 `container/list`
-
+### 双链表 `container/list`
 Golang 标准库中的 `container/list` 包提供了双向链表的实现。相比于切片，链表在头部和尾部插入和删除元素时性能更好。
-
 常用方法：
-
-
-
-```
+```go
 package main
 
 import (
@@ -272,16 +237,10 @@ func main() {
     fmt.Println()
 }
 ```
-
 一般来说，当我们想在头部增删元素时会使用 `container/list`，因为它在头部增删元素的效率比切片（数组）高。但当需要频繁通过索引访问元素时，我们会使用切片。
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#队列)队列
-
+### 队列
 在 Golang 中没有专门的队列类型，但可以使用双向链表 `container/list` 来模拟队列的功能，因为链表的头部和尾部插入和删除元素的性能都很好。
-
-
-
-```
+```go
 package main
 
 import (
@@ -317,16 +276,10 @@ func main() {
     fmt.Println(newFront)
 }
 ```
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#栈)栈
-
+### 栈
 栈是一种后进先出（LIFO）的数据结构，Golang 标准库没有单独提供一个栈的类型，但可以使用切片或者双链表来模拟栈的功能，因为切片和双链表在尾部添加和删除元素都比较高效。
-
 下面就以切片为例，展示栈的基本操作：
-
-
-
-```
+```go
 package main
 
 import (
@@ -358,16 +311,10 @@ func main() {
     fmt.Println(s[len(s)-1])
 }
 ```
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#哈希表-map)哈希表 `map`
-
+### 哈希表 `map`
 Golang 的内置类型 `map` 提供了哈希表的功能，支持基于键值对（key-value）的存储，具有常数时间复杂度的查找、插入和删除操作。
-
 初始化方法：
-
-
-
-```
+```go
 package main
 
 import (
@@ -389,12 +336,8 @@ func main() {
     fmt.Println(hashmap)
 }
 ```
-
 常用方法：
-
-
-
-```
+```go
 package main
 
 import (
@@ -453,14 +396,9 @@ func main() {
     }
 }
 ```
-
-### [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#哈希集合map-的变体)哈希集合（`map` 的变体）
-
+### 哈希集合（`map` 的变体）
 Golang 没有内置的哈希集合类型，但可以使用哈希表 `map` 来模拟集合，键为元素，值为 `struct{}` 或 `bool`。
-
-
-
-```
+```go
 package main
 
 import (
@@ -513,13 +451,8 @@ func main() {
 	}
 }
 ```
-
 一般会推荐使用 `map[int]struct{}` 来模拟哈希集合，因为 `struct{}` 不会占用额外的内存空间，而 `bool` 类型会占用一个字节的内存空间。
-
-## [¶](https://labuladong.online/zh/algo/programming-language-basic/golang/#总结)总结
-
+## 总结
 上面这些基础知识就够你开始刷题了。
-
 当然，Golang 的一些第三方库还提供了很多其他数据结构和实用功能，本文都没有介绍。因为一些高级数据结构会在后面的数据结构章节逐步介绍，而每个结构的 API 也是可以在需要的时候查文档的，没必要一开始就全部记住。
-
 下面我会带你做一些力扣的算法题，让你快速把这些数据结构用起来，同时也熟悉一下刷题系统的使用。
