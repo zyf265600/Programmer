@@ -21,7 +21,7 @@ def process_md_file(filepath):
     #   - 之前脚本是替换为 [\1]，现在改为 \1，去掉外部方括号
     content = re.sub(r'\[([^\]]+)\]\(https[^\)]*\)', r'\1', content)
 
-    # ============ 3. 原有功能：将单独的 ``` 替换为 ```python ============
+    # ============ 3. 原有功能：将单独的 ``` 替换为 ```go ============
     #   - 这里我们需要行级处理，因为要判断 code block 的开合
     lines = content.splitlines(keepends=True)
     new_lines = []
@@ -32,7 +32,7 @@ def process_md_file(filepath):
         if stripped.startswith("```") and not inside_code_block:
             # 遇到开头的 ```
             if stripped == "```":
-                new_lines.append("```python\n")
+                new_lines.append("```go\n")
             else:
                 # 保持原有可能存在的语言标记，如 ```go 之类
                 new_lines.append(line)
