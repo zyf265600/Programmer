@@ -1,4 +1,4 @@
-# Golang 快速入门
+# Go指南
 
 # 基础
 
@@ -85,18 +85,20 @@ var (
     b string
     c bool
 )
-
 var c, python, java bool
 ```
 
 ------
 
-#### 2. 初始化时可省略类型
+#### 2. 类型推断
 
 ```go
 var a = 10
 var b = "hello"
 var c, python, java = true, false, "no!"
+i := 42           // int
+f := 3.142        // float64
+g := 0.867 + 0.5i // complex128
 ```
 
 Go 会通过 **类型推断（type inference）** 自动决定类型。
@@ -120,11 +122,94 @@ b := "hello"
 
 ------
 
+#### 4.零值
 
+没有明确初始化的变量声明会被赋予对应类型的 **零值**。
+
+零值是：
+
+- 数值类型为 `0`，
+- 布尔类型为 `false`，
+- 字符串为 `""`（空字符串）。
 
 ----
 
+#### 5. 类型转换
 
+表达式 `T(v)` 将值 `v` 转换为类型 `T`。
+
+一些数值类型的转换：
+
+```go
+var i int = 42
+var f float64 = float64(i)
+var u uint = uint(f)
+```
+
+或者，更加简短的形式：
+
+```go
+i := 42
+f := float64(i)
+u := uint(f)
+```
+
+与 C 不同的是，Go 在不同类型的项之间赋值时需要显式转换。试着移除例子中的 `float64` 或 `uint` 的类型转换，看看会发生什么。
+
+------
+
+#### 6. 常量
+
+常量的声明与变量类似，只不过使用 `const` 关键字。
+
+常量可以是字符、字符串、布尔值或数值。
+
+常量不能用 `:=` 语法声明。
+
+````go
+const Pi = 3.14
+````
+
+------
+
+#### 7. 数值常量
+
+Go 中有一类非常特殊的东西：**无类型常量（untyped constants）**
+
+它们的特点是：
+
+- **没有固定类型**
+- **精度是“理论上无限的”**
+- **只有在“被使用的上下文中”才会被赋予具体类型**
+
+````go
+package main
+
+import "fmt"
+
+const (
+	// 将 1 左移 100 位来创建一个非常大的数字
+	// 即这个数的二进制是 1 后面跟着 100 个 0
+	Big = 1 << 100
+	// 再往右移 99 位，即 Small = 1 << 1，或者说 Small = 2
+	Small = Big >> 99
+)
+
+func needInt(x int) int { return x*10 + 1 }
+func needFloat(x float64) float64 {
+	return x * 0.1
+}
+
+func main() {
+	fmt.Println(needInt(Small))
+	fmt.Println(needFloat(Small))
+	fmt.Println(needFloat(Big))
+  // 三个都允许转换
+  // 但 needInt(Big)不行 2^64 装不下
+}
+````
+
+------
 
 ### 三、指针声明（Pointers）
 
@@ -291,7 +376,7 @@ type Reader interface {
 }
 ```
 
-------
+-------
 
 ### 七、导出规则与声明的关系
 
@@ -330,3 +415,67 @@ Go 声明语法的核心目标只有一个：
 - 类型是对名字的描述，而不是修饰符
 
 这也是为什么 Go 在：指针，函数，复合类型，接口中，声明都保持高度一致。
+
+
+
+## 基本类型
+
+Go 的基本类型有
+
+```go
+bool
+
+string
+
+int  int8  int16  int32  int64
+uint uint8 uint16 uint32 uint64 uintptr
+
+byte // uint8 的别名
+
+rune // int32 的别名
+     // 表示一个 Unicode 码位
+
+float32 float64
+
+complex64 complex128
+```
+
+本例展示了几种类型的变量。 和导入语句一样，变量声明也可以「分组」成一个代码块。
+
+```go
+var (
+	ToBe   bool       = false
+	MaxInt uint64     = 1<<64 - 1
+	z      complex128 = cmplx.Sqrt(-5 + 12i)
+)
+```
+
+`int`、`uint` 和 `uintptr` 类型在 32-位系统上通常为 32-位宽，在 64-位系统上则为 64-位宽。当你需要一个整数值时应使用 `int` 类型， 除非你有特殊的理由使用固定大小或无符号的整数类型。
+
+
+
+## 流程控制语句
+
+### for 循环
+
+### if 判断
+
+### switch 分支
+
+### defer 推迟
+
+
+
+## 更多类型：结构体，切片和映射
+
+
+
+# 方法与接口
+
+
+
+# 泛型
+
+
+
+# 并发
