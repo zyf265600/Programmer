@@ -454,11 +454,262 @@ var (
 
 
 
+## 作用域
+
+### 一、包级作用域（Package Scope）
+
+定义：
+在函数外声明的变量、常量、类型、函数。
+
+特点：
+
+- 整个包内所有文件可见，所有函数都能访问
+- 首字母大写则可被其他包访问
+
+示例：
+
+```go
+package main
+
+import "fmt"
+
+var globalVar int = 100   // 包级变量
+
+func printGlobal() {
+    fmt.Println("globalVar =", globalVar)
+}
+
+func main() {
+    fmt.Println("main sees:", globalVar)
+    printGlobal()
+}
+```
+
+------
+
+### 二、函数作用域（Function Scope）
+
+定义：
+在函数内部声明的变量。
+
+特点：
+
+- 只能在当前函数内访问
+- 函数结束后失效
+
+示例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    fmt.Println("inside main:", x)
+}
+
+func other() {
+    // fmt.Println(x)  // 编译错误：x 未定义
+}
+```
+
+------
+
+### 三、块级作用域（Block Scope）
+
+定义：
+任意 `{}` 都会形成一个新的作用域。
+
+特点：
+
+- 内层可以访问外层变量
+- 外层不能访问内层变量
+
+示例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+
+    {
+        y := 20
+        fmt.Println("inside block:", x, y)
+    }
+
+    fmt.Println("outside block:", x)
+
+    // fmt.Println(y)  // 编译错误：y 未定义
+}
+```
+
+------
+
+### 四、语句初始化作用域（Init Scope）
+
+定义：
+在 `if / for / switch` 初始化部分声明的变量。
+
+特点：
+
+- 仅在该语句结构内有效
+- 语句外不可访问
+
+```go
+package main
+
+import "fmt"
+
+func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, fmt.Errorf("divide by zero")
+    }
+    return a / b, nil
+}
+
+func main() {
+    if result, err := divide(10, 2); err == nil {
+      	// result 和 err 只在 if 结构内部有效
+        fmt.Println("result:", result)
+    } else {
+        fmt.Println("error:", err)
+    }
+
+    // fmt.Println(result)  // 编译错误
+}
+```
+
+------
+
+### 五、变量遮蔽（Shadowing）
+
+示例：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    x := 10
+    {
+        x := 20
+        fmt.Println("inner x:", x)
+    }
+    fmt.Println("outer x:", x)
+}
+```
+
+输出：
+
+```
+inner x: 20
+outer x: 10
+```
+
+说明：
+
+- 内部 `x` 是新变量
+- 遮蔽了外层 `x`
+- 两者互不影响
+
+------
+
+### 六、作用域查找顺序
+
+当访问一个变量时，Go 按以下顺序查找：
+
+1. 当前块
+2. 外层块
+3. 函数作用域
+4. 包级作用域
+5. 预声明标识符（如 int、len 等）
+
+
+
 ## 流程控制语句
 
 ### for 循环
 
+Go 只有一种循环结构：`for` 循环。
+
+基本的 `for` 循环由三部分组成，它们用分号隔开：
+
+- 初始化语句：在第一次迭代前执行
+- 条件表达式：在每次迭代前求值
+- 后置语句：在每次迭代的结尾执行
+
+初始化语句通常为一句短变量声明，该变量声明仅在 `for` 语句的作用域中可见。
+
+**注意**：
+
+- 和 C、Java、JavaScript 之类的语言不同，Go 的 `for` 语句后面的三个构成部分外没有小括号， 大括号 `{ }` 则是必须的。
+- 初始化语句和后置语句是可选的。此时你可以去掉分号， for 就变成了 while。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	sum := 0
+  
+	for i := 0; i < 100; i++ {
+		sum += i
+	}
+	fmt.Println(sum)
+
+  // sum 已经有值了 不需要再次声明
+  for ; sum < 1000; {
+		sum += sum
+	}
+	fmt.Println(sum)
+  
+  // 此时你可以去掉分号，因为 C 的 while 在 Go 中叫做 for
+  for sum < 1000 {
+		sum += sum
+	}
+	fmt.Println(sum)
+  
+  // 如果省略循环条件，该循环就不会结束，因此无限循环可以写得很紧凑。
+	for {
+	} 
+}
+```
+
+----
+
 ### if 判断
+
+Go 的 `if` 语句与 `for` 循环类似，表达式外无需小括号 `( )`，而大括号 `{ }` 则是必须的。
+
+和 `for` 一样，`if` 语句可以在条件表达式前执行一个简短初始化语句。该语句声明的变量作用域仅在 `if` 之内。
+
+```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func sqrt(x float64) string {
+	if x < 0 {
+		return sqrt(-x) + "i"
+	}
+	return fmt.Sprint(math.Sqrt(x))
+}
+
+func main() {
+	fmt.Println(sqrt(2), sqrt(-4))
+}
+```
+
+
 
 ### switch 分支
 
