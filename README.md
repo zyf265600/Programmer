@@ -1,7 +1,5 @@
 # Programmer
 
-## English
-
 **Programmer** is a personal repository that consolidates my long-term work in programming practice, algorithm implementation, and engineering-oriented learning notes.
 
 This repo serves as a structured space for exploring a wide range of computer science and software development topics, including:
@@ -26,8 +24,6 @@ This repository is intended both as a personal knowledge base and as a useful re
 Feel free to explore the folders, and suggestions or issues are always welcome.
 
 ---
-
-## 中文
 
 **Programmer** 是我个人整理的编程实践、算法实现以及工程学习笔记合集。
 
