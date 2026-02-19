@@ -418,7 +418,9 @@ Go 声明语法的核心目标只有一个：
 
 
 
-## 基本类型
+## 基本类型 & 类型准换
+
+### 基本类型 
 
 Go 的基本类型有
 
@@ -452,6 +454,59 @@ var (
 
 `int`、`uint` 和 `uintptr` 类型在 32-位系统上通常为 32-位宽，在 64-位系统上则为 64-位宽。当你需要一个整数值时应使用 `int` 类型， 除非你有特殊的理由使用固定大小或无符号的整数类型。
 
+### **类型转换**
+
+#### **1. 基本语法**
+
+```go
+T(x)
+```
+
+将 `x` 显式转换为类型 `T`。
+Go 不进行自动类型转换（no implicit conversion）。
+
+#### 2. 数值类型转换
+
+不同数值类型不能直接运算：
+
+```go
+var a int = 3
+var b int64 = 4
+sum := int64(a) + b
+```
+
+注意：
+
+- 大转小可能发生截断（truncation）
+- 有符号转无符号可能改变数值意义
+
+#### 3. 浮点与整数 (向零截断)
+
+```go
+f := 3.9
+i := int(f) // 结果 3（向零截断）
+```
+
+不会四舍五入。
+
+#### 4. string 与 byte / rune
+
+```go
+s := "Hi"
+b := []byte(s)   // string → []byte（UTF-8 字节）
+r := []rune(s)   // string → []rune（Unicode 码点）
+
+s1 := string(b)  // []byte → string
+s2 := string(r)  // []rune → string
+```
+
+#### 5. 类型断言（Type Assertion）区别
+
+```go
+v.(T)
+```
+
+用于 interface，不属于类型转换。
 
 
 ## 作用域
@@ -687,7 +742,13 @@ func main() {
 
 Go 的 `if` 语句与 `for` 循环类似，表达式外无需小括号 `( )`，而大括号 `{ }` 则是必须的。
 
-和 `for` 一样，`if` 语句可以在条件表达式前执行一个简短初始化语句。该语句声明的变量作用域仅在 `if` 之内。
+```go
+if [init]; [expression] {
+  ...
+}
+```
+
+和 `for` 一样，`if` 语句可以在条件表达式前执行一个**简短初始化语句**。该语句声明的变量作用域仅在 `if` 和 `else` 之内。
 
 ```go
 package main
@@ -697,27 +758,750 @@ import (
 	"math"
 )
 
-func sqrt(x float64) string {
-	if x < 0 {
-		return sqrt(-x) + "i"
+func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v < lim {
+		return v
+	} else {
+		fmt.Printf("%g >= %g\n", v, lim)
 	}
-	return fmt.Sprint(math.Sqrt(x))
+	// can't use v here, though
+	return lim
 }
 
 func main() {
-	fmt.Println(sqrt(2), sqrt(-4))
+	fmt.Println(
+		pow(3, 2, 10),
+		pow(3, 3, 20),
+	)
+}
+```
+
+----
+
+### switch 分支
+
+`switch` 语句是编写一连串 `if - else` 语句的简便方法。**它运行第一个 `case` 值 值==等于==条件表达式的子句。**
+
+```go
+switch [init]; [expression] {
+    case ...
+}
+```
+
+Go 的 `switch` 语句类似于 C、C++、Java、JavaScript 和 PHP 中的，不过 Go 只会运行选定的 `case`，而非之后所有的 `case`。 在效果上，Go 的做法相当于这些语言中为每个 `case` 后面自动添加了所需的 `break` 语句。同时，case的表达式是**惰性求值（lazy evaluation）**的，不运行的 case 内容不会被提前计算或者运行。
+
+在 Go 中，除非以 `fallthrough` 语句结束，否则分支会自动终止。 Go 的另一点重要的不同在于 `switch` 的 `case` 无需为常量，且取值不限于整数。
+
+```go
+package main
+
+import (
+	"fmt"
+	"runtime"
+)
+
+func main() {
+	fmt.Print("Go 运行的系统环境：")
+	switch os := runtime.GOOS; os {
+	case "darwin":
+		fmt.Println("macOS.")
+	case "linux":
+		fmt.Println("Linux.")
+	default:
+		// freebsd, openbsd,
+		// plan9, windows...
+		fmt.Printf("%s.\n", os)
+	}
+}
+```
+
+无条件的 `switch` 同 `switch true` 一样。
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	t := time.Now()
+	switch { // 等同于 switch true
+	case t.Hour() < 12:
+		fmt.Println("早上好！")
+	case t.Hour() < 17:
+		fmt.Println("下午好！")
+	default:
+		fmt.Println("晚上好！")
+	}
+}
+```
+
+----
+
+### defer 推迟
+
+defer 语句会将函数推迟到外层函数返回之后执行。
+
+推迟调用的函数其参数会立即求值，但直到外层函数返回前该函数都不会被调用。换句话说，defer 的“参数值”在声明那一刻就确定；defer 的“函数执行”在外层函数返回时才发生。
+
+````go
+package main
+
+import "fmt"
+
+func main() {
+	defer fmt.Println("world")
+
+	fmt.Println("hello")
+}
+// output hello world
+````
+
+推迟调用的函数调用会被压入一个栈中。 当外层函数返回时，被推迟的调用会按照后进先出的顺序调用。
+
+````go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("counting")
+
+	for i := 0; i < 2; i++ {
+		defer fmt.Println(i)
+	}
+
+	fmt.Println("done")
+}
+// output 
+// counting
+// done
+// 1
+// 0
+````
+
+----
+
+### panic 恐慌
+
+`panic` 用于中止当前函数的正常执行流程。
+
+当发生 panic 时：
+
+- 当前函数立即停止执行
+- 开始执行当前函数中所有的 `defer`
+- 然后向上返回（函数栈展开）
+- 如果一直没有被 recover 捕获，程序最终崩溃
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("start")
+	panic("something went wrong")
+	fmt.Println("end") // 永远不会执行
+}
+```
+
+输出：
+
+```
+start
+panic: something went wrong
+...
+```
+
+panic 会触发 defer，当 panic 发生时，所有已注册的 defer 都会执行 （函数栈展开），最后执行 panic。
+
+```go
+package main
+
+import "fmt"
+
+func f() {
+	defer fmt.Println("defer in f")
+	panic("boom")
+}
+
+func main() {
+	defer fmt.Println("defer in main")
+	f()
+}
+```
+
+执行顺序：
+
+1. panic 在 f 中发生
+2. 执行 f 的 defer
+3. 返回到 main
+4. 执行 main 的 defer
+5. 程序崩溃
+
+输出：
+
+```
+defer in f
+defer in main
+panic: boom
+```
+
+**使用场景**
+
+panic 适用于：
+
+- 不可恢复的错误
+- 程序逻辑严重错误
+- 初始化阶段错误
+
+----
+
+### recover 恢复
+
+`recover` 用于捕获 panic。关键规则：recover 只能在 panic 展开过程中的 defer 中生效。==**如果在普通代码中调用 recover，或者没有panic在展开，会返回 nil。**==
+
+当 panic 向上展开时：
+
+- 如果某个 defer 中调用了 recover
+- recover 会：
+  - 停止 panic 继续传播
+  - **返回 panic 的值**
+  - 程序恢复正常执行，不会崩溃。
+
+```go
+package main
+
+import "fmt"
+
+func f() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("recovered in f:", r)
+		}
+	}()
+
+	panic("boom")
+	fmt.Println("after panic") // 不会执行
+}
+
+func main() {
+	f()
+	fmt.Println("program continues")
+}
+
+// output: 
+// recovered in f: boom
+// program continues
+```
+
+**recover 的限制**
+
+1. 必须在 defer 中
+
+```go
+recover()  // 无效
+```
+
+2. 必须在 panic 展开过程中调用，如果没有 panic：
+
+```go
+defer func() {
+	fmt.Println(recover()) // 输出 <nil>
+}()
+```
+
+**使用场景**
+
+recover 适用于：
+
+- 防止整个程序崩溃
+- 服务器框架保护每个请求
+- 统一错误处理边界
+
+### panic & recover 实例
+
+**HTTP 服务器防止单个请求崩溃整个进程（最常见）**
+
+在 Web 服务中，如果某个 handler 发生 panic，默认会导致整个进程退出。
+生产环境通常会在“请求边界”统一 recover。
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func recoverMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) { // 2
+
+		defer func() { // 3
+			if err := recover(); err != nil { // 6
+				log.Printf("panic: %v\n", err)
+				http.Error(w, "internal server error", http.StatusInternalServerError) // 7
+			}
+		}()
+
+		next(w, r) // 4
+	}
+}
+
+func riskyHandler(w http.ResponseWriter, r *http.Request) {
+	panic("database nil pointer") // 5
+}
+
+func main() {
+	http.HandleFunc("/", recoverMiddleware(riskyHandler)) // 1
+	http.ListenAndServe(":8080", nil)
+}
+```
+
+在第七步，客户端看到：
+
+```
+HTTP/1.1 500 Internal Server Error
+internal server error
+```
+
+服务器日志看到：
+
+```
+panic: database nil pointer
+```
+
+如果没有 recoverMiddleware 会发生什么？
+
+如果你直接：
+
+```
+http.HandleFunc("/", riskyHandler)
+```
+
+当 panic 发生：
+
+- 整个进程崩溃
+- 所有连接断开
+- 服务不可用
+
+
+
+## 更多类型：结构体，切片和映射
+
+### 指针
+
+Go 拥有指针。指针保存了值的内存地址。
+
+类型 `*T` 是指向 `T` 类型值的指针，其零值为 `nil`。
+
+```
+var p *int
+```
+
+`&` 操作符会生成一个指向其操作数的指针（取址）。
+
+```
+i := 42
+p = &i
+```
+
+`*` 操作符表示指针指向的底层值（取值/解引用）。
+
+```
+fmt.Println(*p) // 通过指针 p 读取 i
+*p = 21         // 通过指针 p 设置 i
+```
+
+与 C 不同，Go 没有指针运算。
+
+----
+
+### 结构体
+
+一个 结构体（`struct`）就是一组 字段（field）。
+
+结构体字段可通过 `.` 来访问。
+
+结构体字段还可通过结构体指针来访问。
+
+如果我们有一个指向结构体的指针 `p` 那么可以通过 `(*p).X` 来访问其字段 `X`。 **不过这么写太啰嗦了，所以语言也允许我们使用隐式解引用，直接写 `p.X` 就可以。**
+
+```go
+package main
+
+import "fmt"
+
+type Vertex struct {
+	X int
+	Y int
+}
+
+func main() {
+	v := Vertex{1, 2}
+	p := &v
+	p.X = 1e9
+	fmt.Println(v)
+}
+```
+
+使用 `Name:` 语法可以仅列出部分字段（字段名的顺序无关）。
+
+特殊的前缀 `&` 返回一个指向结构体的指针。
+
+```go
+package main
+
+import "fmt"
+
+type Vertex struct {
+	X, Y int
+}
+
+var (
+	v1 = Vertex{1, 2}  // 创建一个 Vertex 类型的结构体
+	v2 = Vertex{X: 1}  // Y:0 被隐式地赋予零值
+	v3 = Vertex{}      // X:0 Y:0
+	p  = &Vertex{1, 2} // 创建一个 *Vertex 类型的结构体（指针）
+)
+
+func main() {
+	fmt.Println(v1, p, v2, v3)
+}
+```
+
+----
+
+### 数组
+
+类型 `[n]T` 表示一个数组，它拥有 `n` 个类型为 `T` 的值。
+
+表达式
+
+```go
+var a [10]int
+b := [6]int{2, 3, 5, 7, 11, 13}
+```
+
+会将变量 `a` 声明为拥有 10 个整数的数组。
+
+数组的长度是其类型的一部分，因此数组不能改变大小。 这看起来是个限制，不过没关系，Go 拥有更加方便的使用数组的方式。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var a [2]string
+	a[0] = "Hello"
+	a[1] = "World"
+	fmt.Println(a[0], a[1])
+	fmt.Println(a)
+
+	primes := [6]int{2, 3, 5, 7, 11, 13}
+	fmt.Println(primes)
+}
+
+```
+
+----
+
+### 切片
+
+切片为数组元素提供了一种**动态大小的视图。**
+
+数组（array）的长度在编译期固定，而切片（slice）则在运行时提供灵活的访问方式，因此在实际开发中比数组更常用。
+
+#### 一、切片类型
+
+切片的类型表示为：
+
+```go
+[]T
+```
+
+表示元素类型为 `T` 的切片。
+
+例如：
+
+```go
+func main() {
+    // 切片字面量 []bool{true, true, false}
+    q := []int{2, 3, 5, 7, 11, 13}
+    fmt.Println(q)
+}
+```
+
+这段代码会：
+
+1. 创建一个底层数组
+2. 创建一个切片（slice header）指向该数组
+
+#### 二、切片的本质
+
+切片本身并不直接存储元素。
+
+一个切片在底层包含三个部分：
+
+- 指向底层数组的指针（pointer）
+- 当前长度（length）就是它所包含的元素个数。
+- 容量（capacity）是从它的第一个元素开始数，到其底层数组元素末尾的个数。（从当前切片起始位置到数组末尾的可用空间。）
+
+可以抽象表示为：
+
+```
+slice = (ptr, len, cap)
+```
+
+==**因此：切片是数组的一种动态视图（dynamic view），而不是独立的数据结构。**==
+
+#### 三、切片的区间操作
+
+切片可以通过区间表达式生成：
+
+```go
+a[low:high]
+```
+
+其中：
+
+- `low` 为起始下标（包含）
+- `high` 为结束下标（不包含）
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    primes := [6]int{2, 3, 5, 7, 11, 13}
+
+    var s []int = primes[1:4]
+    fmt.Println(s)
+}
+```
+
+输出：
+
+```
+[3 5 7]
+```
+
+**在进行切片时，你可以利用它的默认行为来忽略上下界。**
+
+切片下界的默认值为 0，上界则是该切片的长度。
+
+对于数组
+
+```
+var a [10]int
+```
+
+来说，以下切片表达式和它是等价的：
+
+```
+a[0:10]
+a[:10]
+a[0:]
+a[:]
+```
+
+#### 四、重要理解
+
+1. 切片不会复制数组元素
+2. 修改切片中的元素会影响底层数组
+3. 切片只是对数组的一段**引用**
+
+#### 五、数组 & 切片内存结构对比
+
+数组内存
+
+```go
+a:
+| 1 | 2 | 3 | 4 | 5 |
+```
+
+切片内存
+
+```go
+s:
+ptr --> a[1]
+len = 3
+cap = 4
+```
+
+切片就像数组的引用 切片并不存储任何数据，它只是描述了底层数组中的一段。**==底层仍是同一块数组。==**
+
+````go
+a := [5]int{1,2,3,4,5}
+s := a[1:4]
+
+s[0] = 100
+fmt.Println(a)
+// output: [1 100 3 4 5]
+````
+
+切片 `s` 的长度和容量可通过表达式 `len(s)` 和 `cap(s)` 来获取。可以通过重新切片来扩展一个切片，给它提供足够的容量。 
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	s := []int{2, 3, 5, 7, 11, 13}
+	printSlice(s)
+
+	// 截取切片使其长度为 0
+	s = s[:0]
+	printSlice(s)
+
+	// 扩展其长度
+	s = s[:4]
+	printSlice(s)
+
+	// 舍弃前两个值
+	s = s[2:]
+	printSlice(s) // len=2 cap=4 [5 7] 因为 cap = 原数组长度 - 当前起始位置。slice 不允许向前访问。
+}
+
+func printSlice(s []int) {
+	fmt.Printf("len=%d cap=%d %v\n", len(s), cap(s), s)
+}
+```
+
+#### 六、零值
+
+切片的零值是 `nil`。
+
+nil 切片的长度和容量为 0 且没有底层数组。
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	var s []int
+	fmt.Println(s, len(s), cap(s))
+	if s == nil {
+		fmt.Println("nil!")
+	}
+}
+// output: 
+// [] 0 0 
+// nil!
+```
+
+#### 七、用 make 创建切片
+
+切片可以用内置函数 `make` 来创建，这也是你创建动态数组的方式。
+
+**make** 是一个专用的构造函数，仅用于切片、映射和通道这三种内建的引用类型。它会执行复杂初始化并直接返回一个已初始化、立即可用的值 ，而非指针。**对于切片**：make([]T, len, cap) 会分配一个底层数组，并创建一个**切片头**来管理这块数组。
+
+![640](assets/640.jpeg)
+
+`make` 函数会分配一个元素为零值的数组并返回一个引用了它的切片：
+
+```go
+a := make([]int, 5)  // len(a)=5
+```
+
+要指定它的容量，需向 `make` 传入第三个参数：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	a := make([]int, 5)
+	printSlice("a", a)
+
+	b := make([]int, 0, 5)
+	printSlice("b", b)
+
+	c := b[:2]
+	printSlice("c", c)
+
+	d := c[2:5]
+	printSlice("d", d)
+}
+
+func printSlice(s string, x []int) {
+	fmt.Printf("%s len=%d cap=%d %v\n",
+		s, len(x), cap(x), x)
+}
+```
+
+输出：
+
+```go
+a len=5 cap=5 [0 0 0 0 0]
+b len=0 cap=5 []
+c len=2 cap=5 [0 0]
+d len=3 cap=3 [0 0 0]
+```
+
+#### 八、二维切片
+
+切片可以包含任何类型，当然也包括其他切片。
+
+```go
+board := [][]string{
+		[]string{"_", "_", "_"},
+		[]string{"_", "_", "_"},
+		[]string{"_", "_", "_"},
+}
+```
+
+#### 九、向切片追加元素
+
+为切片追加新的元素是种常见的操作，为此 Go 提供了内置的 `append` 函数。内置函数的[文档](https://tour.go-zh.org/pkg/builtin/#append)对该函数有详细的介绍。
+
+```
+func append(s []T, vs ...T) []T
+```
+
+`append` 的第一个参数 `s` 是一个元素类型为 `T` 的切片，其余类型为 `T` 的值将会追加到该切片的末尾。
+
+`append` 的结果是一个包含原切片所有元素加上新添加元素的切片。
+
+==**当 `s` 的底层数组太小，不足以容纳所有给定的值时，它就会分配一个更大的数组。 返回的切片会指向这个新分配的数组。所以cap在拓展后不一定等于len。对于小cap，双倍拓展，不够再双倍。对于 cap >\= 1024，拓展为 1.25 倍。**==
+
+#### 十、range 遍历
+
+`for` 循环的 `range` 形式可遍历切片或映射。
+
+当使用 `for` 循环遍历切片时，每次迭代都会返回两个值。 第一个值为当前元素的下标，第二个值为该下标所对应元素的一份==**副本**==。
+
+可以将下标或值赋予 `_` 来忽略它。若只需要索引，忽略第二个变量即可。
+
+```go
+package main
+
+import "fmt"
+
+var pow = []int{1, 2, 4, 8, 16, 32, 64, 128}
+
+func main() {
+	for i, v := range pow {
+		fmt.Printf("2**%d = %d\n", i, v)
+	}
+  
+  for i, _ := range pow
+	for _, value := range pow
+  for i := range pow
 }
 ```
 
 
 
-### switch 分支
-
-### defer 推迟
-
-
-
-## 更多类型：结构体，切片和映射
+## 常用包
 
 
 
