@@ -35,8 +35,6 @@ func main() {
 
 在导入一个包时，你只能引用其中已导出的名字。 任何「未导出」的名字在该包外均无法访问。
 
-已统一将**所有标题降一级**（整体“少一号”），**内容不变，仅调整标题层级**，可直接覆盖你原有笔记。
-
 
 
 ## 声明语法
@@ -1092,7 +1090,7 @@ http.HandleFunc("/", riskyHandler)
 
 ## 更多类型：结构体，切片和映射
 
-### 指针
+### Pointer 指针
 
 Go 拥有指针。指针保存了值的内存地址。
 
@@ -1120,7 +1118,7 @@ fmt.Println(*p) // 通过指针 p 读取 i
 
 ----
 
-### 结构体
+### Struct 结构体
 
 一个 结构体（`struct`）就是一组 字段（field）。
 
@@ -1175,7 +1173,7 @@ func main() {
 
 ----
 
-### 数组
+### Array 数组
 
 类型 `[n]T` 表示一个数组，它拥有 `n` 个类型为 `T` 的值。
 
@@ -1210,7 +1208,7 @@ func main() {
 
 ----
 
-### 切片
+### Slice 切片
 
 切片为数组元素提供了一种**动态大小的视图。**
 
@@ -1499,13 +1497,827 @@ func main() {
 }
 ```
 
+----
+
+### Map 映射
+
+`map` 映射将**键**映射到**值**。
+
+映射map 的零值为 `nil` 。`nil` 映射既没有键，也不能添加键。
+
+`make` 函数会返回给定类型的映射，并将其初始化备用。初始化 = 分配并建立底层数据结构，使 map 从 nil 变为可写状态。
+
+不初始化只声明 map 不可写。
+
+````go
+var m map[string]int
+m := make(map[string]int)
+````
+
+映射的字面量和结构体类似，只不过必须有键名。
+
+````go
+package main
+
+import "fmt"
+
+type Vertex struct {
+	Lat, Long float64
+}
+
+var m = map[string]Vertex{
+	"Bell Labs": Vertex{ // 这里的 Vertex 可以省略，会自动推断，只要外层已经把 value 的具体类型写死了，内部复合字面量就可以省略类型名。
+		40.68433, -74.39967,
+	},
+	"Google": Vertex{
+		37.42202, -122.08408,
+	},
+}
+
+func main() {
+	fmt.Println(m)
+}
+````
+
+在映射 `m` 中插入或修改元素：
+
+```
+m[key] = elem
+```
+
+获取元素：
+
+```
+elem = m[key]
+```
+
+删除元素：
+
+```
+delete(m, key)
+```
+
+通过双赋值检测某个键是否存在：
+
+```
+elem, ok = m[key]
+```
+
+**若 `key` 在 `m` 中，`ok` 为 `true` ；否则，`ok` 为 `false`。**
+
+**若 `key` 不在映射中，则 `elem` 是==该映射元素类型的零值。==**
+
+注：若 `elem` 或 `ok` 还未声明，你可以使用短变量声明：
+
+```
+elem, ok := m[key]
+```
+
+----
+
+### Function Value 函数值
+
+函数也是值。它们可以像其他值一样传递。
+
+函数值可以用作函数的参数或返回值。
+
+````go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func compute(fn func(float64, float64) float64) float64 {
+	return fn(3, 4)
+}
+
+func main() {
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	fmt.Println(hypot(5, 12))
+
+	fmt.Println(compute(hypot))
+	fmt.Println(compute(math.Pow))
+}
+````
+
+此外，一个重要概念是==**函数闭包 closure**==。
+
+Go 函数可以是一个闭包。闭包是一个函数值，它引用了其函数体之外的变量。 该函数可以访问并赋予其引用的变量值，换句话说，闭包是一个函数值（function value），它捕获（capture）了其外层作用域（outer scope）中的变量。
+
+````go
+func counter() func() int {
+    x := 0
+    // 匿名函数引用了外部变量 x, 这个函数就是一个闭包
+    return func() int {
+        x++ // 不是复制变量而是直接access变量本身
+        return x
+    }
+}
+
+func main() {
+    c := counter()
+    fmt.Println(c()) // 1
+    fmt.Println(c()) // 2
+    fmt.Println(c()) // 3
+}
+````
+
+这里发生了什么？
+
+- `counter()` 返回一个函数
+- 这个函数持有 `x`
+- 即使 `counter()` 已经结束
+- `x` 仍然存在
+
+为什么变量不会消失？因为：变量被闭包引用，发生了逃逸（escape to heap）。**Go 编译器会把这些变量分配到堆上（heap），而不是栈上（stack）。**
+
 
 
 ## 常用包
 
+### fmt — 格式化输入输出
+
+```go
+fmt.Println("hello")                        // 打印并换行
+fmt.Printf("%s is %d\n", "age", 18)        // 格式化打印
+fmt.Sprintf("val: %v", x)                  // 返回字符串，不打印
+fmt.Errorf("failed: %w", err)              // 创建带包装的 error
+fmt.Scan(&x)                               // 从标准输入读取
+```
+
+------
+
+### strings — 字符串操作
+
+```go
+strings.Contains("hello", "ell")           // 是否包含子串 → true
+strings.HasPrefix("hello", "he")           // 前缀匹配 → true
+strings.HasSuffix("hello", "lo")           // 后缀匹配 → true
+strings.Index("hello", "ll")               // 子串位置 → 2，找不到返回 -1
+strings.Count("hello", "l")               // 子串出现次数 → 2
+strings.Replace("aabbcc", "b", "X", 1)    // 替换 n 次，-1 为全部
+strings.Split("a,b,c", ",")               // 按分隔符切割 → ["a","b","c"]
+strings.Join([]string{"a","b"}, "-")      // 合并切片 → "a-b"
+strings.TrimSpace("  hi  ")               // 去首尾空格 → "hi"
+strings.Trim("##hi##", "#")              // 去首尾指定字符
+strings.ToUpper("hi") / ToLower("HI")    // 大小写转换
+strings.Fields("a  b  c")                // 按空白符分割（忽略多余空格）
+strings.ReplaceAll("aabb", "b", "X")     // 全部替换
+strings.Builder                           // 高效字符串拼接
+var b strings.Builder
+b.WriteString("hello")
+b.WriteString(" world")
+fmt.Println(b.String()) // "hello world"
+```
+
+------
+
+### strconv — 类型转换
+
+```go
+strconv.Itoa(42)                           // int → string
+strconv.Atoi("42")                         // string → int，返回 (int, error)
+strconv.ParseFloat("3.14", 64)            // string → float64
+strconv.ParseBool("true")                 // string → bool
+strconv.FormatFloat(3.14, 'f', 2, 64)    // float → string，保留2位小数 → "3.14"
+strconv.ParseInt("FF", 16, 64)            // 按进制解析，16进制FF → 255
+```
+
+------
+
+### os — 操作系统交互
+
+```go
+os.ReadFile("a.txt")                       // 读整个文件 → ([]byte, error)
+os.WriteFile("b.txt", data, 0644)         // 写整个文件，0644 是权限
+os.Open("a.txt")                          // 只读打开，用于 Scanner/Reader
+os.Create("a.txt")                        // 创建/截断，用于写入
+os.Remove("a.txt")                        // 删除文件
+os.Mkdir("dir", 0755)                     // 创建单层目录
+os.MkdirAll("a/b/c", 0755)              // 递归创建目录
+os.Getenv("HOME")                         // 读环境变量
+os.Args                                   // 命令行参数 []string，[0] 是程序名
+os.Exit(1)                                // 立即退出，不执行 defer
+```
+
+------
+
+### bufio — 带缓冲 I/O
+
+```go
+// 逐行读文件（推荐方式）
+f, _ := os.Open("file.txt")
+defer f.Close()
+scanner := bufio.NewScanner(f)
+for scanner.Scan() {
+    fmt.Println(scanner.Text())  // 每行文本（不含换行符）
+}
+
+// 带缓冲写（减少系统调用）
+w := bufio.NewWriter(f)
+w.WriteString("hello\n")
+w.Flush()  // 必须 Flush 才真正写入
+```
+
+------
+
+### io — I/O 基础接口
+
+```go
+io.ReadAll(resp.Body)                      // 读取全部内容 → ([]byte, error)
+io.Copy(dst, src)                          // 流式复制，适合大文件
+io.WriteString(w, "hello")               // 向 Writer 写字符串
+io.EOF                                    // 读到末尾的标志 error
+```
+
+------
+
+### math
+
+```go
+math.Abs(-3.5)                            // 绝对值 → 3.5
+math.Sqrt(16)                             // 平方根 → 4
+math.Pow(2, 10)                           // 幂运算 → 1024
+math.Max(3.0, 5.0)                        // 最大值（只支持 float64）
+math.Min(3.0, 5.0)                        // 最小值
+math.Floor(3.9) / math.Ceil(3.1)         // 向下/向上取整
+math.Round(3.5)                           // 四舍五入 → 4
+math.Log(math.E)                          // 自然对数 → 1
+math.Log2(8) / math.Log10(100)           // 以2/10为底的对数
+math.Pi / math.E                          // 常量
+math.MaxInt / math.MinInt                 // int 最大/最小值
+```
+
+------
+
+### sort
+
+```go
+sort.Ints([]int{3,1,2})                   // 原地升序排列
+sort.Strings([]string{"b","a"})          // 字符串升序
+sort.Float64s([]float64{...})            // float64 升序
+
+// 自定义排序
+sort.Slice(s, func(i, j int) bool {
+    return s[i].Age < s[j].Age           // 按 Age 升序
+})
+
+sort.Search(n, func(i int) bool {        // 二分查找，返回第一个满足条件的下标
+    return a[i] >= target
+})
+
+sort.IntsAreSorted(a)                    // 判断是否已排序
+```
+
+------
+
+### time
+
+```go
+time.Now()                                // 当前时间
+time.Since(t)                            // 距 t 过了多久 → Duration
+time.Until(t)                            // 距 t 还有多久 → Duration
+time.Sleep(2 * time.Second)             // 阻塞等待
+time.Second / time.Millisecond           // 时间常量
+
+now := time.Now()
+now.Format("2006-01-02 15:04:05")       // 格式化（Go 固定用这个基准时间）
+now.Year() / Month() / Day()            // 取年月日
+now.Add(24 * time.Hour)                 // 加一天
+now.Sub(other)                          // 两时间之差 → Duration
+
+time.Parse("2006-01-02", "2024-01-01") // 字符串 → Time
+```
+
+> ⚠️ Go 时间格式必须用 `2006-01-02 15:04:05`，不能用 `YYYY-MM-DD`
+
+------
+
+### errors
+
+```go
+errors.New("not found")                  // 创建简单 error
+fmt.Errorf("query: %w", err)            // 包装 error（可用 errors.Is/As 解包）
+errors.Is(err, target)                  // 判断 err 链中是否包含 target
+errors.As(err, &target)                 // 从 err 链中提取特定类型的 error
+errors.Unwrap(err)                      // 解包一层
+var ErrNotFound = errors.New("not found")
+
+err := fmt.Errorf("db: %w", ErrNotFound)
+errors.Is(err, ErrNotFound) // true，即使被包装了
+```
+
+------
+
+### sync — 并发同步
+
+```go
+// Mutex：保护共享数据
+var mu sync.Mutex
+mu.Lock(); defer mu.Unlock()
+
+// RWMutex：读多写少场景
+var rw sync.RWMutex
+rw.RLock() / rw.RUnlock()   // 读锁（可并发）
+rw.Lock()  / rw.Unlock()    // 写锁（独占）
+
+// WaitGroup：等待一组 goroutine 完成
+var wg sync.WaitGroup
+wg.Add(1)
+go func() { defer wg.Done(); doWork() }()
+wg.Wait()
+
+// Once：只执行一次（如单例初始化）
+var once sync.Once
+once.Do(func() { initDB() })
+
+// Map：并发安全的 map
+var m sync.Map
+m.Store("key", "val")
+v, ok := m.Load("key")
+m.Range(func(k, v any) bool { return true }) // 遍历
+```
+
+------
+
+### encoding/json
+
+```go
+type User struct {
+    Name string `json:"name"`
+    Age  int    `json:"age,omitempty"` // omitempty：零值时忽略该字段
+}
+
+json.Marshal(u)           // struct → JSON bytes
+json.Unmarshal(b, &u)    // JSON bytes → struct
+json.MarshalIndent(u, "", "  ")  // 带缩进，便于阅读
+
+// 流式（适合大文件/网络）
+json.NewEncoder(w).Encode(u)     // 写入 Writer
+json.NewDecoder(r).Decode(&u)    // 从 Reader 读取
+```
+
+------
+
+### net/http
+
+```go
+// 客户端 GET
+resp, err := http.Get("https://api.example.com/data")
+defer resp.Body.Close()                   // ⚠️ 必须关闭 Body
+body, _ := io.ReadAll(resp.Body)
+
+// 客户端 POST JSON
+buf := bytes.NewBuffer(jsonData)
+resp, _ := http.Post(url, "application/json", buf)
+
+// 服务端
+http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+    r.Method                              // "GET" / "POST" 等
+    r.URL.Query().Get("name")            // 查询参数
+    io.ReadAll(r.Body)                   // 读请求体
+    w.WriteHeader(http.StatusOK)         // 设置状态码（默认200）
+    json.NewEncoder(w).Encode(result)    // 写响应
+})
+http.ListenAndServe(":8080", nil)
+```
+
+------
+
+### log
+
+```go
+log.Println("started")                   // 带时间戳打印
+log.Printf("val: %v", x)               // 格式化
+log.Fatal("crash")                      // 打印后 os.Exit(1)，不执行 defer
+log.Panic("oops")                       // 打印后 panic，会执行 defer
+
+// 自定义 logger
+logger := log.New(os.Stderr, "[INFO] ", log.LstdFlags)
+logger.Println("custom log")
+```
+
+------
+
+### regexp
+
+```go
+re := regexp.MustCompile(`\d+`)         // 编译正则（失败直接 panic，适合包级变量）
+re.MatchString("abc123")               // 是否匹配 → true
+re.FindString("abc123def")             // 第一个匹配 → "123"
+re.FindAllString("1a2b3", -1)         // 所有匹配，-1 表示全部
+re.ReplaceAllString("a1b2", `\d+`, "X") // 替换 → "aXbX"
+re.FindStringSubmatch(`(\w+)@(\w+)`)   // 捕获组
+```
+
+------
+
+### path/filepath
+
+```go
+filepath.Join("a", "b", "c.txt")       // 拼接路径（自动处理分隔符）
+filepath.Dir("/a/b/c.txt")             // 目录部分 → "/a/b"
+filepath.Base("/a/b/c.txt")            // 文件名部分 → "c.txt"
+filepath.Ext("file.go")               // 扩展名 → ".go"
+filepath.Abs("./file.txt")            // 转绝对路径
+filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
+    fmt.Println(path)
+    return nil
+})
+```
+
 
 
 # 方法与接口
+
+## 方法
+
+在 Java 中，方法是Class中的函数。
+
+Go 没有类。不过你可以为类型定义方法。
+
+==方法就是一类带特殊的 **接收者** 参数的函数。普通函数是独立的。方法是绑定在某个类型上的。== 
+
+方法接收者在它自己的参数列表内，位于 `func` 关键字和方法名之间。
+
+在此例中，`Abs` 方法拥有一个名字为 `v`，类型为 `Vertex` 的接收者。
+
+````go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type Vertex struct {
+	X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func main() {
+	v := Vertex{3, 4} 
+	fmt.Println(v.Abs()) // Abs是v自己的方法
+}
+````
+
+**Go 把 OOP 拆开：**
+
+- **struct（结构体）负责数据**
+- **method（方法）负责行为**
+
+例如：
+
+```go
+type Vertex struct {
+    X, Y float64
+}
+
+func (v Vertex) Abs() float64 { ... }
+```
+
+这已经实现了 class 的核心作用：
+
+- 数据 + 行为绑定
+
+但没有 class 的额外负担。
+
+----
+
+### 非结构体类型声明方法
+
+也可以为非结构体类型声明方法。
+
+在此例中，我们看到了一个带 `Abs` 方法的数值类型 `MyFloat`。
+
+你只能为在同一个包中定义的接收者类型声明方法，而不能为其它别的包中定义的类型 （包括 `int` 之类的内置类型）声明方法。
+
+````go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type MyFloat float64
+
+func (f MyFloat) Abs() float64 {
+	if f < 0 {
+		return float64(-f)
+	}
+	return float64(f)
+}
+
+func main() {
+	f := MyFloat(-math.Sqrt2)
+	fmt.Println(f.Abs())
+}
+````
+
+----
+
+### 指针类型的接收者
+
+可以为**指针类型的接收者**声明方法。
+
+这意味着对于某类型 `T`，接收者的类型可以用 `*T` 的文法。 （此外，`T` 本身不能是指针，比如不能是 `*int`。）
+
+例如，这里为 `*Vertex` 定义了 `Scale` 方法。
+
+````go
+type Vertex struct {
+	X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y)
+}
+
+func (v *Vertex) Scale(f float64) {
+	v.X = v.X * f
+	v.Y = v.Y * f
+}
+
+func main() {
+	v := Vertex{3, 4}
+  // 虽然 v 不是指针，Go 会自动取地址（auto address-taking 自动取址），等价于：
+  // (&v).Scale(10)
+	v.Scale(10)
+	fmt.Println(v.Abs())
+}
+````
+
+指针接收者的方法可以修改接收者指向的值（如这里的 `Scale` 所示）。 **==由于方法经常需要修改它的接收者，指针接收者比值接收者更常用。==**
+
+核心结论：
+
+- 修改对象 → 用指针接收者（pointer receiver）
+- 只读计算 → 用值接收者（value receiver）
+
+----
+
+### 方法与指针重定向
+
+带指针参数的**函数**必须接受一个指针：
+
+```go
+var v Vertex
+ScaleFunc(v, 5)  // 编译错误！
+ScaleFunc(&v, 5) // OK
+```
+
+而**接收者为指针的的方法**被调用时，接收者既能是值又能是指针：
+
+```go
+var v Vertex
+v.Scale(5)  // OK
+p := &v
+p.Scale(10) // OK
+```
+
+对于语句 `v.Scale(5)` 来说，即便 `v` 是一个值而非指针，带指针接收者的方法也能被直接调用。 也就是说，由于 `Scale` 方法有一个指针接收者，为方便起见，Go 会将语句 `v.Scale(5)` 解释为 `(&v).Scale(5)`。
+
+反之也一样：接受一个**值作为参数的函数**必须接受一个指定类型的值：
+
+```go
+var v Vertex
+fmt.Println(AbsFunc(v))  // OK
+fmt.Println(AbsFunc(&v)) // 编译错误！
+```
+
+而以值为接收者的方法被调用时，接收者既能为值又能为指针：
+
+```go
+var v Vertex
+fmt.Println(v.Abs()) // OK
+p := &v
+fmt.Println(p.Abs()) // OK
+```
+
+这种情况下，方法调用 `p.Abs()` 会被解释为 `(*p).Abs()`。
+
+----
+
+### 选择 值 or 指针 作为接收者
+
+使用**指针接收者**的原因有二：
+
+==首先，方法能够修改其接收者指向的值。==
+
+==其次，这样可以避免在每次调用方法时复制该值。若值的类型为大型结构体时，这样会更加高效。==
+
+----
+
+### Go的面向对象编程
+
+Go **没有 class（类）**，它通过：
+
+> struct（结构体） + method（带 receiver 的函数）
+
+来实现类似面向对象的行为。
+
+```go
+type MyReader struct{}
+
+func (m MyReader) Read(p []byte) (int, error) {
+    return 0, nil
+}
+```
+
+这里的：(m MyReader) 就是 receiver。**它的含义是：这个函数是 MyReader 类型的方法**
+
+method 是怎么被编译器识别的？
+
+编译器规则非常简单：
+
+只要函数声明形式是：
+
+```go
+func (receiver TypeName) MethodName(...) ...
+```
+
+这个函数就被绑定到 TypeName。只要在一个package中，并receiver类型一致。
+
+------
+
+# 三、必须和 struct 写在一起吗？
+
+不需要。
+
+Go 没有“类体（class body）”的概念。
+
+你可以这样写：
+
+```go
+type MyReader struct{}
+```
+
+然后在文件的任何位置：
+
+```go
+func (m MyReader) Read(p []byte) (int, error) {
+    return 0, nil
+}
+```
+
+只要：
+
+- 在同一个 package
+- receiver 类型一致
+
+就会绑定成功。
+
+------
+
+# 四、可以跨文件吗？
+
+可以。
+
+只要在同一个 package 下：
+
+file1.go
+
+```go
+type MyReader struct{}
+```
+
+file2.go
+
+```go
+func (m MyReader) Read(p []byte) (int, error) {
+    return 0, nil
+}
+```
+
+仍然是合法的。
+
+------
+
+# 五、Go 的 method 本质是什么？
+
+本质上：
+
+Go 的 method 只是：
+
+> 带 receiver 参数的普通函数
+
+例如：
+
+```go
+func (m MyReader) Read(p []byte) (int, error)
+```
+
+在编译后，本质等价于：
+
+```go
+Read(m MyReader, p []byte) (int, error)
+```
+
+只是语法糖（syntactic sugar）。
+
+------
+
+# 六、值 receiver vs 指针 receiver
+
+你还可以写：
+
+```go
+func (m *MyReader) Read(p []byte) (int, error)
+```
+
+这决定：
+
+- method set（方法集合）
+- 是否修改原值
+- 是否实现接口
+
+这部分是 Go 面向对象的关键机制。
+
+------
+
+# 七、和 Java 的根本区别
+
+Java：
+
+```java
+class MyReader {
+    int Read(byte[] p) { ... }
+}
+```
+
+method 在 class 体内部。
+
+Go：
+
+没有 class 体。
+
+method 通过 receiver 绑定。
+
+Java 是：
+
+> nominal typing（名义类型系统）
+
+Go 是：
+
+> structural typing（结构类型系统）
+
+------
+
+# 八、总结
+
+Go 绑定 method 的规则：
+
+1. 使用 receiver 语法
+2. 不需要写在 struct 里面
+3. 只要同 package 即可
+4. 本质是普通函数
+5. 编译器通过 receiver 识别方法归属
+
+------
+
+如果你愿意，我可以接着讲：
+
+- method set 是如何决定接口实现的
+- 为什么指针 receiver 有时必须用
+- interface 和 method set 的匹配规则
+- Go 如何模拟 OOP 而不使用 class
+
+这才是你真正会遇到的核心问题。
+
+
+
+## 接口
+
+在 Go 语言中，**接口是一种类型**，它定义了一组**方法签名**，但**不包含具体实现**。
+
+你可以理解为：接口 = 行为规范
+
+它描述“一个类型能做什么”，而不是“它是什么”。
+
+````go
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+````
+
+这表示：
+
+- 任何类型，只要实现了 `Read([]byte) (int, error)` 方法
+- 就自动实现（implement）了这个 `Reader` 接口
+
+==注意：**Go 不需要显式声明 implements**==
+
+----
+
+### 
 
 
 
