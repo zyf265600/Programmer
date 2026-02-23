@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditorlabuladong">
+    <option name="projectConfig">
+      <map>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/binary-search_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/binary-search_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn704" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/binary-search_test.go" />
+              <option name="titleSlug" value="binary-search" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

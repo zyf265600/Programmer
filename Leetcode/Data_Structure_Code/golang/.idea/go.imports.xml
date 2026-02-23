@@ -7,5 +7,6 @@
         <option value="golang.org/x/net/context" />
       </array>
     </option>
+    <option name="optimizeImportsOnTheFly" value="false" />
   </component>
 </project>
