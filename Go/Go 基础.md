@@ -2,7 +2,7 @@
 
 # 基础
 
-## 包，变量，与函数
+## 包
 
 每个 Go 程序都由包构成。
 
@@ -100,6 +100,8 @@ g := 0.867 + 0.5i // complex128
 ```
 
 Go 会通过 **类型推断（type inference）** 自动决定类型。
+
+**==Go 里所有赋值都是“值拷贝（pass by value）”。==**
 
 ------
 
@@ -1213,6 +1215,111 @@ func main() {
 
 ----
 
+### New 关键字
+
+`new` 是 Go 的内置函数（built-in function），作用是：
+
+> 为某个类型分配内存，并返回该类型的指针（pointer）。
+
+基本语法：
+
+```go
+p := new(Type)
+```
+
+返回值类型是：
+
+```text
+*Type
+```
+
+也就是说，`new(T)` 做了两件事：
+
+- 分配一个类型为 `T` 的零值（zero value）
+- 返回这个零值的地址（*T）
+
+最简单示例：
+
+```go
+p := new(int)
+fmt.Println(*p) // 0
+```
+
+这里：
+
+- 分配了一个 int
+- 默认值为 0
+- 返回的是 *int
+
+结构体示例：
+
+```go
+type User struct {
+	Name string
+	Age  int
+}
+
+u := new(User)
+```
+
+此时：
+
+- u 的类型是 `*User`
+- `u.Name == ""`
+- `u.Age == 0`
+
+它等价于：
+
+```go
+u := &User{}
+```
+
+但工程里更常用 `&User{}`，因为可以直接初始化字段：
+
+```go
+u := &User{
+	Name: "Alice",
+}
+```
+
+`new` 只做“分配 + 返回指针”，不会：
+
+- 执行构造逻辑
+- 自动初始化字段为自定义值
+- 做任何额外操作
+
+需要特别区分 `new` 和 `make`：
+
+- `new` 适用于所有类型
+- `make` 只用于 slice / map / channel
+- `new` 返回指针
+- `make` 返回初始化后的对象（不是指针）
+
+例如：
+
+```go
+s := new([]int)
+```
+
+此时：
+
+- s 是 `*[]int`
+- `*s` 是 nil slice
+
+而推荐写法是：
+
+```go
+s := make([]int, 0)
+```
+
+因为 slice 有内部结构（pointer + len + cap），`make` 会正确初始化。
+
+最后一个关键点：
+
+**==`new(T)` 分配在栈还是堆，不由你决定，而由 Go 的逃逸分析（escape analysis）决定。==**
+
+----
+
 ### Array 数组
 
 类型 `[n]T` 表示一个数组，它拥有 `n` 个类型为 `T` 的值。
@@ -1299,7 +1406,7 @@ slice = (ptr, len, cap)
 
 #### 三、切片的区间操作
 
-切片可以通过区间表达式生成：
+slice 可以通过区间表达式生成：
 
 ```go
 a[low:high]
@@ -1318,7 +1425,7 @@ import "fmt"
 func main() {
     primes := [6]int{2, 3, 5, 7, 11, 13}
 
-    var s []int = primes[1:4]
+    var s []int = primes[1:4] // 基于数组 primes 创建一个 slice
     fmt.Println(s)
 }
 ```
@@ -1399,7 +1506,7 @@ func main() {
 	printSlice(s)
 
 	// 扩展其长度
-	s = s[:4]
+	s = s[:4] // 上界为cap大小
 	printSlice(s)
 
 	// 舍弃前两个值
@@ -1441,7 +1548,7 @@ func main() {
 
 切片可以用内置函数 `make` 来创建，这也是你创建动态数组的方式。
 
-**make** 是一个专用的构造函数，仅用于切片、映射和通道这三种内建的引用类型。它会执行复杂初始化并直接返回一个已初始化、立即可用的值 ，而非指针。**对于切片**：make([]T, len, cap) 会分配一个底层数组，并创建一个**切片头**来管理这块数组。make创建和slice字面量创建的唯一不同是，slice字面量的cap 固定等于 len，一旦 append一定触发扩容（reallocation）。而make可以自定义cap，在meet cap前不扩容。同时，make创建的slice为0值，slice字面量创建为设定的初始值。
+**make** 是一个专用的构造函数，仅用于切片、映射和通道这三种内建的引用类型。它会执行复杂初始化并直接返回一个已初始化、立即可用的值 ，而非指针。**对于切片**：make([]T, len, cap) 会分配一个底层数组，并创建一个**切片头**来管理这块数组。**==make创建和slice字面量创建的唯一不同是，slice字面量的cap 固定等于 len，一旦 append一定触发扩容（reallocation）。而make可以自定义cap，在meet cap前不扩容。同时，make创建的slice为0值，slice字面量创建为设定的初始值。==**
 
 ![640](assets/640.jpeg)
 
@@ -1487,6 +1594,14 @@ c len=2 cap=5 [0 0]
 d len=3 cap=3 [0 0 0]
 ```
 
+对于 `	s := make([]int, 0, 5)`，可以用`s = s[0:1]`，将len加1，**==因为len依然小于cap所以不会panic。==**
+
+````go
+s := make([]int, 0, 5) // len = 0
+s = s[:1] // len = 1；新 len = high - low，新 cap = 原 cap - low
+s[0] = 10
+````
+
 #### 八、二维切片
 
 切片可以包含任何类型，当然也包括其他切片。
@@ -1517,7 +1632,7 @@ func append(s []T, vs ...T) []T
 
 `for` 循环的 `range` 形式可遍历切片或映射。
 
-当使用 `for` 循环遍历切片时，每次迭代都会返回两个值。 第一个值为当前元素的下标，第二个值为该下标所对应元素的一份==**副本**==。**==换句话说range 是值拷贝！不是引用。==**
+当使用 `for` 循环遍历切片时，每次迭代都会返回两个值。 第一个值为当前元素的下标，第二个值为该下标所对应元素的一份==**副本**==。**==换句话说range返回的value 是值拷贝！不是引用。如果要修改则必须要用index配合原数组s[i]==**
 
 可以将下标或值赋予 `_` 来忽略它。若只需要索引，忽略第二个变量即可。
 
@@ -1552,85 +1667,533 @@ func main() {
 - **单元测试：** 快速构造输入数据。
 - **空切片初始化：** `s := []int{}` 创建一个长度为 $0$ 的非 nil 切片（注意：这与 `var s []int` 不同，后者是 `nil`）。
 
+#### 十二、copy
+
+**函数签名**
+
+```go
+func copy(dst, src []T) int
+```
+
+含义：
+
+- 把 `src` 中的元素复制到 `dst`
+- 返回复制的元素个数
+
+------
+
+**复制规则**
+
+实际复制数量：
+
+```
+min(len(dst), len(src))
+```
+
+不会越界（自动）。
+
+------
+
+**copy 是浅拷贝还是深拷贝？**
+
+copy 是：元素级复制，==**是否深或浅，取决于元素本身是否包含引用**==
+
+- 如果元素是基本类型（int, float 等） → 值复制
+- 如果元素是指针 → 复制指针（不会复制指向对象）
+
+例如：
+
+```go
+type Node struct {
+    Val int
+}
+
+a := []*Node{{1},{2}}
+b := make([]*Node, len(a))
+copy(b, a)
+```
+
+b 和 a 指向的是同一批 Node。
+
+------
+
+**内存行为**
+
+假设：
+
+```go
+s := []int{1,2,3,4,5}
+```
+
+执行：
+
+```go
+copy(s[2:], s[1:])
+```
+
+等价于：
+
+```
+dst = s[2:]
+src = s[1:]
+```
+
+底层是连续内存块。
+
+**==Go 的 copy：支持内存重叠==**
+
+这就是为什么下面的代码安全：
+
+```go
+copy(s[i+1:], s[i:])
+```
+
+即使 src 和 dst 指向同一底层数组。
+
+------
+
+**时间复杂度**
+
+copy 会执行：
+
+```
+k 次元素赋值
+```
+
+其中：
+
+```
+k = min(len(dst), len(src))
+```
+
+时间复杂度：
+
+```
+O(k)
+```
+
+最坏情况：
+
+```
+O(N)
+```
+
+------
+
+**copy 和赋值的区别**
+
+slice 赋值
+
+```go
+s2 := s1
+```
+
+只复制：
+
+```
+ptr + len + cap
+```
+
+O(1)
+
+共享底层数组。
+
+copy 操作
+
+```go
+copy(s2, s1)
+```
+
+复制：
+
+```
+所有元素
+```
+
+O(N)
+
+==**不共享底层数组。**==
+
+------
+
+**copy 只能用于 slice**
+
+所以：
+
+```go
+var arr [10]int
+copy(arr, arr) // 错误
+```
+
+必须：
+
+```go
+copy(arr[:], arr[:])
+```
+
+把 array 转成 slice。
+
+------
+
+**典型用途**
+
+1️⃣ 扩容时复制
+
+```go
+newS := make([]int, len(s))
+copy(newS, s)
+```
+
+2️⃣ 删除元素
+
+```go
+copy(s[i:], s[i+1:])
+s = s[:len(s)-1]
+```
+
+3️⃣ 插入元素
+
+```go
+s = append(s, 0)
+copy(s[i+1:], s[i:])
+s[i] = val
+```
+
+----
+
+| 操作        | 时间复杂度     |
+| ----------- | -------------- |
+| 访问        | O(1)           |
+| 修改        | O(1)           |
+| 末尾 append | amortized O(1) |
+| 中间插入    | O(N)           |
+| 删除        | O(N)           |
+| 扩容        | O(N)           |
+
 ----
 
 ### Map 映射
 
-`map` 映射将**键**映射到**值**。
+#### 1. map 的本质（What is a map）
 
-映射map 的零值为 `nil` 。`nil` 映射既没有键，也不能添加键。
+在 Go 中，`map` 是一种**引用类型（reference type）的数据结构，用于建立 键（key）到值（value）的映射关系**。
 
-`make` 函数会返回给定类型的映射，并将其初始化备用。初始化 = 分配并建立底层数据结构，使 map 从 nil 变为可写状态。
+```go
+type hmap struct {
+    count     int        // map 中元素个数
+    flags     uint8			 //
+    B         uint8      // bucket 数量 = 2^B
+    buckets   unsafe.Pointer  // 当前 bucket 数组
+    oldbuckets unsafe.Pointer // 扩容时旧 bucket
+    nevacuate uintptr					// 渐进扩容进度
+}
+```
 
-不初始化只声明 map 不可写。
+底层实现是：
 
-````go
+- 哈希表（hash table）
+- 平均时间复杂度：
+  - 查找：O(1)
+  - 插入：O(1)
+  - 删除：O(1)
+
+语法形式：
+
+```go
+map[KeyType]ValueType
+```
+
+例如：
+
+```go
+map[string]int
+map[int]*User
+map[string][]int
+```
+
+⚠️ KeyType 必须是 **可比较类型（comparable type）**：
+
+- **==可以：int、string、bool、指针、结构体（字段都可比较）==**
+- 不可以：slice、map、function
+
+------
+
+#### 2. 零值（zero value）与初始化（initialization）
+
+map 的零值是：
+
+```go
+nil
+```
+
+例如：
+
+```go
 var m map[string]int
+fmt.Println(m == nil) // true
+```
+
+⚠️ nil map 的特点：
+
+- 可以读（返回 value 的零值）
+- 不能写（panic: assignment to entry in nil map）
+
+```go
+var m map[string]int
+fmt.Println(m["a"]) // 0
+m["a"] = 1          // panic
+```
+
+------
+
+#### 3. make 的作用（make 的语义）
+
+```go
 m := make(map[string]int)
-````
+```
 
-映射的字面量和结构体类似，只不过必须有键名。
+`make` 对 **map** 做了三件事：
 
-````go
-package main
+==**1. 创建 hmap 结构**==
+==**2. 分配 bucket 数组**==
+==**3. 初始化哈希元数据**==
 
-import "fmt"
+一个 bucket 结构大致是：
 
-type Vertex struct {
-	Lat, Long float64
+```go
+type bmap struct { // 一个 bucket 存 8 个 kv
+    tophash [8]uint8
+    keys    [8]keytype
+    values  [8]valuetype
+    overflow *bmap
 }
+```
 
+使 map 从：
+
+```
+nil → 可写状态
+```
+
+默认 bucket 数：
+
+```
+B = 0
+bucket count = 1
+```
+
+所以初始只有：
+
+```
+1 bucket
+8 个 slot
+```
+
+make 还可以指定容量（hint）：预计插入 100 个元素，生成对应的bucket
+
+```go
+m := make(map[string]int, 100)
+```
+
+这是 capacity hint，不是强制容量。
+
+------
+
+#### 4. 声明方式对比
+
+##### 方式 1：只声明（不可写）
+
+```go
+var m map[string]int
+```
+
+m 是 nil
+
+##### 方式 2：make 初始化（推荐）
+
+```go
+m := make(map[string]int)
+```
+
+##### 方式 3：字面量初始化（literal）
+
+```go
+m := map[string]int{
+    "a": 1,
+    "b": 2,
+}
+```
+
+这种方式等价于：
+
+```go
+m := make(map[string]int)
+m["a"] = 1
+m["b"] = 2
+```
+
+------
+
+#### 5. 复合字面量中的类型推断
+
+你的例子：
+
+```go
 var m = map[string]Vertex{
-	"Bell Labs": Vertex{ // 这里的 Vertex 可以省略，会自动推断，只要外层已经把 value 的具体类型写死了，内部复合字面量就可以省略类型名。
-		40.68433, -74.39967,
-	},
-	"Google": Vertex{
-		37.42202, -122.08408,
-	},
+    "Bell Labs": {
+        40.68433, -74.39967,
+    },
+    "Google": {
+        37.42202, -122.08408,
+    },
 }
-
-func main() {
-	fmt.Println(m)
-}
-````
-
-在映射 `m` 中插入或修改元素：
-
-```
-m[key] = elem
 ```
 
-获取元素：
+为什么 `Vertex` 可以省略？
 
-```
-elem = m[key]
+因为：
+
+- 外层已经明确 value 类型是 `Vertex`
+- 内层复合字面量可以省略类型名
+- 编译器自动推断（type inference）
+
+等价写法：
+
+```go
+"Bell Labs": Vertex{
+    Lat: 40.68433,
+    Long: -74.39967,
+},
 ```
 
-删除元素：
+结构体字段顺序必须匹配，除非显式写字段名。
 
+------
+
+#### 6. 基本操作（CRUD）
+
+##### 插入 / 修改
+
+```go
+m[key] = value
 ```
+
+==**如果 key 存在 → 覆盖**==
+==**如果 key 不存在 → 插入**==
+
+##### 查询
+
+```go
+v := m[key]
+```
+
+如果 key 不存在 → 返回 value 类型的零值
+
+##### 删除
+
+```go
 delete(m, key)
 ```
 
-通过双赋值检测某个键是否存在：
+- 删除不存在的 key 不会 panic
+- delete 是内建函数（built-in function）
 
+------
+
+#### 7. 判断 key 是否存在（comma ok idiom）
+
+```go
+v, ok := m[key]
 ```
-elem, ok = m[key]
+
+语义：
+
+- ok == true → key 存在
+- ok == false → key 不存在
+- v 是零值
+
+例如：
+
+```go
+m := map[string]int{
+    "a": 1,
+}
+
+v, ok := m["a"]
+fmt.Println(v, ok) // 1 true
+
+v, ok = m["b"]
+fmt.Println(v, ok) // 0 false
 ```
 
-**若 `key` 在 `m` 中，`ok` 为 `true` ；否则，`ok` 为 `false`。**
+⚠️ 这是 Go 中非常重要的惯用模式（idiomatic pattern）。
 
-**若 `key` 不在映射中，则 `elem` 是==该映射元素类型的零值。==**
+------
 
-注：若 `elem` 或 `ok` 还未声明，你可以使用短变量声明：
+#### 8. 遍历 map（range）
 
+```go
+for k, v := range m {
+    fmt.Println(k, v)
+}
 ```
-elem, ok := m[key]
+
+特性：
+
+- 遍历顺序是随机的（non-deterministic）
+- Go 设计上刻意打乱顺序
+- 不保证插入顺序
+
+如果需要顺序：
+
+```go
+keys := make([]string, 0, len(m))
+for k := range m {
+    keys = append(keys, k)
+}
+sort.Strings(keys)
+
+for _, k := range keys {
+    fmt.Println(k, m[k])
+}
 ```
+
+------
+
+#### 9. map 是引用类型（重要）
+
+map 变量本身存储的是：
+
+- 指向底层哈希结构的**==指针==** （m  ──►  hmap  ──►  buckets  ──►  key/value）
+
+因此：
+
+```go
+func modify(m map[string]int) {
+    m["a"] = 100
+}
+```
+
+调用后原 map 会被修改。
+
+因为传的是：
+
+- 底层结构的引用
+- 不是深拷贝
+
+但如果你重新赋值：
+
+```go
+func modify(m map[string]int) {
+    m = make(map[string]int) // 只改了局部变量 m 存的是 hmap 的地址
+}
+```
+
+不会影响外部。
 
 ----
 
-### Function Value 函数值
+### 函数值
 
 函数也是值。它们可以像其他值一样传递。
 
@@ -1697,11 +2260,66 @@ func main() {
 ### fmt — 格式化输入输出
 
 ```go
-fmt.Println("hello")                        // 打印并换行
+fmt.Println("hello")                       // 打印并换行
 fmt.Printf("%s is %d\n", "age", 18)        // 格式化打印
 fmt.Sprintf("val: %v", x)                  // 返回字符串，不打印
 fmt.Errorf("failed: %w", err)              // 创建带包装的 error
 fmt.Scan(&x)                               // 从标准输入读取
+
+// 基本形式
+fmt.Printf("format", args...)
+
+// 最通用（调试必备）
+%v      // 默认格式输出
+%+v     // struct 输出字段名
+%#v     // Go 语法表示（可复制的结构）
+%T      // 类型
+%%      // 输出 % 本身
+
+// 整数
+%d      // 十进制
+%b      // 二进制
+%o      // 八进制
+%x      // 十六进制（小写）
+%X      // 十六进制（大写）
+%c      // Unicode 字符
+%U      // Unicode 码点格式
+
+// 浮点数
+%f      // 普通小数
+%e      // 科学计数法
+%E      // 科学计数法大写
+%g      // 自动选择简洁表示
+%G      // 自动选择（大写）
+
+fmt.Printf("%.2f\n", 3.14159)  // 精度控制
+
+// 字符串
+%s      // 字符串
+%q      // 带双引号字符串
+%x      // 转为十六进制字节
+
+fmt.Printf("%.3s\n", "hello")  // 字符串截断
+
+// 布尔
+%t      // true / false
+
+// 指针
+%p      // 地址
+
+// 宽度与对齐
+%5d     // 最少5宽度，右对齐
+%-5d    // 左对齐
+%05d    // 前补0
+
+// 参数重排（高级）
+%[2]d %[1]d
+fmt.Printf("%[2]d %[1]d\n", 1, 2)  // 输出 2 1
+
+// 类型匹配规则（非常重要）
+1. 占位符数量必须匹配参数数量
+2. 占位符类型必须与参数类型匹配
+3. interface{} 按动态类型匹配
 ```
 
 ------
@@ -1984,6 +2602,341 @@ filepath.Walk(".", func(path string, info fs.FileInfo, err error) error {
     return nil
 })
 ```
+
+
+
+# 标准库
+
+## slices
+
+#### 概述
+
+`slices` 是 Go 1.21 起进入标准库的泛型工具包，用于对任意元素类型的切片进行通用算法操作。
+
+```go
+import "slices"
+```
+
+------
+
+#### 1. 查询与判断类函数
+
+**Contains**
+
+```go
+slices.Contains(s, v)
+```
+
+返回值：`bool`
+效果：判断切片中是否存在值 v
+时间复杂度：O(n)
+空间复杂度：O(1)
+不会修改原切片
+
+------
+
+**ContainsFunc**
+
+```go
+slices.ContainsFunc(s, func(E) bool)
+```
+
+返回值：`bool`
+效果：判断是否存在满足条件的元素
+时间复杂度：O(n)
+不会修改原切片
+
+------
+
+**Index**
+
+```go
+slices.Index(s, v)
+```
+
+返回值：`int`，首次出现的位置，不存在返回 -1
+时间复杂度：O(n)
+不会修改原切片
+
+------
+
+**Equal**
+
+```go
+slices.Equal(a, b)
+```
+
+返回值：`bool`
+效果：判断两个切片是否**逐元素相等**
+时间复杂度：O(n)
+不会修改原切片
+
+------
+
+**Compare**
+
+```go
+slices.Compare(a, b)
+```
+
+- 元素类型必须是 **Ordered（可比较大小）**
+- 第一个不相等的元素决定大小
+- 如果前面都相等，则短的更小
+
+返回值：`int`
+返回 -1 表示 a 小于 b
+返回 0 表示相等
+返回 1 表示 a 大于 b
+
+时间复杂度：O(min(n, m))
+不会修改原切片
+
+------
+
+#### 3. 排序与重排类函数
+
+这些函数会修改原切片内容。
+
+**Reverse**
+
+```go
+slices.Reverse(s)
+```
+
+返回值：无
+效果：原地反转切片
+时间复杂度：O(n)
+空间复杂度：O(1)
+
+------
+
+**Sort**
+
+```go
+slices.Sort(s)
+```
+
+返回值：无
+效果：原地**升序**排序
+时间复杂度：O(n log n)
+空间复杂度：O(log n)
+默认非稳定排序
+
+------
+
+**SortFunc**
+
+```go
+slices.SortFunc(s, cmp)
+```
+
+返回值：无
+效果：使用自定义比较函数排序
+时间复杂度：O(n log n)
+空间复杂度：O(log n)
+
+------
+
+**SortStableFunc**
+
+```go
+slices.SortStableFunc(s, cmp)
+```
+
+返回值：无
+效果：**稳定排序，相等元素顺序不变**
+时间复杂度：O(n log n)
+空间复杂度：O(n)
+
+------
+
+#### 3. 二分查找类函数
+
+**==前提条件：切片必须已按相同规则排序。==**
+
+**BinarySearch**
+
+```go
+index, found := slices.BinarySearch(s, target)
+```
+
+返回值：
+
+- index 表示位置
+- found 表示是否找到
+- 若未找到，index 为插入位置
+
+时间复杂度：O(log n)
+空间复杂度：O(1)
+不会修改原切片
+
+------
+
+**BinarySearchFunc**
+
+```go
+index, found := slices.BinarySearchFunc(s, target, cmp)
+```
+
+返回值与行为同上
+时间复杂度：O(log n)
+不会修改原切片
+
+------
+
+#### 4. 结构修改类函数
+
+这些函数通常返回新的切片头部结构，但可能共享底层数组。
+
+**Delete**
+
+```go
+s = slices.Delete(s, i, j)
+```
+
+返回值：删除区间后的新切片
+效果：删除区间 [i:j)，后续元素左移
+时间复杂度：O(n)
+可能触发扩容
+修改底层数组内容
+
+------
+
+**DeleteFunc**
+
+```go
+s = slices.DeleteFunc(s, predicate)
+```
+
+返回值：删除**满足条件元素**后的新切片
+效果：原地压缩，保持相对顺序
+时间复杂度：O(n)
+
+````go
+// 删除所有偶数
+package main
+
+import (
+	"fmt"
+	"slices"
+)
+
+func main() {
+	s := []int{1, 2, 3, 4, 5, 6}
+
+	s = slices.DeleteFunc(s, func(x int) bool {
+		return x%2 == 0
+	})
+
+	fmt.Println(s) // [1 3 5]
+}
+````
+
+------
+
+**Insert**
+
+```go
+s = slices.Insert(s, i, values...)
+```
+
+返回值：插入后的新切片
+效果：在位置 i 插入元素，尾部元素右移
+时间复杂度：O(n)
+可能触发重新分配底层数组
+
+------
+
+**Replace**
+
+```go
+s = slices.Replace(s, i, j, values...)
+```
+
+返回值：替换后的新切片
+效果：用 values 替换区间 [i:j)
+时间复杂度：O(n)
+可能改变切片长度
+
+------
+
+#### 5. 复制与容量管理类函数
+
+**Clone**
+
+```go
+newSlice := slices.Clone(s)
+```
+
+返回值：新的切片副本
+效果：深复制底层数组
+时间复杂度：O(n)
+空间复杂度：O(n)
+
+------
+
+**Concat**
+
+```go
+s = slices.Concat(a, b)
+```
+
+返回值：拼接后的新切片
+时间复杂度：O(总元素数)
+空间复杂度：O(总元素数)
+
+------
+
+**Grow**
+
+```go
+s = slices.Grow(s, n)
+```
+
+返回值：容量扩展后的切片
+效果：保证至少还能容纳 n 个元素
+不改变长度
+平均复杂度：摊还 O(1)
+若触发扩容：O(n)
+
+------
+
+**Clip**
+
+```go
+s = slices.Clip(s)
+```
+
+返回值：容量裁剪后的新切片
+效果：将 cap 降为 len，释放多余容量
+时间复杂度：O(n)
+空间复杂度：O(n)
+
+------
+
+#### 最值函数
+
+**Min**
+
+```go
+minVal := slices.Min(s)
+```
+
+返回值：最小值
+时间复杂度：O(n)
+空切片会 panic
+
+------
+
+**Max**
+
+```go
+maxVal := slices.Max(s)
+```
+
+返回值：最大值
+时间复杂度：O(n)
+空切片会 panic
 
 
 
@@ -2499,9 +3452,9 @@ func main() {
 
 	interface{}
 
-任何类型的值，都可以赋给 `interface{}` 空接口。（因为每个类型都至少实现了零个方法。）
+**==任何类型的值，都可以赋给 `interface{}` 空接口。（因为每个类型都至少实现了零个方法。）==**
 
-空接口被用来处理**未知类型**的值，因为任何接口都实现了空接口。
+**==空接口被用来处理未知类型的值，因为任何接口都实现了空接口。==**
 
 例如，`fmt.Print` 可接受类型为 `interface{}` 的任意数量的参数。
 
@@ -2875,13 +3828,13 @@ func FunctionName[T constraint](parameters) returnType
 示例：
 
 ```go
-func Index[T comparable](s []T, x T) int
+func Index[T comparable or T any](s []T, x T) int
 ```
 
 含义：
 
 - `T` 是一个类型参数（type parameter），本质就是某个类型的占位符。
-- `comparable` 是类型约束（type constraint）`[T comparable]` 表示：定义一个类型参数 `T`，并且要求 `T` 必须满足 `comparable` 约束。如果不需要约束直接写 `[T any]`
+- `comparable` 是类型约束（type constraint）`[T comparable]` 表示：定义一个类型参数 `T`，并且要求 `T` 必须满足 `comparable` 约束。**==如果不需要约束直接写 `[T any]`==**
 - `s` 是 `[]T`，即元素类型为 `T` 的 slice
 - `x` 是类型为 `T` 的值
 - 返回值是 `int`
@@ -3014,3 +3967,121 @@ Go 的实现方式是：
 泛型是“参数化类型”，接口是“行为抽象”。
 
 两者用途不同。
+
+
+
+## struct 的泛型
+
+#### 基本定义
+
+```go
+type Node[T any] struct {
+	Val  T
+	Next *Node[T]
+}
+```
+
+核心点：
+
+- `T` 是类型参数（type parameter）
+- `[T any]` 是类型参数列表
+- `any` 是最宽松约束（等价于 `interface{}`）
+- `Val` 的类型由 `T` 决定
+
+------
+
+#### 如何使用
+
+```go
+n1 := Node[int]{Val: 10}
+n2 := Node[string]{Val: "hello"}
+```
+
+或指针：
+
+```go
+p := &Node[int]{Val: 5}
+```
+
+------
+
+#### 递归结构必须用指针
+
+```go
+Next *Node[T]   // 正确
+```
+
+不能写：
+
+```go
+Next Node[T]    // 错误（无限嵌套）
+```
+
+因为 struct 不能包含自身类型，只能包含自身指针。
+
+------
+
+#### ==方法必须带类型参数==
+
+```go
+func (n *Node[T]) Print() {
+	fmt.Println(n.Val)
+}
+```
+
+不能写：
+
+```go
+func (n *Node) Print() {}   // 错误
+```
+
+因为 Node 是泛型类型。
+
+------
+
+#### 带约束的泛型
+
+```go
+type Set[T comparable] struct {
+	data map[T]struct{} // 我们不需要value。struct{} 是零大小类型（zero-size type）。更省空间。
+}
+```
+
+`comparable` 表示：
+
+- 可以用 `==`、`!=`
+- 可以作为 map 的 key
+
+------
+
+#### 本质理解（最重要）
+
+Go 泛型是**编译期机制**。
+
+```go
+Node[int]
+Node[string]
+```
+
+**编译器会生成两个具体类型。**
+
+不是运行时动态类型。
+
+
+
+# 进阶
+
+## 一、语言核心
+
+\- [Go 包机制](./Go Package.md)
+\- [Go 程序初始化与执行](./Go Program initialization and execution.md)
+
+## 二、类型系统
+
+\- [Go 中 string、byte 与 rune 的三角关系](./Go string、byte 与 rune 的三角关系.md)
+\- [Go 中  String 的不可变性](./Go 中的 String 不可变性 (Immutability).md)
+\- [Go 中 append 与 copy 核心总结](./Go 中 append 与 copy 核心总结.md)
+
+## 三、并发模型
+
+\- [Go 并发](./Go 并发.md)

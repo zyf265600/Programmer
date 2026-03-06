@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebResourcesPaths">
+    <contentEntries>
+      <entry url="file://$PROJECT_DIR$/../../lc-plugin-template/go-template">
+        <entryData>
+          <resourceRoots>
+            <path value="file://$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn" />
+          </resourceRoots>
+        </entryData>
+      </entry>
+    </contentEntries>
+  </component>
+</project>

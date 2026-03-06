@@ -3,6 +3,28 @@
   <component name="LeetcodeEditorlabuladong">
     <option name="projectConfig">
       <map>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/4sum-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/4sum-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn454" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/4sum-ii_test.go" />
+              <option name="titleSlug" value="4sum-ii" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/UhWRSj_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/UhWRSj_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 063" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/UhWRSj_test.go" />
+              <option name="titleSlug" value="UhWRSj" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/binary-search_test.go">
           <value>
             <LeetcodeEditor>
@@ -11,6 +33,512 @@
               <option name="host" value="leetcode.cn" />
               <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/binary-search_test.go" />
               <option name="titleSlug" value="binary-search" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/design-linked-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/design-linked-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn707" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/design-linked-list_test.go" />
+              <option name="titleSlug" value="design-linked-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-all-anagrams-in-a-string_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/find-all-anagrams-in-a-string_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn438" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-all-anagrams-in-a-string_test.go" />
+              <option name="titleSlug" value="find-all-anagrams-in-a-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-first-and-last-position-of-element-in-sorted-array_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/find-first-and-last-position-of-element-in-sorted-array_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn34" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-first-and-last-position-of-element-in-sorted-array_test.go" />
+              <option name="titleSlug" value="find-first-and-last-position-of-element-in-sorted-array" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-the-index-of-the-first-occurrence-in-a-string_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/find-the-index-of-the-first-occurrence-in-a-string_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn28" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-the-index-of-the-first-occurrence-in-a-string_test.go" />
+              <option name="titleSlug" value="find-the-index-of-the-first-occurrence-in-a-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/happy-number_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/happy-number_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn202" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/happy-number_test.go" />
+              <option name="titleSlug" value="happy-number" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/implement-queue-using-stacks_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/implement-queue-using-stacks_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn232" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/implement-queue-using-stacks_test.go" />
+              <option name="titleSlug" value="implement-queue-using-stacks" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/intersection-of-two-arrays_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/intersection-of-two-arrays_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn349" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/intersection-of-two-arrays_test.go" />
+              <option name="titleSlug" value="intersection-of-two-arrays" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/intersection-of-two-linked-lists_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/intersection-of-two-linked-lists_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn160" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/intersection-of-two-linked-lists_test.go" />
+              <option name="titleSlug" value="intersection-of-two-linked-lists" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/kLl5u1_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/kLl5u1_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 006" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/kLl5u1_test.go" />
+              <option name="titleSlug" value="kLl5u1" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/kth-node-from-end-of-list-lcci_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/kth-node-from-end-of-list-lcci_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn面试题 02.02" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/kth-node-from-end-of-list-lcci_test.go" />
+              <option name="titleSlug" value="kth-node-from-end-of-list-lcci" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/linked-list-cycle-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/linked-list-cycle-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn142" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/linked-list-cycle-ii_test.go" />
+              <option name="titleSlug" value="linked-list-cycle-ii" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/linked-list-cycle_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/linked-list-cycle_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn141" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/linked-list-cycle_test.go" />
+              <option name="titleSlug" value="linked-list-cycle" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/longest-palindromic-substring_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/longest-palindromic-substring_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn5" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/longest-palindromic-substring_test.go" />
+              <option name="titleSlug" value="longest-palindromic-substring" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/longest-substring-without-repeating-characters_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/longest-substring-without-repeating-characters_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/longest-substring-without-repeating-characters_test.go" />
+              <option name="titleSlug" value="longest-substring-without-repeating-characters" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/merge-k-sorted-lists_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/merge-k-sorted-lists_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn23" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/merge-k-sorted-lists_test.go" />
+              <option name="titleSlug" value="merge-k-sorted-lists" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/merge-sorted-array_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/merge-sorted-array_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn88" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/merge-sorted-array_test.go" />
+              <option name="titleSlug" value="merge-sorted-array" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/merge-two-sorted-lists_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/merge-two-sorted-lists_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn21" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/merge-two-sorted-lists_test.go" />
+              <option name="titleSlug" value="merge-two-sorted-lists" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/middle-of-the-linked-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/middle-of-the-linked-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn876" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/middle-of-the-linked-list_test.go" />
+              <option name="titleSlug" value="middle-of-the-linked-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/minimum-size-subarray-sum_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/minimum-size-subarray-sum_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn209" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/minimum-size-subarray-sum_test.go" />
+              <option name="titleSlug" value="minimum-size-subarray-sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/minimum-window-substring_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/minimum-window-substring_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn76" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/minimum-window-substring_test.go" />
+              <option name="titleSlug" value="minimum-window-substring" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/move-zeroes_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/move-zeroes_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn283" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/move-zeroes_test.go" />
+              <option name="titleSlug" value="move-zeroes" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/partition-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/partition-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn86" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/partition-list_test.go" />
+              <option name="titleSlug" value="partition-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/permutation-in-string_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/permutation-in-string_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn567" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/permutation-in-string_test.go" />
+              <option name="titleSlug" value="permutation-in-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/ransom-note_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/ransom-note_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn383" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/ransom-note_test.go" />
+              <option name="titleSlug" value="ransom-note" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-duplicates-from-sorted-array_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/remove-duplicates-from-sorted-array_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn26" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-duplicates-from-sorted-array_test.go" />
+              <option name="titleSlug" value="remove-duplicates-from-sorted-array" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-duplicates-from-sorted-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/remove-duplicates-from-sorted-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn83" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-duplicates-from-sorted-list_test.go" />
+              <option name="titleSlug" value="remove-duplicates-from-sorted-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-element_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/remove-element_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn27" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-element_test.go" />
+              <option name="titleSlug" value="remove-element" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-linked-list-elements_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/remove-linked-list-elements_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn203" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-linked-list-elements_test.go" />
+              <option name="titleSlug" value="remove-linked-list-elements" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-nth-node-from-end-of-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/remove-nth-node-from-end-of-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn19" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-nth-node-from-end-of-list_test.go" />
+              <option name="titleSlug" value="remove-nth-node-from-end-of-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/repeated-substring-pattern_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/repeated-substring-pattern_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn459" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/repeated-substring-pattern_test.go" />
+              <option name="titleSlug" value="repeated-substring-pattern" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/replace-words_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/replace-words_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn648" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/replace-words_test.go" />
+              <option name="titleSlug" value="replace-words" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-linked-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/reverse-linked-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn206" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-linked-list_test.go" />
+              <option name="titleSlug" value="reverse-linked-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-string-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/reverse-string-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn541" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-string-ii_test.go" />
+              <option name="titleSlug" value="reverse-string-ii" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-string_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/reverse-string_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn344" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-string_test.go" />
+              <option name="titleSlug" value="reverse-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-words-in-a-string_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/reverse-words-in-a-string_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn151" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/reverse-words-in-a-string_test.go" />
+              <option name="titleSlug" value="reverse-words-in-a-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/rotate-image_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/rotate-image_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn48" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/rotate-image_test.go" />
+              <option name="titleSlug" value="rotate-image" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/spiral-matrix-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/spiral-matrix-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn59" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/spiral-matrix-ii_test.go" />
+              <option name="titleSlug" value="spiral-matrix-ii" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/spiral-matrix_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/spiral-matrix_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn54" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/spiral-matrix_test.go" />
+              <option name="titleSlug" value="spiral-matrix" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/squares-of-a-sorted-array_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/squares-of-a-sorted-array_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn977" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/squares-of-a-sorted-array_test.go" />
+              <option name="titleSlug" value="squares-of-a-sorted-array" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/swap-nodes-in-pairs_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/swap-nodes-in-pairs_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn24" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/swap-nodes-in-pairs_test.go" />
+              <option name="titleSlug" value="swap-nodes-in-pairs" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/ti-huan-kong-ge-lcof_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/ti-huan-kong-ge-lcof_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 122" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/ti-huan-kong-ge-lcof_test.go" />
+              <option name="titleSlug" value="ti-huan-kong-ge-lcof" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/two-sum-ii-input-array-is-sorted_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/two-sum-ii-input-array-is-sorted_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn167" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/two-sum-ii-input-array-is-sorted_test.go" />
+              <option name="titleSlug" value="two-sum-ii-input-array-is-sorted" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/two-sum_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/two-sum_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/two-sum_test.go" />
+              <option name="titleSlug" value="two-sum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/valid-anagram_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/valid-anagram_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn242" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/valid-anagram_test.go" />
+              <option name="titleSlug" value="valid-anagram" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 172" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof_test.go" />
+              <option name="titleSlug" value="zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/zuo-xuan-zhuan-zi-fu-chuan-lcof_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/zuo-xuan-zhuan-zi-fu-chuan-lcof_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 182" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/zuo-xuan-zhuan-zi-fu-chuan-lcof_test.go" />
+              <option name="titleSlug" value="zuo-xuan-zhuan-zi-fu-chuan-lcof" />
             </LeetcodeEditor>
           </value>
         </entry>
