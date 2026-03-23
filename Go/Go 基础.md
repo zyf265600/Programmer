@@ -418,7 +418,7 @@ Go 声明语法的核心目标只有一个：
 
 
 
-## 基本类型 & 类型准换
+## 基本类型 & 类型转换 & 类型断言
 
 ### 基本类型 
 
@@ -507,6 +507,63 @@ v.(T)
 ```
 
 用于 interface，不属于类型转换。
+
+### 类型断言
+
+#### 1. 核心定义
+
+类型断言用于检查接口变量所持有的底层值是否为特定的类型。
+
+#### 2. 基本语法
+
+```
+v := i.(T)
+```
+
+- **`i`**：必须是接口类型。
+- **`T`**：目标类型。
+- **后果**：如果断言失败，程序会发生 **panic**。
+
+#### 3. 安全模式（推荐）
+
+为了防止程序崩溃，通常使用“comma ok”语法：
+
+```
+value, ok := i.(T)
+```
+
+- **`ok`**：布尔值。若断言成功为 `true`，失败为 `false`。
+- **`value`**：断言成功时为底层值，失败时为目标类型的零值。
+
+#### 4. 在 container/list 中的应用
+
+由于 `list.Element.Value` 是 `any` 类型，取值时必须转换：
+
+```go
+e := l.Front()
+// 不安全写法：如果 Value 不是 string 会 panic
+str := e.Value.(string) 
+
+// 安全写法
+if str, ok := e.Value.(string); ok {
+    fmt.Println("Value is:", str)
+}
+```
+
+#### 5. Type Switch（批量断言）
+
+如果你不确定接口的具体类型，可以使用 `switch` 语句结合`x.(type)`：
+
+```go
+switch v := x.(type) {
+case int:
+    fmt.Println("Integer:", v)
+case string:
+    fmt.Println("String:", v)
+default:
+    fmt.Println("Unknown type")
+}
+```
 
 
 
@@ -2940,6 +2997,227 @@ maxVal := slices.Max(s)
 
 
 
+## container/list（双向链表）
+
+`container/list` 实现了一个**非线程安全**的**双向循环链表**。
+
+### 一、 核心组件
+
+- **`list.List`**: 链表主体，包含 `root` 哨兵节点和长度 `len`。
+- **`list.Element`**: 节点对象。
+  - `Value any`: 存储数据（需类型断言）。
+  - `Next()`, `Prev()`: 导出方法，用于获取前后节点。
+
+------
+
+### 二、 常用操作快查
+
+| **分类**   | **方法**                                             | **说明**                         |
+| ---------- | ---------------------------------------------------- | -------------------------------- |
+| **初始化** | `l := list.New()`                                    | 返回 `*list.List`                |
+| **增**     | `PushFront(v)`, `PushBack(v)`                        | 在头/尾插入新值，返回 `*Element` |
+|            | `InsertBefore(v, e)`, `InsertAfter(v, e)`            | 在指定节点 `e` 前/后插入新值     |
+| **删**     | `Remove(e)`                                          | 删除节点 `e`，复杂度 $O(1)$      |
+| **查**     | `Front()`, `Back()`                                  | 获取首/尾节点                    |
+| **遍历**   | `for e := l.Front(); e != nil; e = e.Next() { ... }` | **注意：** 不能使用 `range`      |
+
+------
+
+### 三、 进阶技巧与避坑
+
+1. **类型断言**: 由于 `Value` 是 `any` ($interface{}$)，取值时必须断言：`val := e.Value.(int)`。
+2. **移动节点**: `MoveToFront(e)`, `MoveToBack(e)`, `MoveBefore(e, mark)` 等方法可直接调整节点位置，无需删除再插入。
+3. **清空链表**: 使用 `l.Init()` 即可快速重置。
+
+------
+
+### 四、 面试高频：为什么 Go 开发者（及 LeetCode）很少用它？
+
+这是 Go 语言设计哲学和硬件架构共同决定的。
+
+#### 1. 内存布局与 CPU 缓存 (最核心原因)
+
+- **Slice**: 内存连续。CPU 预取（Prefetching）命中率高，空间局部性极佳。
+- **List**: 节点散落在堆上。每次访问 `Next()` 都可能导致 **Cache Miss**，在现代 CPU 架构下，即使 $O(n)$ 的 Slice 遍历往往也比 $O(n)$ 的 List 快得多。
+
+#### 2. 内存开销
+
+- `list.Element` 除了数据，还需额外维护 $3$ 个指针（`next`, `prev`, `list`），在 $64$ 位机器上至少额外占用 $24$ 字节。
+
+#### 3. 泛型尴尬
+
+- 在 Go 1.18 泛型落地前，`container/list` 的 `any` 类型导致大量隐式装箱（boxing）和类型断言开销。
+- 目前标准库的 `list` 仍未支持泛型，开发者更倾向于根据需求手写简易的 `type Node[T any] struct`。
+
+#### 4. Slice 的全能性
+
+- **栈 (Stack)**: `append` 和切片操作即可完美实现。
+- **队列 (Queue)**: 虽然 `slice[1:]` 会导致空间浪费，但通过“环形缓冲区”或定期重分配，性能依然压制链表。
+
+### 五、 结论：何时使用？
+
+- **需要 $O(1)$ 时间复杂度在中间频繁增删**（且数据量极大，导致 Slice 搬移成本超过 Cache Miss 成本）。
+- **LRU Cache**: 这是链表最经典的应用场景（结合 map 使用）。
+
+
+
+## container/heap（堆）
+
+### 一、接口实现
+
+Go 的 heap 是一个 **接口驱动实现（interface-based implementation）**
+
+需要你自己定义一个类型并实现接口：
+
+```
+heap.Interface
+```
+
+接口定义：
+
+```go
+type Interface interface {
+    sort.Interface
+    Push(x any)
+    Pop() any
+}
+```
+
+而 `sort.Interface` 又要求：
+
+```go
+Len() int
+Less(i, j int) bool
+Swap(i, j int)
+```
+
+**==所以一共需要实现 5 个方法==**
+
+```
+Len()
+Less()
+Swap()
+Push()
+Pop()
+```
+
+### 二、最简单的 Priority Queue 示例
+
+实现一个 Min Heap
+
+```go
+package main
+
+import (
+	"container/heap"
+	"fmt"
+)
+
+type IntHeap []int
+
+func (h IntHeap) Len() int {
+	return len(h)
+}
+
+func (h IntHeap) Less(i, j int) bool {
+	return h[i] < h[j]   // min heap
+}
+
+func (h IntHeap) Swap(i, j int) {
+	h[i], h[j] = h[j], h[i]
+}
+
+func (h *IntHeap) Push(x any) {
+	*h = append(*h, x.(int))
+}
+
+func (h *IntHeap) Pop() any {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[:n-1]
+	return x
+}
+
+func main() {
+
+	h := &IntHeap{3,1,5}
+	heap.Init(h)
+
+	heap.Push(h, 2)
+
+	fmt.Println(heap.Pop(h)) // 1
+	fmt.Println(heap.Pop(h)) // 2
+}
+```
+
+### 三、heap 包常用函数
+
+| 函数                | 作用               |
+| ------------------- | ------------------ |
+| `heap.Init(h)`      | 初始化 heap        |
+| `heap.Push(h, x)`   | 插入元素           |
+| `heap.Pop(h)`       | 删除并返回最小元素 |
+| `heap.Fix(h, i)`    | 修复某个元素       |
+| `heap.Remove(h, i)` | 删除某个 index     |
+
+### 四、时间复杂度
+
+| 操作       | 复杂度   |
+| ---------- | -------- |
+| push       | O(log n) |
+| pop        | O(log n) |
+| peek       | O(1)     |
+| build heap | O(n)     |
+
+### 五、Leetcode 中的 Priority Queue 写法（常见）
+
+Leetcode Go 解法经常这样写：
+
+```go
+type PQ []int
+
+func (pq PQ) Len() int { return len(pq) }
+
+func (pq PQ) Less(i, j int) bool {
+    return pq[i] < pq[j]  // min heap
+}
+
+func (pq PQ) Swap(i, j int) {
+    pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *PQ) Push(x any) {
+    *pq = append(*pq, x.(int))
+}
+
+func (pq *PQ) Pop() any {
+    old := *pq
+    n := len(old)
+    x := old[n-1]
+    *pq = old[:n-1]
+    return x
+}
+```
+
+### 六、为什么 Go 不直接提供 Priority Queue
+
+Go 设计哲学：
+
+**Keep core library small**
+
+只提供 **Heap（堆）**
+
+因为
+
+```
+Priority Queue = Heap + interface
+```
+
+开发者可以自己定义优先级规则。
+
+
+
 # 方法与接口
 
 ## 方法
@@ -4071,17 +4349,22 @@ Node[string]
 
 # 进阶
 
-## 一、语言核心
+一、语言核心
 
-\- [Go 包机制](./Go Package.md)
-\- [Go 程序初始化与执行](./Go Program initialization and execution.md)
+#### \- [Go 包机制](./Go Package.md)
 
-## 二、类型系统
+#### \- [Go 程序初始化与执行](./Go Program initialization and execution.md)
 
-\- [Go 中 string、byte 与 rune 的三角关系](./Go string、byte 与 rune 的三角关系.md)
-\- [Go 中  String 的不可变性](./Go 中的 String 不可变性 (Immutability).md)
-\- [Go 中 append 与 copy 核心总结](./Go 中 append 与 copy 核心总结.md)
+二、类型系统
 
-## 三、并发模型
+#### \- [Go 中 string、byte 与 rune 的三角关系](./Go string、byte 与 rune 的三角关系.md)
 
-\- [Go 并发](./Go 并发.md)
+#### \- [Go 中 string 的不可变性](./Go 中的 String 不可变性 (Immutability).md)
+
+#### \- [Go 中 append 与 copy 核心总结](./Go 中 append 与 copy 核心总结.md)
+
+#### \- [Go 中 Slice 内存滞留与释放详解](./Go 中 Slice 内存滞留与释放详解.md)
+
+三、并发模型
+
+#### \- [Go 并发](./Go 并发.md)

@@ -3,6 +3,28 @@
   <component name="LeetcodeEditorlabuladong">
     <option name="projectConfig">
       <map>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/24-game_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/24-game_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn679" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/24-game_test.go" />
+              <option name="titleSlug" value="24-game" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/2vYnGI_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/2vYnGI_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCP 18" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/2vYnGI_test.go" />
+              <option name="titleSlug" value="2vYnGI" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/4sum-ii_test.go">
           <value>
             <LeetcodeEditor>
@@ -36,6 +58,17 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/daily-temperatures_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/daily-temperatures_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn739" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/daily-temperatures_test.go" />
+              <option name="titleSlug" value="daily-temperatures" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/design-linked-list_test.go">
           <value>
             <LeetcodeEditor>
@@ -47,6 +80,28 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/er-jin-zhi-zhong-1de-ge-shu-lcof_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/er-jin-zhi-zhong-1de-ge-shu-lcof_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 133" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/er-jin-zhi-zhong-1de-ge-shu-lcof_test.go" />
+              <option name="titleSlug" value="er-jin-zhi-zhong-1de-ge-shu-lcof" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/evaluate-reverse-polish-notation_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/evaluate-reverse-polish-notation_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn150" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/evaluate-reverse-polish-notation_test.go" />
+              <option name="titleSlug" value="evaluate-reverse-polish-notation" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-all-anagrams-in-a-string_test.go">
           <value>
             <LeetcodeEditor>
@@ -55,6 +110,17 @@
               <option name="host" value="leetcode.cn" />
               <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-all-anagrams-in-a-string_test.go" />
               <option name="titleSlug" value="find-all-anagrams-in-a-string" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-all-possible-stable-binary-arrays-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/find-all-possible-stable-binary-arrays-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn3130" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/find-all-possible-stable-binary-arrays-ii_test.go" />
+              <option name="titleSlug" value="find-all-possible-stable-binary-arrays-ii" />
             </LeetcodeEditor>
           </value>
         </entry>
@@ -91,6 +157,17 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/iIQa4I_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/iIQa4I_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cnLCR 038" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/iIQa4I_test.go" />
+              <option name="titleSlug" value="iIQa4I" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/implement-queue-using-stacks_test.go">
           <value>
             <LeetcodeEditor>
@@ -99,6 +176,17 @@
               <option name="host" value="leetcode.cn" />
               <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/implement-queue-using-stacks_test.go" />
               <option name="titleSlug" value="implement-queue-using-stacks" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/implement-stack-using-queues_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/implement-stack-using-queues_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn225" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/implement-stack-using-queues_test.go" />
+              <option name="titleSlug" value="implement-stack-using-queues" />
             </LeetcodeEditor>
           </value>
         </entry>
@@ -267,6 +355,39 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/next-greater-element-i_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/next-greater-element-i_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn496" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/next-greater-element-i_test.go" />
+              <option name="titleSlug" value="next-greater-element-i" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/next-greater-element-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/next-greater-element-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn503" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/next-greater-element-ii_test.go" />
+              <option name="titleSlug" value="next-greater-element-ii" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/operations-on-tree_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/operations-on-tree_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1993" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/operations-on-tree_test.go" />
+              <option name="titleSlug" value="operations-on-tree" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/partition-list_test.go">
           <value>
             <LeetcodeEditor>
@@ -297,6 +418,17 @@
               <option name="host" value="leetcode.cn" />
               <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/ransom-note_test.go" />
               <option name="titleSlug" value="ransom-note" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-all-adjacent-duplicates-in-string_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/remove-all-adjacent-duplicates-in-string_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn1047" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/remove-all-adjacent-duplicates-in-string_test.go" />
+              <option name="titleSlug" value="remove-all-adjacent-duplicates-in-string" />
             </LeetcodeEditor>
           </value>
         </entry>
@@ -432,6 +564,28 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/simplify-path_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/simplify-path_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn71" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/simplify-path_test.go" />
+              <option name="titleSlug" value="simplify-path" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/sliding-window-maximum_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/sliding-window-maximum_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn239" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/sliding-window-maximum_test.go" />
+              <option name="titleSlug" value="sliding-window-maximum" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/spiral-matrix-ii_test.go">
           <value>
             <LeetcodeEditor>
@@ -487,6 +641,17 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/trapping-rain-water_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/trapping-rain-water_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn42" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/trapping-rain-water_test.go" />
+              <option name="titleSlug" value="trapping-rain-water" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/two-sum-ii-input-array-is-sorted_test.go">
           <value>
             <LeetcodeEditor>
@@ -520,6 +685,17 @@
             </LeetcodeEditor>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/valid-parentheses_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/doc/content/valid-parentheses_test.md" />
+              <option name="frontendQuestionId" value="leetcode.cn20" />
+              <option name="host" value="leetcode.cn" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/valid-parentheses_test.go" />
+              <option name="titleSlug" value="valid-parentheses" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof_test.go">
           <value>
             <LeetcodeEditor>
@@ -539,6 +715,94 @@
               <option name="host" value="leetcode.cn" />
               <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/cn/zuo-xuan-zhuan-zi-fu-chuan-lcof_test.go" />
               <option name="titleSlug" value="zuo-xuan-zhuan-zi-fu-chuan-lcof" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/climbing-stairs_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/climbing-stairs_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com70" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/climbing-stairs_test.go" />
+              <option name="titleSlug" value="climbing-stairs" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/coin-change_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/coin-change_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com322" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/coin-change_test.go" />
+              <option name="titleSlug" value="coin-change" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/fibonacci-number_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/fibonacci-number_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com509" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/fibonacci-number_test.go" />
+              <option name="titleSlug" value="fibonacci-number" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/find-all-possible-stable-binary-arrays-ii_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/find-all-possible-stable-binary-arrays-ii_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com3130" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/find-all-possible-stable-binary-arrays-ii_test.go" />
+              <option name="titleSlug" value="find-all-possible-stable-binary-arrays-ii" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/range-sum-query-immutable_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/range-sum-query-immutable_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com303" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/range-sum-query-immutable_test.go" />
+              <option name="titleSlug" value="range-sum-query-immutable" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/reconstruct-itinerary_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/reconstruct-itinerary_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com332" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/reconstruct-itinerary_test.go" />
+              <option name="titleSlug" value="reconstruct-itinerary" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/reverse-linked-list_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/reverse-linked-list_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com206" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/reverse-linked-list_test.go" />
+              <option name="titleSlug" value="reverse-linked-list" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/sliding-window-maximum_test.go">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/doc/content/sliding-window-maximum_test.md" />
+              <option name="frontendQuestionId" value="leetcode.com239" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="$PROJECT_DIR$/../../lc-plugin-template/go-template/leetcode/editor/en/sliding-window-maximum_test.go" />
+              <option name="titleSlug" value="sliding-window-maximum" />
             </LeetcodeEditor>
           </value>
         </entry>
