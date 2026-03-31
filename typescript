@@ -1,0 +1,79 @@
+Script started on Mon Mar 30 18:21:31 2026
+ls  [1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Programmer % [K[?2004hccd scrt i[?2004l
+cd: no such file or directory: scri
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Programmer % [K[?2004hcd scri    S
+[JScript/  SQL/[A[0m[27m[24m[53Ccd S[Kcript[1m/[0m[0m [?2004l
+[J[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer/Script[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Script % [K[?2004hlls[?2004l
+convert_code_block_to_go.py
+convert_multi_long_pngpdf_to_formal_pdf.py
+interview.py
+labuladong_refine.py
+md_change_all_code_block_to_python.py
+merge_markdown.py
+merge_pdf.py
+remove_run.py
+runoob_web_crawler.py
+typora_all_title_downgrade.py
+update_code_format_to_java.py
+vueNote_correction.py
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer/Script[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Script % [K[?2004hlls[?2004l
+convert_code_block_to_go.py
+convert_multi_long_pngpdf_to_formal_pdf.py
+interview.py
+labuladong_refine.py
+md_change_all_code_block_to_python.py
+merge_markdown.py
+merge_pdf.py
+remove_run.py
+runoob_web_crawler.py
+typora_all_title_downgrade.py
+update_code_format_to_java.py
+vueNote_correction.py
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer/Script[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Script % [K[?2004hppython [7mconvert_multi_long_pngpd[7mf[7m_to_formal_pdf.py[27m[K[A[38C[27mc[27mo[27mn[27mv[27me[27mr[27mt[27m_[27mm[27mu[27ml[27mt[27mi[27m_[27ml[27mo[27mn[27mg[27m_[27mp[27mn[27mg[27mp[27mdf[27m_[27mt[27mo[27m_[27mf[27mo[27mr[27mm[27ma[27ml[27m_[27mp[27md[27mf[27m.[27mp[27my[?2004l
+使用方法: python3 mergepy.py <输入路径> <输出文件名> [前缀过滤器]
+
+  输入路径: 目录（处理该目录下所有 pdf/图片）或单个 .pdf / .png 文件路径
+
+示例:
+  python3 mergepy.py ./Module\ 1 merged.pdf
+    - 合并该目录下所有 PDF 和图片
+  python3 mergepy.py ./Module\ 1 1b_merged.pdf 1b
+    - 只合并以 '1b' 开头的 PDF 和图片
+  python3 mergepy.py /path/to/single.png out.pdf
+    - 将单个图片转为 PDF 并保存为 out.pdf
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer/Script[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Script % [K[?2004hpython convert_multi_long_pngpdf_to_formal_pdf.py[K[1C[7m/Users/zyf/Downloads/123.pdf [27m[29D[27m/[27mU[27ms[27me[27mr[27ms[27m/[27mz[27my[27mf[27m/[27mD[27mo[27mw[27mn[27ml[27mo[27ma[27md[27ms[27m/[27m1[27m2[27m3[27m.[27mp[27md[27mf[27m ou [?2004l
+
+找到 1 个文件:
+  1. 123.pdf [PDF]
+
+开始处理文件...
+  添加PDF: 123.pdf
+
+开始合并 1 个PDF文件...
+  已添加: 123.pdf
+
+✅ 成功！合并后的PDF已保存为: o.pdf
+   文件位置: /Users/zyf/Downloads/o.pdf
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer/Script[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Script % [K[?2004hpython convert_multi_long_pngpdf_to_formal_pdf.py /Users/zyf/Downloads/123.pdf o[K o  o  o p on og o[?2004l
+
+找到 1 个文件:
+  1. 123.png [图片]
+
+开始处理文件...
+  处理图片: 123.png
+    图片尺寸: 2752 x 24002 像素
+    将分割为 7 个PDF
+
+开始合并 7 个PDF文件...
+  已添加: 123-1.pdf
+  已添加: 123-2.pdf
+  已添加: 123-3.pdf
+  已添加: 123-4.pdf
+  已添加: 123-5.pdf
+  已添加: 123-6.pdf
+  已添加: 123-7.pdf
+
+✅ 成功！合并后的PDF已保存为: o.pdf
+   文件位置: /Users/zyf/Downloads/o.pdf
+[1m[7m%[27m[1m[0m                                                                                ]7;file://eduroam-campus-10-36-254-107.campus-dynamic.uwaterloo.ca/Users/zyf/Desktop/Programmer/Script[0m[27m[24m[J(base) zyf@eduroam-campus-10-36-254-107 Script % [K[?2004hggp[?2004l
+Pulling latest...
