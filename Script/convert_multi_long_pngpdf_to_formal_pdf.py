@@ -228,14 +228,14 @@ def process_files(input_path, output_name, prefix=None):
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("使用方法: python3 mergepy.py <输入路径> <输出文件名> [前缀过滤器]")
+        print("使用方法: python3 convert_multi_long_pngpdf_to_formal_pdf.py<输入路径> <输出文件名> [前缀过滤器]")
         print("\n  输入路径: 目录（处理该目录下所有 pdf/图片）或单个 .pdf / .png 文件路径")
         print("\n示例:")
-        print("  python3 mergepy.py ./Module\\ 1 merged.pdf")
+        print("  python3 convert_multi_long_pngpdf_to_formal_pdf.py ./Module\\ 1 merged.pdf")
         print("    - 合并该目录下所有 PDF 和图片")
-        print("  python3 mergepy.py ./Module\\ 1 1b_merged.pdf 1b")
+        print("  python3 convert_multi_long_pngpdf_to_formal_pdf.py ./Module\\ 1 1b_merged.pdf 1b")
         print("    - 只合并以 '1b' 开头的 PDF 和图片")
-        print("  python3 mergepy.py /path/to/single.png out.pdf")
+        print("  python3 convert_multi_long_pngpdf_to_formal_pdf.py /path/to/single.png out.pdf")
         print("    - 将单个图片转为 PDF 并保存为 out.pdf")
         sys.exit(1)
 
