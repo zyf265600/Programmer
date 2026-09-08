@@ -1,48 +1,82 @@
 # Programmer
 
-**Programmer** is a personal repository that consolidates my long-term work in programming practice, algorithm implementation, and engineering-oriented learning notes.
+**Programmer** is a personal knowledge base for programming practice, algorithm training, and engineering notes. Content is grouped by language and topic so it is easy to browse and revisit.
 
-This repo serves as a structured space for exploring a wide range of computer science and software development topics, including:
+This repository is both a long-term learning archive and a practical reference for interview prep, multi-language coding, and tooling.
 
-* Algorithms and data structures across multiple languages (C/C++/Go)
-* Front-end and web development experiments (HTML, JavaScript, Vue)
-* Interview preparation and problem-solving practice
-* Competitive programming samples
-* Tooling notes and reusable snippets (Git, Markdown, etc.)
-* Categorized learning materials for quick reference
+## What's inside
 
-The content is continuously updated as I expand my technical depth and broaden my engineering toolkit.
-This repository is intended both as a personal knowledge base and as a useful reference for others studying similar topics.
+| Area | Paths | Notes |
+|------|--------|--------|
+| Algorithms & interview | `Algorithm/`, `Leetcode/`, `Interview/`, `Roadmap/` | Data structures, DP, LeetCode notes, resume/interview material, learning roadmaps |
+| Systems languages | `C/`, `Cpp/`, `Go/` | Fundamentals, advanced topics, projects, Go notes + official tour submodules |
+| JVM / backend | `Java/`, `Maven/`, `Gradle/`, `Hibernate/`, `SQL/` | Java basics → Spring/Spring Boot, build tools, ORM, MySQL / analytics SQL |
+| Web & frontend | `Frontend/`, `React/`, `Web_Dev_Intro/`, `typescript` | HTML/CSS, JS/TS, Vue, Angular, Bootstrap, React apps |
+| Other languages | `Python/`, `R/`, `RubyonRail/` | Tutorials, small projects, Rails koans |
+| Ops & tooling | `Linux/`, `Git/`, `Homebrew/`, `AWS/`, `Unit_Test/`, `Markdown/` | Environment, VCS, cloud, testing, writing workflow |
+| Portfolio site | `portfolio/` | Astro + Tailwind personal site (git submodule) |
+| Utilities | `script/`, `Very_Useful_Knowledge_Dictionary/` | Python helpers for notes/PDF/code formatting; quick-reference sheets |
+| Misc | `COOP/`, `ChatGPT/`, `English/`, `Typing/`, `Real-Time_Operating_System/` | Coop notes, language practice, RTOS, etc. |
 
-### Key Features
+## Git submodules
 
-* Multi-language implementations and examples
-* Organized resources for systematic learning
-* Practical code focused on real problem-solving
-* Ongoing documentation of technical growth
+These directories are formal submodules (see `.gitmodules`):
 
-Feel free to explore the folders, and suggestions or issues are always welcome.
+| Path | Upstream |
+|------|----------|
+| `portfolio/` | [zyf265600/portfolio](https://github.com/zyf265600/portfolio.git) |
+| `Go/tour/` | [Go-zh/tour](https://github.com/Go-zh/tour.git) |
+| `Go/go-zh-tour/` | [Go-zh/tour](https://github.com/Go-zh/tour.git) |
+| `Leetcode/lc-plugin-template/` | [labuladong/lc-plugin-template](https://github.com/labuladong/lc-plugin-template.git) |
+
+Clone with submodules:
+
+```bash
+git clone --recurse-submodules git@github.com:zyf265600/Programmer.git
+```
+
+If you already cloned without submodules:
+
+```bash
+git submodule update --init --recursive
+```
+
+## Layout tips
+
+- Prefer the language/topic folder first (`Go/`, `Java/`, `Frontend/`, …), then drill into notes or code.
+- LeetCode practice lives mainly under `Leetcode/` (notes + `lc-plugin-template` editor solutions).
+- Reusable automation for Markdown/PDF/code-block cleanup is under `script/`.
+
+Suggestions and issues are welcome.
 
 ---
 
-**Programmer** 是我个人整理的编程实践、算法实现以及工程学习笔记合集。
+**Programmer** 是个人编程实践、算法训练与工程学习笔记的知识库，按语言与主题分目录整理，便于长期查阅。
 
-这个仓库主要用于系统性地沉淀和归档不同方向的技术内容，包括：
+既作为个人学习归档，也可作为面试准备、多语言练习与工具链笔记的参考。
 
-* 多语言算法与数据结构实现（C/C++/Go）
-* 前端与 Web 开发相关实验（HTML、JavaScript、Vue）
-* 面试准备与题目训练记录
-* 竞赛编程示例
-* 工具链笔记与可复用代码片段（Git、Markdown 等）
-* 按主题分类的学习资料，便于快速查阅
+## 内容概览
 
-仓库内容会随着学习与项目积累持续更新，既作为个人知识库，也希望能为学习相关内容的开发者提供参考。
+| 方向 | 目录 | 说明 |
+|------|------|------|
+| 算法与面试 | `Algorithm/`、`Leetcode/`、`Interview/`、`Roadmap/` | 数据结构、DP、刷题笔记、面试/简历材料、学习路线 |
+| 系统向语言 | `C/`、`Cpp/`、`Go/` | 基础到进阶、项目练习；Go 笔记及官方 Tour 子模块 |
+| JVM / 后端 | `Java/`、`Maven/`、`Gradle/`、`Hibernate/`、`SQL/` | Java 基础 → Spring/Spring Boot、构建工具、ORM、MySQL/分析 SQL |
+| Web / 前端 | `Frontend/`、`React/`、`Web_Dev_Intro/`、`typescript` | HTML/CSS、JS/TS、Vue、Angular、Bootstrap、React |
+| 其他语言 | `Python/`、`R/`、`RubyonRail/` | 教程、小项目、Rails koans |
+| 运维与工具 | `Linux/`、`Git/`、`Homebrew/`、`AWS/`、`Unit_Test/`、`Markdown/` | 环境、版本管理、云、测试、写作流程 |
+| 作品集站点 | `portfolio/` | Astro + Tailwind 个人站（git submodule） |
+| 工具脚本 | `script/`、`Very_Useful_Knowledge_Dictionary/` | 笔记/PDF/代码块处理脚本；速查资料 |
+| 其他 | `COOP/`、`ChatGPT/`、`English/`、`Typing/`、`Real-Time_Operating_System/` | Coop、语言练习、RTOS 等 |
 
-### 项目特点
+## Git 子模块
 
-* 多语言、多方向的实现与练习
-* 结构化整理，便于长期复盘
-* 面向实际问题的代码示例
-* 技术能力与工程积累的持续记录
+正式 submodule 见上表与 `.gitmodules`。克隆时请使用 `--recurse-submodules`，或事后执行 `git submodule update --init --recursive`。
 
-欢迎浏览与交流，也可以通过 issue 提出建议。
+## 使用建议
+
+- 先按语言/主题进目录，再看笔记或代码。
+- 刷题相关优先看 `Leetcode/`（含 `lc-plugin-template`）。
+- Markdown/PDF/代码格式相关脚本在 `script/`。
+
+欢迎浏览与交流，也可通过 issue 提出建议。
