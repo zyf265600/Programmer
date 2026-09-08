@@ -1,3 +1,12 @@
 [submodule "portfolio"]
 	path = portfolio
 	url = https://github.com/zyf265600/portfolio.git
+[submodule "Go/go-zh-tour"]
+	path = Go/go-zh-tour
+	url = https://github.com/Go-zh/tour.git
+[submodule "Go/tour"]
+	path = Go/tour
+	url = https://github.com/Go-zh/tour.git
+[submodule "Leetcode/lc-plugin-template"]
+	path = Leetcode/lc-plugin-template
+	url = https://github.com/labuladong/lc-plugin-template.git
