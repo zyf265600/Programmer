@@ -24,10 +24,10 @@ These directories are formal submodules (see `.gitmodules`):
 
 | Path | Upstream |
 |------|----------|
-| `portfolio/` | [zyf265600/portfolio](https://github.com/zyf265600/portfolio.git) |
-| `Go/tour/` | [Go-zh/tour](https://github.com/Go-zh/tour.git) |
-| `Go/go-zh-tour/` | [Go-zh/tour](https://github.com/Go-zh/tour.git) |
-| `Leetcode/lc-plugin-template/` | [labuladong/lc-plugin-template](https://github.com/labuladong/lc-plugin-template.git) |
+| `portfolio/` | [zyf265600/portfolio](https://github.com/zyf265600/portfolio) |
+| `Go/tour/` | [zyf265600/tour](https://github.com/zyf265600/tour) (fork of Go-zh/tour) |
+| `Go/go-zh-tour/` | [zyf265600/tour](https://github.com/zyf265600/tour) (fork of Go-zh/tour) |
+| `Leetcode/lc-plugin-template/` | [zyf265600/lc-plugin-template](https://github.com/zyf265600/lc-plugin-template) (fork of labuladong/lc-plugin-template) |
 
 Clone with submodules:
 
