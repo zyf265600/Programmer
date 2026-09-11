@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../../.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../Go/go-zh-tour" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../Go/tour" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../lc-plugin-template" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../../portfolio" vcs="Git" />
+  </component>
+</project>
