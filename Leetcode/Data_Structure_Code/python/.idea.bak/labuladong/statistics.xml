@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditorStatisticslabuladong">
+    <option name="statistics">
+      <map>
+        <entry key="leetcode.cn">
+          <value>
+            <Statistics>
+              <option name="easy" value="55" />
+              <option name="hard" value="2" />
+              <option name="medium" value="55" />
+              <option name="questionTotal" value="4470" />
+              <option name="solvedTotal" value="112" />
+            </Statistics>
+          </value>
+        </entry>
+        <entry key="leetcode.com">
+          <value>
+            <Statistics>
+              <option name="easy" value="8" />
+              <option name="hard" value="1" />
+              <option name="medium" value="1" />
+              <option name="questionTotal" value="4082" />
+              <option name="solvedTotal" value="10" />
+            </Statistics>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
