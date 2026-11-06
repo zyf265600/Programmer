@@ -20,3 +20,7 @@ print(type(Dog.create()).__name__)     # Dog
 print(Animal.grunt())  # *grunt*
 print(Dog.grunt())     # *grunt*
 
+print(-7 % -4)
+
+
+
