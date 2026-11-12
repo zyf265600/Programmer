@@ -738,6 +738,12 @@ else:
 # 插入新元素
 hashset.add(5)
 
+# set.update(*iterables) adds items from one or more iterables in place.
+# Duplicates are ignored, and the method returns None.
+numbers = {1, 2}
+numbers.update([2, 3], (4, 5))
+print(sorted(numbers))  # [1, 2, 3, 4, 5]
+
 # 删除元素 2
 hashset.discard(2)  # discard 不存在的元素不会报错
 
@@ -947,8 +953,6 @@ b[2].append(99)   # 修改嵌套列表，a 和 b 共享该嵌套列表！
 print(a)  # 输出 [1, 2, [3, 4, 99]]（嵌套列表被修改）
 print(b)  # 输出 [1, 2, [3, 4, 99], 5]
 ```
-
-
 
 
 
